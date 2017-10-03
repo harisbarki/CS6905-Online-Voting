@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Online Voting</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+                <a class="navbar-brand" href="#">Online Voting</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container theme-showcase" role="main">
+
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron">
+            <br>
+            <br>
+            <br>
+            <h3><strong>CS6905 - Group Project</strong></h3>
+            <p>Online voting system</p>
+            <p style='font-size: small'>Implementing CRUD operation for the election candidates.</p>
+            <br>
+            <strong>Group Members</strong>
+            <br>
+            <span class="label label-primary">Aafia Jabeen</span>
+            <span class="label label-primary">Ashwini Iyer</span>
+            <span class="label label-primary">Haris Barki</span>
+        </div>
+
+
+        <h4><strong>Election Candidates</strong></h4>
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table" id="electionCandidatesTable">
+                    <thead>
+                        <tr>
+                            <th style='width: 66px'></th>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="electionCandidatesTableBody">
+                        <!-- automatic insertion -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-4">
+                <form id="saveCandidateForm">
+                    <input id="id" type="text" class="form-control" placeholder="ID" disabled>
+                    <br>
+                    <input id="firstName" type="text" class="form-control" placeholder="First Name">
+                    <br>
+                    <input id="lastName" type="text" class="form-control" placeholder="Last Name">
+                    <br>
+                    <button id="addCandidateBtn" type="submit" class="btn btn-success">Save Candidate</button>
+                    <button id="cancelEditCandidateBtn" type="button" class="btn btn-warning">Cancel Edit</button>
+                    <br>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /container -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+    <script>
+        const ELECTION_CANDIDATES = 'electionCandidates';
+
+        // Save the candidates list in local storage
+        var saveElectionCandidates = function (electionCandidates) {
+            localStorage.setItem(ELECTION_CANDIDATES, JSON.stringify(electionCandidates));
+            return true;
+        }
+
+        // Get the candidates list from local storage
+        var getElectionCandidates = function () {
+            var list = JSON.parse(localStorage.getItem(ELECTION_CANDIDATES));
+            return list ? list : [];
+        }
+
+        // Update the visual table after getting the list of candidates
+        var updateTable = function () {
+            $('#electionCandidatesTableBody').html('');
+            var list = getElectionCandidates();
+            console.log(list);
+            for (var i = 0; i < list.length; i++) {
+                $('#electionCandidatesTableBody').append('<tr class="child"><td><button class="btn btn-success btn-xs edit-btn" style="width: 25px"><span class="glyphicon glyphicon-edit"></span></button><button style="width: 25px" class="btn btn-danger btn-xs delete-btn"><span class="glyphicon glyphicon-remove"></span></button></td><td>' + list[i].id + '</td><td>' + list[i].firstName + '</td><td>' + list[i].lastName + '</td></tr>');
+            }
+
+            // Adding on click for delete buttons in the table
+            $('#electionCandidatesTableBody').find('tr .delete-btn').click(function () {
+                var id = $(this).parent().parent().find('td:eq(1)').text();
+                removeCandidate(id);
+            });
+
+            // Adding on click for edit buttons in the table
+            $('#electionCandidatesTableBody').find('tr .edit-btn').click(function () {
+                var id = $(this).parent().parent().find('td:eq(1)').text();
+                editCandidate(id);
+            });
+        }
+
+        // generate new random id
+        var resetForm = function () {
+            var randomId = Math.random().toString(36).substring(2);
+            $('form #id').val(randomId);
+            $('form #firstName').val('');
+            $('form #lastName').val('');
+        }
+
+        // Save candidate to the list
+        var saveCandidate = function (id, firstName, lastName) {
+            var id = $('form #id').val();
+            var firstName = $('form #firstName').val();
+            var lastName = $('form #lastName').val();
+
+            var list = getElectionCandidates();
+            var foundCandidate = false;
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].id == id) {
+                    list[i].firstName = firstName;
+                    list[i].lastName = lastName;
+                    foundCandidate = true;
+                    break;
+                }
+            }
+            if (!foundCandidate) {
+                var candidate = {
+                    id: id,
+                    firstName: firstName,
+                    lastName: lastName
+                };
+                list.push(candidate);
+            }
+            saveElectionCandidates(list);
+            updateTable();
+            resetForm();
+            $('#cancelEditCandidateBtn').hide();
+        }
+
+        // Remove candidate from the list
+        var removeCandidate = function (id) {
+            var list = getElectionCandidates();
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].id == id) {
+                    list.splice(i, 1);
+                }
+            }
+            saveElectionCandidates(list);
+            updateTable();
+        }
+
+        // Edit a candidate
+        var editCandidate = function (id) {
+            var list = getElectionCandidates();
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].id == id) {
+                    $('form #id').val(id);
+                    $('form #firstName').val(list[i].firstName);
+                    $('form #lastName').val(list[i].lastName);
+                    $('#cancelEditCandidateBtn').show();
+                    break;
+                }
+            }
+        }
+
+        // Adding on click on add button
+        $('#addCandidateBtn').click(function () {
+            var id = $('form #id').val();
+            var firstName = $('form #firstName').val();
+            var lastName = $('form #lastName').val();
+            if (firstName && lastName) {
+                saveCandidate(id, firstName, lastName);
+            } else {
+                alert('Both first name and last name are required');
+            }
+        });
+
+        // Clear the form
+        $('#cancelEditCandidateBtn').click(function () {
+            $('#cancelEditCandidateBtn').hide();
+            resetForm();
+        });
+
+        // Initializations
+        updateTable();
+        resetForm();
+        // Hide the edit button
+        $('#cancelEditCandidateBtn').hide();
+
+        // Dont refresh the page when the form is submitted
+        $('#saveCandidateForm').submit(function(e) {
+            e.preventDefault();
+        })
+    </script>
+
+</body>
+
+</html>
