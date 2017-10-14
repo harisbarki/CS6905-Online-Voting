@@ -9,4 +9,4 @@ const appRoutes: Routes = [
 	{path: '**', component: NoContentComponent}
 ];
 
-export const routes = RouterModule.forRoot(appRoutes);
+export const routes = RouterModule.forRoot(appRoutes, { useHash: true });
