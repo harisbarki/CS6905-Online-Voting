@@ -4,17 +4,23 @@ import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 
 import {AppComponent} from './app.component';
-import {AboutComponent, HomeComponent, NavbarComponent, NoContentComponent, LoginComponent} from './components/';
+import {NavbarComponent} from './components/';
+import {
+	HomeComponent,
+	NoContentComponent,
+	LoginComponent,
+	CreateElectionComponent
+} from './pages/';
 import {routes} from './app.routes';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		HomeComponent,
-		AboutComponent,
 		NavbarComponent,
 		LoginComponent,
-		NoContentComponent
+		NoContentComponent,
+		CreateElectionComponent
 	],
 	imports: [
 		BrowserModule,
@@ -22,8 +28,7 @@ import {routes} from './app.routes';
 		HttpModule,
 		routes
 	],
-	providers: [
-	],
+	providers: [],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
