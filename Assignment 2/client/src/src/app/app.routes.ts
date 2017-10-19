@@ -3,13 +3,28 @@ import {
 	HomeComponent,
 	NoContentComponent,
 	LoginComponent,
-	CreateElectionComponent
+	DashboardComponent,
+	ElectionCreateComponent,
+	ElectionDetailsComponent,
+	ElectionResultComponent,
+	VoteComponent,
+	NominateCandidateComponent,
+	ProfileComponent,
+	RegisterUserComponent
 } from './pages/'
 
 const appRoutes: Routes = [
 	{path: '', component: HomeComponent},
 	{path: 'login', component: LoginComponent},
-	{path: 'create-election', component: CreateElectionComponent},
+	{path: 'register', component: RegisterUserComponent},
+	{path: 'profile', component: ProfileComponent},
+	{path: 'dashboard', component: DashboardComponent},
+	{path: 'election/create', component: ElectionCreateComponent},
+	{path: 'election/:id/edit', component: ElectionCreateComponent},
+	{path: 'election/:id/details', component: ElectionDetailsComponent},
+	{path: 'election/:id/result', component: ElectionResultComponent},
+	{path: 'election/:id/vote', component: VoteComponent},
+	{path: 'election/:id/nominate-candidate', component: NominateCandidateComponent},
 	{path: '**', component: NoContentComponent}
 ];
 

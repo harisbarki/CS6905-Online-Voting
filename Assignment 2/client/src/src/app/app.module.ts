@@ -9,9 +9,19 @@ import {
 	HomeComponent,
 	NoContentComponent,
 	LoginComponent,
-	CreateElectionComponent
+	DashboardComponent,
+	ElectionCreateComponent,
+	ElectionDetailsComponent,
+	ElectionResultComponent,
+	VoteComponent,
+	NominateCandidateComponent,
+	ProfileComponent,
+	RegisterUserComponent
 } from './pages/';
+
 import {routes} from './app.routes';
+
+import {UserService} from './services';
 
 @NgModule({
 	declarations: [
@@ -19,8 +29,15 @@ import {routes} from './app.routes';
 		HomeComponent,
 		NavbarComponent,
 		LoginComponent,
+		DashboardComponent,
 		NoContentComponent,
-		CreateElectionComponent
+		ElectionCreateComponent,
+		ElectionDetailsComponent,
+		ElectionResultComponent,
+		VoteComponent,
+		NominateCandidateComponent,
+		ProfileComponent,
+		RegisterUserComponent
 	],
 	imports: [
 		BrowserModule,
@@ -28,7 +45,9 @@ import {routes} from './app.routes';
 		HttpModule,
 		routes
 	],
-	providers: [],
+	providers: [
+		UserService
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

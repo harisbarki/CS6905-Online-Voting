@@ -13,14 +13,19 @@
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a class="nav-link" [routerLink]="['/login']" routerLinkActive="active">Login</a></li>
-				<li><a class="nav-link" [routerLink]="['/create-election']" routerLinkActive="active">Create Election</a></li>
-				<li class="dropdown">
+				<li *ngIf="!loggedIn"><a class="nav-link" [routerLink]="['/login']" routerLinkActive="active">Login</a></li>
+				<li *ngIf="!loggedIn"><a class="nav-link" [routerLink]="['/register']" routerLinkActive="active">Registration</a></li>
+				<li *ngIf="loggedIn"><a class="nav-link" [routerLink]="['/dashboard']" routerLinkActive="active">Dashboard</a></li>
+				<li *ngIf="loggedIn"><a class="nav-link" [routerLink]="['/election/create']" routerLinkActive="active">Create Election</a></li>
+				<li *ngIf="loggedIn"><a class="nav-link" [routerLink]="['/election/897695865/details']" routerLinkActive="active">Election Details</a></li>
+				<li *ngIf="loggedIn"><a class="nav-link" [routerLink]="['/election/897695865/nominate-candidate']" routerLinkActive="active">Nominate Candidate</a></li>
+				<li *ngIf="loggedIn"><a class="nav-link" [routerLink]="['/election/897695865/vote']" routerLinkActive="active">Vote</a></li>
+				<li *ngIf="loggedIn"><a class="nav-link" [routerLink]="['/election/897695865/result']" routerLinkActive="active">Election Result</a></li>
+				<li *ngIf="loggedIn" class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#" style="padding: 5px; margin: 0"><img style="width: 40px" src="assets/avatar.png"></a>
 					<ul class="dropdown-menu">
-						<li><a href="#">Profile</a></li>
-						<li><a href="#">Settings</a></li>
-						<li><a href="#">Logout</a></li>
+						<li><a [routerLink]="['/profile']">Profile</a></li>
+						<li><a href="#" (click)="logout()">Logout</a></li>
 					</ul>
 				</li>
 			</ul>
