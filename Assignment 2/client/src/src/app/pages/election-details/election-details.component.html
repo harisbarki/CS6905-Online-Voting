@@ -7,79 +7,62 @@
 						<h3><strong>Election Details</strong></h3>
 					</div>
 					<div class="box-body">
-						<form >
+						<form>
 							<div class="row">
 								<div class="col-md-12 box-inner-title">
 									<h4><strong>General</strong></h4>
 								</div>
 								<div class="col-md-6">
-									<div class="form-group">
-										<label for="electionName">Election Name</label>
-										<input type="text" class="form-control" id="electionName"
-										       placeholder="Election Name">
-									</div>
+									<strong>Name: </strong> MUNSU Elections
+									<br>
+									<strong>Winning Strategy: </strong> Winner Takes All
+									<br>
+									<strong>From: </strong> 13 October, 2017
+									<br>
+									<strong>To: </strong> 20 October, 2017
+									<br>
+									<strong>District Elections? </strong> No
 								</div>
 							</div>
 
-							<div class="row" style="margin-top: 15px;">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="winningStrategy">Winning Strategy</label>
-										<select class="form-control" id="winningStrategy">
-											<option>Winner Takes All</option>
-											<option>Proportional</option>
-										</select>
-									</div>
-								</div>
-							</div>
-
-							<div class="row" style="margin-top: 15px;">
-								<div class="col-md-3">
-									<div class="form-group">
-										<label for="dateFrom">Date From</label>
-										<input type="date" class="form-control" id="dateFrom">
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group">
-										<label for="dateTo">Date From</label>
-										<input type="date" class="form-control" id="dateTo">
-									</div>
-								</div>
-							</div>
-
-							<div class="row" style="margin-top: 15px;">
-								<div class="col-md-3">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox">
-											District Elections?
-										</label>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group">
-										<label for="districts">Number of Districts</label>
-										<input type="number" class="form-control" id="districts"
-										       placeholder="Number of Districts">
-									</div>
-								</div>
-							</div>
 
 							<div class="row" style="margin-top: 15px;">
 								<div class="col-md-12 box-inner-title">
 									<h4><strong>Candidates</strong></h4>
 								</div>
 								<div class="col-md-6">
-									<label class="radio-inline">
-										<input type="radio" name="candidates" value="predefined">
-										Predefined Candidates
-									</label>
-									<label class="radio-inline">
-										<input type="radio" name="candidates" value="nomination">
-										Nomination Based
-									</label>
+									<strong>Candidate Strategy? </strong> Nomination Based
 								</div>
+								<div class="col-md-12">
+									<h4>Current Candidates</h4>
+									<table class="table table-bordered table-striped table-hover table-condensed">
+										<thead>
+										<tr>
+											<td><strong>Name</strong></td>
+											<td><strong>Email</strong></td>
+											<td><strong>Approval</strong></td>
+										</tr>
+										</thead>
+										<tbody>
+										<tr class="success">
+											<td>Haris Barki</td>
+											<td>hmk412@mun.ca</td>
+											<td>Approved</td>
+										</tr>
+										<tr class="warning">
+											<td>Aafia Jabeen</td>
+											<td>ajabeen@mun.ca</td>
+											<td>Pending</td>
+										</tr>
+										<tr class="danger">
+											<td>Aswini Naveen</td>
+											<td>anaveen@mun.ca</td>
+											<td>Not Approved</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+
 							</div>
 
 							<div class="row" style="margin-top: 15px;">
@@ -87,28 +70,7 @@
 									<h4><strong>Users</strong></h4>
 								</div>
 								<div class="col-md-12">
-									<label class="radio-inline">
-										<input type="radio" name="usersVote" value="option1">
-										Database
-									</label>
-									<label class="radio-inline">
-										<input type="radio" name="usersVote" value="option2">
-										CSV
-									</label>
-									<label class="radio-inline">
-										<input type="radio" name="usersVote" value="option3">
-										Regular Expression
-									</label>
-								</div>
-							</div>
-
-							<div class="row" style="margin-top: 15px;">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label for="districts">User Object Conditions</label>
-										<textarea class="form-control" rows="3"></textarea>
-
-									</div>
+									<strong>Number of Users Voted: </strong> 152
 								</div>
 							</div>
 
