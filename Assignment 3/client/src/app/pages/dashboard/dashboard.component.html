@@ -1,0 +1,108 @@
+<br>
+<div class="container">
+	<h2>Current Elections</h2>
+	<div class="row">
+		<div class="col-sm-6 col-md-4 box" *ngFor="let election of currentElections">
+			<div class="box-heading text-center dashboard-title">
+				<strong>{{election.name}}</strong>
+			</div>
+			<div class="box-inner-body">
+				<div class="text-center dashboard-body-text">
+					<br>
+					<small>Winning Strategy</small>
+					<br>
+					<strong>{{election.electionStrategy}}</strong>
+					<br>
+					<br>
+					<strong>{{election.dateFrom | date}} --- {{election.dateTo | date}}</strong>
+					<br>
+					<br>
+					<button style="width: 40px" class="btn btn-success btn-sm" (click)="electionEdit(election)"><i
+						class="fa fa-pencil-square-o fa-lg"></i></button>
+					<button style="width: 40px" class="btn btn-primary btn-sm" (click)="electionDetails(election)"><i
+						class="fa fa-eye fa-lg"></i></button>
+					<div>
+						<button style="width: 80px; margin-top: 8px; padding-left: 9.5px" class="btn btn-danger"
+						        (click)="nominateCandidate(election)">Nominate
+						</button>
+					</div>
+					<br>
+				</div>
+			</div>
+			<br>
+			<br>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<h2>Future Elections</h2>
+	<div class="row">
+		<div class="col-sm-6 col-md-4 box" *ngFor="let election of futureElections">
+			<div class="box-heading text-center dashboard-title">
+				<strong>{{election.name}}</strong>
+			</div>
+			<div class="box-inner-body">
+				<div class="text-center dashboard-body-text">
+					<br>
+					<small>Winning Strategy</small>
+					<br>
+					<strong>{{election.electionStrategy}}</strong>
+					<br>
+					<br>
+					<strong>{{election.dateFrom | date}} --- {{election.dateTo | date}}</strong>
+					<br>
+					<br>
+					<button style="width: 40px" class="btn btn-success btn-sm" (click)="electionEdit(election)"><i
+						class="fa fa-pencil-square-o fa-lg"></i></button>
+					<button style="width: 40px" class="btn btn-primary btn-sm" (click)="electionDetails(election)"><i
+						class="fa fa-eye fa-lg"></i></button>
+					<div>
+						<button style="width: 80px; margin-top: 8px; padding-left: 9.5px" class="btn btn-danger"
+						        (click)="nominateCandidate(election)">Nominate
+						</button>
+					</div>
+					<br>
+				</div>
+			</div>
+			<br>
+			<br>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<h2>Archived Elections</h2>
+	<div class="row">
+		<div class="col-sm-6 col-md-4 box" *ngFor="let election of pastElections">
+			<div class="box-heading text-center dashboard-title">
+				<strong>{{election.name}}</strong>
+			</div>
+			<div class="box-inner-body">
+				<div class="text-center dashboard-body-text">
+					<br>
+					<small>Winning Strategy</small>
+					<br>
+					<strong>{{election.electionStrategy}}</strong>
+					<br>
+					<br>
+					<strong>{{election.dateFrom | date}} --- {{election.dateTo | date}}</strong>
+					<br>
+					<br>
+					<button style="width: 40px" class="btn btn-success btn-sm" (click)="electionEdit(election)"><i
+						class="fa fa-pencil-square-o fa-lg"></i></button>
+					<button style="width: 40px" class="btn btn-primary btn-sm" (click)="electionDetails(election)"><i
+						class="fa fa-eye fa-lg"></i></button>
+					<div>
+						<button style="width: 80px; margin-top: 8px; padding-left: 9.5px" class="btn btn-danger"
+						        (click)="nominateCandidate(election)">Nominate
+						</button>
+					</div>
+					<br>
+				</div>
+			</div>
+			<br>
+			<br>
+		</div>
+	</div>
+</div>
+<br>

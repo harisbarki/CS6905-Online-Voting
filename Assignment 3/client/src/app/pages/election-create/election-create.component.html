@@ -1,0 +1,134 @@
+<div class="app-center">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="account-wall">
+					<div class="box-heading">
+						<h3><strong>Create Election</strong></h3>
+					</div>
+					<div class="box-body">
+						<form >
+							<div class="row">
+								<div class="col-md-12 box-inner-title">
+									<h4><strong>General</strong></h4>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="electionName">Election Name</label>
+										<input type="text" class="form-control" id="electionName"
+										       placeholder="Election Name">
+									</div>
+								</div>
+							</div>
+
+							<div class="row" style="margin-top: 15px;">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="winningStrategy">Winning Strategy</label>
+										<select class="form-control" id="winningStrategy">
+											<option>Winner Takes All</option>
+											<option>Proportional</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<div class="row" style="margin-top: 15px;">
+								<div class="col-md-3">
+									<div class="form-group">
+										<label for="dateFrom">Date From</label>
+										<input type="date" class="form-control" id="dateFrom">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label for="dateTo">Date From</label>
+										<input type="date" class="form-control" id="dateTo">
+									</div>
+								</div>
+							</div>
+
+							<div class="row" style="margin-top: 15px;">
+								<div class="col-md-3">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox">
+											District Elections?
+										</label>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label for="districts">Number of Districts</label>
+										<input type="number" class="form-control" id="districts"
+										       placeholder="Number of Districts">
+									</div>
+								</div>
+							</div>
+
+							<div class="row" style="margin-top: 15px;">
+								<div class="col-md-12 box-inner-title">
+									<h4><strong>Candidates</strong></h4>
+								</div>
+								<div class="col-md-6">
+									<label class="radio-inline">
+										<input type="radio" name="candidates" value="predefined">
+										Predefined Candidates
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="candidates" value="nomination">
+										Nomination Based
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="candidates" value="nomination">
+										Both
+									</label>
+								</div>
+							</div>
+
+							<div class="row" style="margin-top: 15px;">
+								<div class="col-md-12 box-inner-title">
+									<h4><strong>Users</strong></h4>
+								</div>
+								<div class="col-md-12">
+									<label class="radio-inline">
+										<input type="radio" name="usersVote" value="option1">
+										Registered Users
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="usersVote" value="option1">
+										Database
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="usersVote" value="option2">
+										CSV
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="usersVote" value="option3">
+										Regular Expression
+									</label>
+								</div>
+							</div>
+
+							<div class="row" style="margin-top: 15px;">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="districts">User Object Conditions</label>
+										<textarea class="form-control" rows="3"></textarea>
+
+									</div>
+								</div>
+							</div>
+
+							<div class="row" style="margin-top: 15px;">
+								<div class="col-md-12">
+									<button type="submit" class="btn btn-success">Create</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
