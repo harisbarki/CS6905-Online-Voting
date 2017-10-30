@@ -12,7 +12,7 @@ config.key = {
 };
 
 config.mongodb = {
-	host: 'mongodb://localhost:27017/seed'
+	host: 'mongodb://student:voting_system@ds141175.mlab.com:41175/cs6905'
 };
 
 if (PRODUCTION) {
