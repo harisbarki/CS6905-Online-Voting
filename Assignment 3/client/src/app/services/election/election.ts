@@ -7,6 +7,7 @@ export class Election {
 	isDistrictElections: Boolean;
 	numberOfDistricts: Number;
 	candidatesStrategy: String;
+	totalVotesCasted: Number;
 	candidates: Candidate[];
 	voters: Voter[];
 
@@ -19,6 +20,7 @@ export class Election {
 		this.isDistrictElections = election.isDistrictElections ? election.isDistrictElections : false;
 		this.numberOfDistricts = election.numberOfDistricts ? election.numberOfDistricts : 0;
 		this.candidatesStrategy = election.candidatesStrategy ? election.candidatesStrategy : '';
+		this.totalVotesCasted = election.totalVotesCasted ? election.totalVotesCasted : 0;
 		this.candidates = election.candidates ? election.candidates : [];
 		this.voters = election.voters ? election.voters : [];
 	}
@@ -27,17 +29,23 @@ export class Election {
 export class Candidate {
 	candidateId: String;
 	numOfVotes: Number;
+	isApproved: String;
 
 	constructor(candidate: Candidate = {} as Candidate) {
 		this.candidateId = candidate.candidateId;
 		this.numOfVotes = candidate.numOfVotes;
+		this.isApproved = candidate.isApproved;
 	}
 }
 
 export class Voter {
 	voterId: String;
+	hasVoted: Boolean;
+	votedFor: String;
 
 	constructor(voter: Voter = {} as Voter) {
 		this.voterId = voter.voterId;
+		this.hasVoted = voter.hasVoted;
+		this.votedFor = voter.votedFor;
 	}
 }

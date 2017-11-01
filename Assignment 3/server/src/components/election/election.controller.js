@@ -8,7 +8,9 @@ exports.getElections = (req, res) => {
 		query = {_id: req.query['electionId']}
 	}
 
-	Election.find(query).then(
+	Election.find(query)
+		.populate('candidates.candidateId')
+		.then(
 		(data) => {
 			let result = {
 				statusCode: 200,

@@ -44,9 +44,11 @@ export class ElectionService {
 					},
 					error => {
 						console.error(this.serviceName, 'findById::errorCallback', error);
+						return null;
 					}
 				).catch((error) => {
 					console.error(this.serviceName, 'findById::errorCallback', error);
+					return null;
 				});
 		} else {
 			console.warn(this.serviceName, 'findById', 'electionId was null');

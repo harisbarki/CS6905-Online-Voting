@@ -12,7 +12,8 @@
 	"candidates": [
 		{
 			"candidateId": 234455,
-			"numOfVotes": 123
+			"numOfVotes": 123,
+			"isApproved": false
 		}
 	],
 	"voters": [

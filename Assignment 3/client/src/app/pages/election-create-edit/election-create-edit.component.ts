@@ -14,8 +14,6 @@ export class ElectionCreateEditComponent implements OnInit, OnDestroy {
 	election: Election;
 	editElectionMode: boolean;
 	loadingData: boolean;
-	dateTo: string;
-	dateFrom: string;
 	errorMessage: string;
 	paramSubscription: Subscription;
 
@@ -26,8 +24,6 @@ export class ElectionCreateEditComponent implements OnInit, OnDestroy {
 		const currentDate = new Date();
 		this.election.dateFrom = new Date(currentDate.toDateString());
 		this.election.dateTo = new Date(currentDate.toDateString());
-		this.dateFrom = '';
-		this.dateTo = '';
 		this.errorMessage = '';
 	}
 

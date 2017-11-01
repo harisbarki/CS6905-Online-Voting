@@ -13,15 +13,19 @@
 									<h4><strong>General</strong></h4>
 								</div>
 								<div class="col-md-6">
-									<strong>Name: </strong> MUNSU Elections
+									<strong>Name: </strong> {{election.name}}
 									<br>
-									<strong>Winning Strategy: </strong> Winner Takes All
+									<strong>Winning Strategy: </strong> {{election.winningStrategy}}
 									<br>
-									<strong>From: </strong> 13 October, 2017
+									<strong>From: </strong> {{election.dateFrom | date}}
 									<br>
-									<strong>To: </strong> 20 October, 2017
+									<strong>To: </strong> {{election.dateTo | date}}
 									<br>
-									<strong>District Elections? </strong> No
+									<strong>District Elections? </strong> {{election.isDistrictElections}}
+									<span *ngIf="election.isDistrictElections">
+										<br>
+										<strong>Number of districts: </strong> {{election.isDistrictElections}}
+									</span>
 								</div>
 							</div>
 
@@ -31,7 +35,7 @@
 									<h4><strong>Candidates</strong></h4>
 								</div>
 								<div class="col-md-6">
-									<strong>Candidate Strategy? </strong> Nomination Based
+									<strong>Candidate Strategy? </strong> {{election.candidatesStrategy}}
 								</div>
 								<div class="col-md-12">
 									<h4>Current Candidates</h4>
@@ -44,24 +48,14 @@
 										</tr>
 										</thead>
 										<tbody>
-										<tr class="success">
-											<td>Haris Barki</td>
-											<td>hmk412@mun.ca</td>
-											<td>Approved</td>
-										</tr>
-										<tr class="warning">
-											<td>Aafia Jabeen</td>
-											<td>ajabeen@mun.ca</td>
-											<td>Pending</td>
-										</tr>
-										<tr class="danger">
-											<td>Aswini Naveen</td>
-											<td>anaveen@mun.ca</td>
-											<td>Not Approved</td>
+										<tr *ngFor="let candidate of election.candidates" [ngClass]="candidate.isApproved == 'approved'? 'success' : candidate.isApproved == 'pending'? 'pending' : 'danger'">
+											<td>{{candidate.candidateId['name']}}</td>
+											<td>{{candidate.candidateId['email']}}</td>
+											<td>{{candidate.isApproved}}</td>
 										</tr>
 										</tbody>
 									</table>
-									<button class="btn btn-success">Nominate Candidate</button>
+									<button class="btn btn-success" (click)="nominateCandidate(election)">Nominate Candidate</button>
 								</div>
 
 							</div>
@@ -71,7 +65,7 @@
 									<h4><strong>Users</strong></h4>
 								</div>
 								<div class="col-md-12">
-									<strong>Number of Users Voted: </strong> 152
+									<strong>Number of Users Voted: </strong> {{election.totalVotesCasted}}
 								</div>
 							</div>
 						</form>
