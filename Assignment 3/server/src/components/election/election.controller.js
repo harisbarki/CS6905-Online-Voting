@@ -1,18 +1,31 @@
 'use strict';
 const Election = require('./election.model').Election;
 
-exports.getAll = () => {
-	return new Promise((resolve, reject) => {
+exports.getAll = (req, res) => {
 		Election.find().then(
 			data => {
-				resolve(data);
+				let result = {
+					statusCode: 200,
+					data: data
+				};
+				res.json(result);
 			},
 			error => {
 				console.error('error::getAll::election', error);
-				reject(error);
+				let errorResponse = {
+					statusCode: 500,
+					message: `Oh uh, something went wrong`
+				};
+				res.status(errorResponse.statusCode).json(errorResponse)
 			}
-		);
-	});
+		).catch((err) => {
+			console.error(err);
+			let errorResponse = {
+				statusCode: 500,
+				message: `Oh uh, something went wrong`
+			};
+			res.status(errorResponse.statusCode).json(errorResponse)
+		});
 };
 
 exports.create = (req, res) => {

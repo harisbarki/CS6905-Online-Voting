@@ -4,6 +4,6 @@ const router = express.Router();
 
 router.post('/create', Election.create);
 router.post('/update', Election.update);
-router.post('/get-all', Election.getAll);
+router.get('/get-all', Election.getAll);
 
 module.exports = router;

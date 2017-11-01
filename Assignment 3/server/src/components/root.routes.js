@@ -2,6 +2,7 @@ let fs = require('fs');
 const path = require("path");
 
 let usersRoutes = require('./user/user.routes');
+let electionRoutes = require('./election/election.routes');
 let contactUsRoutes = require('./contact-us/contact-us.routes');
 
 let clientPath = '../../client_dist/index.html';
@@ -9,6 +10,7 @@ let clientPath = '../../client_dist/index.html';
 module.exports = function(app) {
 
 	app.use('/api/user', usersRoutes);
+	app.use('/api/election', electionRoutes);
 	app.use('/api/contact-us', contactUsRoutes);
 
 	app.get('*', function (req, res) {

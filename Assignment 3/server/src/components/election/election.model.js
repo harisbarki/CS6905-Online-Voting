@@ -31,7 +31,7 @@ let Election = new Schema({
 	},
 
 	numberOfDistricts: {
-		type: Int16Array,
+		type: Number,
 	},
 
 	candidatesStrategy: {
@@ -54,7 +54,7 @@ let Election = new Schema({
 				ref: 'Users'
 			},
 			numOfVotes: {
-				type: Int16Array
+				type: Number
 			}
 		}
 	],
@@ -72,7 +72,7 @@ let Election = new Schema({
 
 
 Election.statics = {
-	save: function (requestData) {
+	saveElection: function (requestData) {
 		return this.create(requestData);
 	},
 	findUpdate: function (query, user) {
@@ -82,16 +82,16 @@ Election.statics = {
 		return user.save();
 	},
 
-	find: function (query) {
-		return this.findOne(query);
-	},
+	// find: function (query) {
+	// 	return this.findOne(query);
+	// },
 
 	findByIdAndEmail: function (id, email) {
 		return this.findOne({email: email, _id: id});
 	}
 };
 
-let election = mongoose.model('user', Election);
+let election = mongoose.model('election', Election);
 
 /** export schema */
 module.exports = {
