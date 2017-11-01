@@ -8,5 +8,16 @@
 	"numberOfDistricts": 5,
 	"candidatesStrategy": "predefined",
 	"usersStrategy": "registeredUsers",
-	"userObjectConditions": ""
+	"userObjectConditions": "",
+	"candidates": [
+		{
+			"candidateId": 234455,
+			"numOfVotes": 123
+		}
+	],
+	"voters": [
+		{
+			"voterId": 234455
+		}
+	]
 }
