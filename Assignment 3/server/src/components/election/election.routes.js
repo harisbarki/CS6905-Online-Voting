@@ -1,10 +1,9 @@
-const User = require('./user.controller');
+const Election = require('./election.controller');
 const express = require('express');
 const router = express.Router();
 
-router.post('/create', User.create);
-router.post('/login', User.login);
-router.post('/forgot', User.forgotPassword);
-router.post('/reset', User.newPassword);
+router.post('/create', Election.create);
+router.post('/update', Election.update);
+router.post('/get-all', Election.getAll);
 
 module.exports = router;
