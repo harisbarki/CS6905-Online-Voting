@@ -20,11 +20,11 @@ const appRoutes: Routes = [
 	{path: 'profile', component: ProfileComponent},
 	{path: 'dashboard', component: DashboardComponent},
 	{path: 'election/create', component: ElectionCreateComponent},
-	{path: 'election/:id/edit', component: ElectionCreateComponent},
-	{path: 'election/:id/details', component: ElectionDetailsComponent},
-	{path: 'election/:id/result', component: ElectionResultComponent},
-	{path: 'election/:id/vote', component: VoteComponent},
-	{path: 'election/:id/nominate-candidate', component: NominateCandidateComponent},
+	{path: 'election/:electionId/edit', component: ElectionCreateComponent},
+	{path: 'election/:electionId/details', component: ElectionDetailsComponent},
+	{path: 'election/:electionId/result', component: ElectionResultComponent},
+	{path: 'election/:electionId/vote', component: VoteComponent},
+	{path: 'election/:electionId/nominate-candidate', component: NominateCandidateComponent},
 	{path: '**', component: NoContentComponent}
 ];
 

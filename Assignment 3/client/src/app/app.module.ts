@@ -21,7 +21,10 @@ import {
 
 import {routes} from './app.routes';
 
-import {UserService} from './services';
+import {
+	UserService,
+	ElectionService
+} from './services';
 
 @NgModule({
 	declarations: [
@@ -46,7 +49,8 @@ import {UserService} from './services';
 		routes
 	],
 	providers: [
-		UserService
+		UserService,
+		ElectionService
 	],
 	bootstrap: [AppComponent]
 })

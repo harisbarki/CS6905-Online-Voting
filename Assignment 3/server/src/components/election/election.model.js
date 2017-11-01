@@ -13,7 +13,7 @@ let Election = new Schema({
 		required: true
 	},
 
-	electionStrategy: {
+	winningStrategy: {
 		type: String,
 		required: true
 	},
