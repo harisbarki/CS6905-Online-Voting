@@ -8,6 +8,11 @@ export class ElectionService {
 
 	private serverUrl = '/api/election';
 	private serviceName = 'ElectionService';
+	urls = {
+		dashboard: () => {
+			return '/dashboard';
+		}
+	};
 
 	constructor(private http: Http) {
 		this.serverUrl = environment.host + this.serverUrl;
@@ -17,7 +22,10 @@ export class ElectionService {
 		return this.http.get(this.serverUrl)
 			.toPromise()
 			.then((response) => {
-				const objectReceived: Election[] = response.json().data;
+				const objectReceived = response.json().data;
+				for (let i = 0; i < objectReceived.length; i++) {
+					objectReceived[i] = new Election(objectReceived[i]);
+				}
 				console.log(this.serviceName, 'getAllElections::success', objectReceived);
 				return objectReceived;
 			});
@@ -29,7 +37,8 @@ export class ElectionService {
 				.toPromise()
 				.then(
 					response => {
-						const objectReceived: Election = response.json().data[0];
+						let objectReceived: Election = response.json().data[0];
+						objectReceived = new Election(objectReceived);
 						console.log(this.serviceName, 'findById::success', objectReceived);
 						return objectReceived;
 					},

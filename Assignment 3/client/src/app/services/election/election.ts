@@ -13,14 +13,14 @@ export class Election {
 	constructor(election: Election = {} as Election) {
 		this._id = election._id;
 		this.name = election.name;
-		this.winningStrategy = election.winningStrategy ? election.winningStrategy : "winnerTakesAll";
-		this.dateFrom = election.dateFrom;
-		this.dateTo = election.dateTo;
+		this.winningStrategy = election.winningStrategy ? election.winningStrategy : '';
+		this.dateFrom = new Date(election.dateFrom);
+		this.dateTo = new Date(election.dateTo);
 		this.isDistrictElections = election.isDistrictElections ? election.isDistrictElections : false;
 		this.numberOfDistricts = election.numberOfDistricts ? election.numberOfDistricts : 0;
-		this.candidatesStrategy = election.candidatesStrategy ? election.candidatesStrategy : 'nomination';
+		this.candidatesStrategy = election.candidatesStrategy ? election.candidatesStrategy : '';
 		this.candidates = election.candidates ? election.candidates : [];
-		this.voters = election.voters? election.voters: [];
+		this.voters = election.voters ? election.voters : [];
 	}
 }
 

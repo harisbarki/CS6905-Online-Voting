@@ -2,8 +2,7 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 /**
- * @module  User
- * @description contain the details of Attribute
+ * @module  Election
  */
 
 let Election = new Schema({
@@ -69,27 +68,6 @@ let Election = new Schema({
 		}
 	]
 });
-
-
-Election.statics = {
-	saveElection: function (requestData) {
-		return this.create(requestData);
-	},
-	findUpdate: function (query, user) {
-		return this.findOneAndUpdate(query, user);
-	},
-	update: function (user) {
-		return user.save();
-	},
-
-	// find: function (query) {
-	// 	return this.findOne(query);
-	// },
-
-	findByIdAndEmail: function (id, email) {
-		return this.findOne({email: email, _id: id});
-	}
-};
 
 let election = mongoose.model('election', Election);
 

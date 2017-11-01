@@ -4,18 +4,19 @@ const Election = require('./election.model').Election;
 exports.getElections = (req, res) => {
 	let query = '';
 	if (req.query['electionId']) {
+		// if there is election id then just get that election
 		query = {_id: req.query['electionId']}
 	}
 
 	Election.find(query).then(
-		data => {
+		(data) => {
 			let result = {
 				statusCode: 200,
 				data: data
 			};
 			res.json(result);
 		},
-		error => {
+		(error) => {
 			console.error('error::getAll::election', error);
 			let errorResponse = {
 				statusCode: 500,
@@ -34,7 +35,7 @@ exports.getElections = (req, res) => {
 };
 
 exports.create = (req, res) => {
-	Election.saveElection(req.body).then((election) => {
+	Election.create(req.body).then((election) => {
 		let result = {
 			statusCode: 200,
 			data: election
@@ -51,7 +52,8 @@ exports.create = (req, res) => {
 };
 
 exports.update = (req, res) => {
-	Election.update(req.body).then((election) => {
+	console.log(req.body);
+	Election.findOneAndUpdate({_id: req.body['_id']}, req.body).then((election) => {
 		let result = {
 			statusCode: 200,
 			data: election
@@ -71,4 +73,3 @@ exports.delete = (req, res) => {
 	res.json({"data": "function not implemented yet"});
 
 };
-

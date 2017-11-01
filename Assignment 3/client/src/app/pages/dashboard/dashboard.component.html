@@ -11,7 +11,7 @@
 					<br>
 					<small>Winning Strategy</small>
 					<br>
-					<strong>{{election.electionStrategy}}</strong>
+					<strong>{{election.winningStrategy}}</strong>
 					<br>
 					<br>
 					<strong>{{election.dateFrom | date}} --- {{election.dateTo | date}}</strong>
@@ -22,8 +22,12 @@
 					<button style="width: 40px" class="btn btn-primary btn-sm" (click)="electionDetails(election)"><i
 						class="fa fa-eye fa-lg"></i></button>
 					<div>
-						<button style="width: 80px; margin-top: 8px; padding-left: 9.5px" class="btn btn-danger"
-						        (click)="nominateCandidate(election)">Nominate
+						<br>
+						<p><strong>Candidates strategy: </strong>{{election.candidatesStrategy}}</p>
+						<button class="btn btn-danger"
+						        (click)="nominateCandidate(election)">
+							<span *ngIf="election.candidatesStrategy == 'nomination'">Nominate</span>
+							<span *ngIf="election.candidatesStrategy == 'predefined'">Add Candidate</span>
 						</button>
 					</div>
 					<br>
@@ -47,7 +51,7 @@
 					<br>
 					<small>Winning Strategy</small>
 					<br>
-					<strong>{{election.electionStrategy}}</strong>
+					<strong>{{election.winningStrategy}}</strong>
 					<br>
 					<br>
 					<strong>{{election.dateFrom | date}} --- {{election.dateTo | date}}</strong>
@@ -58,8 +62,12 @@
 					<button style="width: 40px" class="btn btn-primary btn-sm" (click)="electionDetails(election)"><i
 						class="fa fa-eye fa-lg"></i></button>
 					<div>
-						<button style="width: 80px; margin-top: 8px; padding-left: 9.5px" class="btn btn-danger"
-						        (click)="nominateCandidate(election)">Nominate
+						<br>
+						<p><strong>Candidates strategy: </strong>{{election.candidatesStrategy}}</p>
+						<button class="btn btn-danger"
+						        (click)="nominateCandidate(election)">
+							<span *ngIf="election.candidatesStrategy == 'nomination'">Nominate</span>
+							<span *ngIf="election.candidatesStrategy == 'predefined'">Add Candidate</span>
 						</button>
 					</div>
 					<br>
@@ -82,7 +90,7 @@
 					<br>
 					<small>Winning Strategy</small>
 					<br>
-					<strong>{{election.electionStrategy}}</strong>
+					<strong>{{election.winningStrategy}}</strong>
 					<br>
 					<br>
 					<strong>{{election.dateFrom | date}} --- {{election.dateTo | date}}</strong>
@@ -93,8 +101,12 @@
 					<button style="width: 40px" class="btn btn-primary btn-sm" (click)="electionDetails(election)"><i
 						class="fa fa-eye fa-lg"></i></button>
 					<div>
-						<button style="width: 80px; margin-top: 8px; padding-left: 9.5px" class="btn btn-danger"
-						        (click)="nominateCandidate(election)">Nominate
+						<br>
+						<p><strong>Candidates strategy: </strong>{{election.candidatesStrategy}}</p>
+						<button class="btn btn-danger"
+						        (click)="nominateCandidate(election)">
+							<span *ngIf="election.candidatesStrategy == 'nomination'">Nominate</span>
+							<span *ngIf="election.candidatesStrategy == 'predefined'">Add Candidate</span>
 						</button>
 					</div>
 					<br>
