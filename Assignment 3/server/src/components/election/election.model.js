@@ -76,8 +76,8 @@ let electionModel = mongoose.model('election', ElectionSchema);
 /**
  * Creates the election in the database
  * @api
- * @param {Election}election
- * @returns {Promise<Election, Error>} election
+ * @param {Object<Election>}election
+ * @returns {Query<Election, Error>} election
  */
 exports.create = (election) => {
 	return electionModel.create(election);
@@ -87,8 +87,8 @@ exports.create = (election) => {
  * Updates the election in the database
  * @api
  * @param {string} id
- * @param {Election} election
- * @returns {Promise<Election, Error>} election
+ * @param {Object<Election>} election
+ * @returns {Query<Election, Error>} election
  */
 exports.update = (id, election) => {
 	return electionModel.findOneAndUpdate({
@@ -100,28 +100,28 @@ exports.update = (id, election) => {
  * Finds the election given the id
  * @api
  * @param {string} id
- * @returns {Promise<Election, Error>} election
+ * @returns {Query<Election, Error>} election
  */
 exports.findById = (id) => {
 	return electionModel.findOne({
 		_id: id
-	}).populate('candidates.candidateId');
+	});
 };
 
 /**
  * Finds all the elections
  * @api
- * @returns {Promise<Election[], Error>} election
+ * @returns {Query<Election[], Error>} election
  */
 exports.find = () => {
-	return electionModel.find().populate('candidates.candidateId');
+	return electionModel.find();
 };
 
 /**
  * Finds all the elections of the given user
  * @api
  * @param {string} userId
- * @returns {Promise<Election[], Error>} election
+ * @returns {Query<Election[], Error>} election
  */
 exports.findUserElections = (userId) => {
 	return electionModel.find({
@@ -133,5 +133,17 @@ exports.findUserElections = (userId) => {
 				$elemMatch: {candidateId: userId}
 			}
 		}
-	}).populate('candidates.candidateId');
+	});
 };
+
+/**
+ * Expand the candidates
+ * @example findById(id).expandCandidates()
+ * @api
+ * @param {Query} query
+ * @returns {Query} election
+ */
+exports.expandCandidates = (query) => {
+	return query.populate('candidates.candidateId');
+};
+
