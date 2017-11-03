@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {Election, ElectionService} from '../../services';
+import {Election, ElectionService, User, UserService} from '../../services';
 import {Subscription} from 'rxjs/Subscription';
 
 @Component({
@@ -9,12 +9,16 @@ import {Subscription} from 'rxjs/Subscription';
 	styleUrls: ['./election-details.component.scss']
 })
 export class ElectionDetailsComponent implements OnInit, OnDestroy {
+	user: User;
 	election: Election;
 	loadingData: boolean;
 	errorMessage: string;
 	paramSubscription: Subscription;
 
-	constructor(private router: Router, private activatedRoute: ActivatedRoute, private electionService: ElectionService) {
+	constructor(private router: Router,
+	            private activatedRoute: ActivatedRoute,
+	            private electionService: ElectionService,
+	            private userService: UserService) {
 		this.election = new Election();
 		const currentDate = new Date();
 		this.election.dateFrom = new Date(currentDate.toDateString());
@@ -23,6 +27,8 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
+		this.user = this.userService.loggedInUser;
+
 		this.paramSubscription = this.activatedRoute.params.subscribe(params => {
 			if (params['electionId']) {
 				this.loadingData = true;

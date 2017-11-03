@@ -1,4 +1,9 @@
 export class User {
+	USER_ROLES = {
+		ELECTION_OFFICIAL: 'electionOfficial',
+		CANDIDATE: 'candidate',
+		VOTER: 'voter'
+	};
 	_id: string;
 	token: string;
 	email: string;
@@ -46,5 +51,11 @@ class SecurityQuestion {
 		this.question = securityQuestion.question;
 		this.answer = securityQuestion.answer;
 	}
+}
+
+class UserRoles {
+	static ROLE_ELECTION_OFFICIAL = 'electionOfficial';
+	static ROLE_CANDIDATE = 'candidate';
+	static ROLE_VOTER = 'voter';
 }
 

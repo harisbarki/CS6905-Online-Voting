@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {Election, ElectionService} from '../../services';
+import {Election, ElectionService, User, UserService} from '../../services';
 
 @Component({
 	selector: 'app-login-dashboard',
@@ -10,16 +10,19 @@ import {Election, ElectionService} from '../../services';
 })
 export class DashboardComponent implements OnInit {
 
+	user: User;
 	elections: Election[];
 	currentElections: Election[];
 	futureElections: Election[];
 	pastElections: Election[];
 
-	constructor(private router: Router, private electionService: ElectionService) {
+	constructor(private router: Router, private electionService: ElectionService, private userService: UserService) {
 
 	}
 
 	ngOnInit() {
+		this.user = this.userService.loggedInUser;
+
 		this.electionService.getAllElections().then((elections: Election[]) => {
 			this.elections = elections;
 			this.currentElections = [];

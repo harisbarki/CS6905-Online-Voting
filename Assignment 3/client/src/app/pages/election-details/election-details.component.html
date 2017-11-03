@@ -48,14 +48,21 @@
 										</tr>
 										</thead>
 										<tbody>
-										<tr *ngFor="let candidate of election.candidates" [ngClass]="candidate.isApproved == 'approved'? 'success' : candidate.isApproved == 'pending'? 'pending' : 'danger'">
+										<tr *ngFor="let candidate of election.candidates"
+										    [ngClass]="candidate.isApproved == 'approved'? 'success' : candidate.isApproved == 'pending'? 'pending' : 'danger'">
 											<td>{{candidate?.candidateId?.name}}</td>
 											<td>{{candidate.candidateId?.email}}</td>
 											<td>{{candidate.isApproved}}</td>
 										</tr>
 										</tbody>
 									</table>
-									<button class="btn btn-success" (click)="nominateCandidate(election)">Nominate Candidate</button>
+									<button class="btn btn-danger" (click)="nominateCandidate(election)"
+									        *ngIf="election.candidatesStrategy == 'nomination'">Nominate
+									</button>
+									<button class="btn btn-danger" (click)="nominateCandidate(election)"
+									        *ngIf="election.candidatesStrategy == 'predefined' && user.role == user.USER_ROLES.ELECTION_OFFICIAL">
+										Add Candidate
+									</button>
 								</div>
 
 							</div>

@@ -16,7 +16,7 @@
 				<li *ngIf="!loggedIn"><a class="nav-link" [routerLink]="['/login']" routerLinkActive="active">Login</a></li>
 				<li *ngIf="!loggedIn"><a class="nav-link" [routerLink]="['/register']" routerLinkActive="active">Registration</a></li>
 				<li *ngIf="loggedIn"><a class="nav-link" [routerLink]="['/dashboard']" routerLinkActive="active">Dashboard</a></li>
-				<li *ngIf="loggedIn"><a class="nav-link" [routerLink]="['/election/create']" routerLinkActive="active">Create Election</a></li>
+				<li *ngIf="loggedIn && user.role == user.USER_ROLES.ELECTION_OFFICIAL"><a class="nav-link" [routerLink]="['/election/create']" routerLinkActive="active">Create Election</a></li>
 				<li *ngIf="loggedIn" class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#" style="padding: 5px; margin: 0"><img style="width: 40px" src="assets/avatar.png"></a>
 					<ul class="dropdown-menu">

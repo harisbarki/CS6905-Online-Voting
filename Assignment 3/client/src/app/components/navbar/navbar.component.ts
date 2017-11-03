@@ -1,7 +1,7 @@
 import {Component, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {UserService} from './../../services';
+import {User, UserService} from './../../services';
 
 @Component({
 	selector: 'app-navbar',
@@ -9,14 +9,15 @@ import {UserService} from './../../services';
 	styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnDestroy {
+
 	loggedIn: boolean;
+	user: User;
 	loginSubscription: any;
 
-	constructor (private router: Router, private userService: UserService){
+	constructor(private router: Router, private userService: UserService) {
 
 		this.loggedIn = this.userService.loggedIn();
-		console.log(this.loggedIn);
-
+		this.user = this.userService.loggedInUser;
 		this.loginSubscription = userService.loggedInChange.subscribe((value) => {
 			this.loggedIn = value;
 		});

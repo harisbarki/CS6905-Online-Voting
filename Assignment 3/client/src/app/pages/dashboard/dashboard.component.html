@@ -17,17 +17,20 @@
 					<strong>{{election.dateFrom | date}} --- {{election.dateTo | date}}</strong>
 					<br>
 					<br>
-					<button style="width: 40px" class="btn btn-success btn-sm" (click)="electionEdit(election)"><i
+					<button style="width: 40px" class="btn btn-success btn-sm"
+					        *ngIf="user.role == user.USER_ROLES.ELECTION_OFFICIAL" (click)="electionEdit(election)"><i
 						class="fa fa-pencil-square-o fa-lg"></i></button>
 					<button style="width: 40px" class="btn btn-primary btn-sm" (click)="electionDetails(election)"><i
 						class="fa fa-eye fa-lg"></i></button>
 					<div>
 						<br>
 						<p><strong>Candidates strategy: </strong>{{election.candidatesStrategy}}</p>
-						<button class="btn btn-danger"
-						        (click)="nominateCandidate(election)">
-							<span *ngIf="election.candidatesStrategy == 'nomination'">Nominate</span>
-							<span *ngIf="election.candidatesStrategy == 'predefined'">Add Candidate</span>
+						<button class="btn btn-danger" (click)="nominateCandidate(election)"
+						        *ngIf="election.candidatesStrategy == 'nomination'">Nominate
+						</button>
+						<button class="btn btn-danger" (click)="nominateCandidate(election)"
+						        *ngIf="election.candidatesStrategy == 'predefined' && user.role == user.USER_ROLES.ELECTION_OFFICIAL">
+							Add Candidate
 						</button>
 					</div>
 					<br>
@@ -57,17 +60,20 @@
 					<strong>{{election.dateFrom | date}} --- {{election.dateTo | date}}</strong>
 					<br>
 					<br>
-					<button style="width: 40px" class="btn btn-success btn-sm" (click)="electionEdit(election)"><i
+					<button style="width: 40px" class="btn btn-success btn-sm" (click)="electionEdit(election)"
+					        *ngIf="user.role == user.USER_ROLES.ELECTION_OFFICIAL"><i
 						class="fa fa-pencil-square-o fa-lg"></i></button>
 					<button style="width: 40px" class="btn btn-primary btn-sm" (click)="electionDetails(election)"><i
 						class="fa fa-eye fa-lg"></i></button>
 					<div>
 						<br>
 						<p><strong>Candidates strategy: </strong>{{election.candidatesStrategy}}</p>
-						<button class="btn btn-danger"
-						        (click)="nominateCandidate(election)">
-							<span *ngIf="election.candidatesStrategy == 'nomination'">Nominate</span>
-							<span *ngIf="election.candidatesStrategy == 'predefined'">Add Candidate</span>
+						<button class="btn btn-danger" (click)="nominateCandidate(election)"
+						        *ngIf="election.candidatesStrategy == 'nomination'">Nominate
+						</button>
+						<button class="btn btn-danger" (click)="nominateCandidate(election)"
+						        *ngIf="election.candidatesStrategy == 'predefined' && user.role == user.USER_ROLES.ELECTION_OFFICIAL">
+							Add Candidate
 						</button>
 					</div>
 					<br>
@@ -96,18 +102,14 @@
 					<strong>{{election.dateFrom | date}} --- {{election.dateTo | date}}</strong>
 					<br>
 					<br>
-					<button style="width: 40px" class="btn btn-success btn-sm" (click)="electionEdit(election)"><i
+					<button style="width: 40px" class="btn btn-success btn-sm"
+					        *ngIf="user.role == user.USER_ROLES.ELECTION_OFFICIAL" (click)="electionEdit(election)"><i
 						class="fa fa-pencil-square-o fa-lg"></i></button>
 					<button style="width: 40px" class="btn btn-primary btn-sm" (click)="electionDetails(election)"><i
 						class="fa fa-eye fa-lg"></i></button>
 					<div>
 						<br>
 						<p><strong>Candidates strategy: </strong>{{election.candidatesStrategy}}</p>
-						<button class="btn btn-danger"
-						        (click)="nominateCandidate(election)">
-							<span *ngIf="election.candidatesStrategy == 'nomination'">Nominate</span>
-							<span *ngIf="election.candidatesStrategy == 'predefined'">Add Candidate</span>
-						</button>
 					</div>
 					<br>
 				</div>
