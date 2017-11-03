@@ -37,7 +37,7 @@ export class ElectionService {
 				.toPromise()
 				.then(
 					response => {
-						let objectReceived: Election = response.json().data[0];
+						let objectReceived: Election = response.json().data;
 						objectReceived = new Election(objectReceived);
 						console.log(this.serviceName, 'findById::success', objectReceived);
 						return objectReceived;

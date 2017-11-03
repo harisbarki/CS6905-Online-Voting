@@ -1,16 +1,11 @@
 'use strict';
-const Election = require('./election.model').Election;
+const Election = require('./election.model');
 
 exports.getElections = (req, res) => {
-	let query = '';
-	if (req.query['electionId']) {
-		// if there is election id then just get that election
-		query = {_id: req.query['electionId']}
-	}
+	let id = req.query['electionId'] ? req.query['electionId'] : null;
 
-	Election.find(query)
-		.populate('candidates.candidateId')
-		.then(
+	let promise = id ? Election.findById(id) : Election.find();
+	promise.then(
 		(data) => {
 			let result = {
 				statusCode: 200,
@@ -55,7 +50,7 @@ exports.create = (req, res) => {
 
 exports.update = (req, res) => {
 	console.log(req.body);
-	Election.findOneAndUpdate({_id: req.body['_id']}, req.body).then((election) => {
+	Election.update(req.body['_id'], req.body).then((election) => {
 		let result = {
 			statusCode: 200,
 			data: election

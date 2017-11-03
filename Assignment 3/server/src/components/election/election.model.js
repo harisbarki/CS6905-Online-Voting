@@ -1,11 +1,11 @@
+'use strict';
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 /**
  * @module  Election
  */
-
-let Election = new Schema({
+let ElectionSchema = new Schema({
 	name: {
 		type: String,
 		required: true
@@ -71,9 +71,62 @@ let Election = new Schema({
 	]
 });
 
-let election = mongoose.model('election', Election);
+let electionModel = mongoose.model('election', ElectionSchema);
 
-/** export schema */
-module.exports = {
-	Election: election
+/**
+ * Creates the election in the database
+ * @param {Election}election
+ * @return {Query} election
+ */
+exports.create = (election) => {
+	return electionModel.create(election);
+};
+
+/**
+ * Updates the election in the database
+ * @param {string} id
+ * @param {Election} election
+ * @return {Query} election
+ */
+exports.update = (id, election) => {
+	return electionModel.findOneAndUpdate({
+		_id: id
+	}, election);
+};
+
+/**
+ * Finds the election given the id
+ * @param {string} id
+ * @return {Query} election
+ */
+exports.findById = (id) => {
+	return electionModel.findOne({
+		_id: id
+	}).populate('candidates.candidateId');
+};
+
+/**
+ * Finds all the elections
+ * @return {Query} election
+ */
+exports.find = () => {
+	return electionModel.find().populate('candidates.candidateId');
+};
+
+/**
+ * Finds all the elections of the given user
+ * @param {string} userId
+ * @return {Query} election
+ */
+exports.findUserElections = (userId) => {
+	return electionModel.find({
+		$or: {
+			voters: {
+				$elemMatch: {voterId: userId}
+			},
+			candidates: {
+				$elemMatch: {candidateId: userId}
+			}
+		}
+	}).populate('candidates.candidateId');
 };

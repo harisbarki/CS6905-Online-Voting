@@ -13,7 +13,7 @@
 									<h4><strong>General</strong></h4>
 								</div>
 								<div class="col-md-6">
-									<strong>Name: </strong> {{election.name}}
+									<strong>Name: </strong> {{election?.name}}
 									<br>
 									<strong>Winning Strategy: </strong> {{election.winningStrategy}}
 									<br>
@@ -49,8 +49,8 @@
 										</thead>
 										<tbody>
 										<tr *ngFor="let candidate of election.candidates" [ngClass]="candidate.isApproved == 'approved'? 'success' : candidate.isApproved == 'pending'? 'pending' : 'danger'">
-											<td>{{candidate.candidateId['name']}}</td>
-											<td>{{candidate.candidateId['email']}}</td>
+											<td>{{candidate?.candidateId?.name}}</td>
+											<td>{{candidate.candidateId?.email}}</td>
 											<td>{{candidate.isApproved}}</td>
 										</tr>
 										</tbody>

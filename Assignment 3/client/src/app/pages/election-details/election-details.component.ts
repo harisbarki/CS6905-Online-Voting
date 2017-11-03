@@ -27,6 +27,7 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 			if (params['electionId']) {
 				this.loadingData = true;
 				this.electionService.findById(params['electionId']).then((election: Election) => {
+					console.log('election in ctr', election);
 					this.election = election;
 					this.loadingData = false;
 				});

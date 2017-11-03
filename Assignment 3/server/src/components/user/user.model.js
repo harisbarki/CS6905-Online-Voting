@@ -56,45 +56,69 @@ let User = new Schema({
 			}
 		],
 		lastActiveAt: {
-			type: Date,
-			default: Date.now
+			type: Date
 		},
 		createdAt: {
-			type: Date,
-			default: Date.now
+			type: Date
 		},
 		modifiedAt: {
-			type: Date,
-			default: Date.now
+			type: Date
 		}
 	})
 ;
 
 User.plugin(uniqueValidator);
+let userModel = mongoose.model('user', User);
 
-User.statics = {
-	saveUser: function (requestData) {
-		return this.create(requestData);
-	},
-	findUserUpdate: function (query, user) {
-		return this.findOneAndUpdate(query, user);
-	},
-	updateUser: function (user) {
-		return user.save();
-	},
-
-	findUser: function (query) {
-		return this.findOne(query);
-	},
-
-	findUserByIdAndEmail: function (id, email) {
-		return this.findOne({email: email, _id: id});
-	}
+/**
+ * Creates the user in the database
+ * @param {string} user
+ * @return {Query} user
+ */
+exports.create = (user) => {
+	return userModel.create(user);
 };
 
-let user = mongoose.model('user', User);
+/**
+ * Updates the user in the database
+ * @param {string} user
+ * @return {Query} user
+ */
+exports.update = (user) => {
+	return userModel.save(user);
+};
 
-/** export schema */
-module.exports = {
-	User: user
+/**
+ * Find the user with given id
+ * @param {string} id
+ * @return {Query} user
+ */
+exports.findById = (id) => {
+	return userModel.findOne({
+		_id: id
+	});
+};
+
+/**
+ * Find the user with given email
+ * @param {string} email
+ * @return {Query} user
+ */
+exports.findByEmail = (email) => {
+	return userModel.findOne({
+		email: email
+	});
+};
+
+/**
+ * Find the user with given id and email
+ * @param {string} id
+ * @param {string} email
+ * @return {Query} user
+ */
+exports.findUserByIdAndEmail = (id, email) => {
+	return userModel.findOne({
+		_id: id,
+		email: email
+	});
 };

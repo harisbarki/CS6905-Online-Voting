@@ -13,6 +13,7 @@ export class UserService {
 	private serverUrl = '/api/user';
 	private serviceName = 'UserService';
 	loggedInChange: Subject<boolean> = new Subject<boolean>();
+	loggedInUser: User;
 
 	urlLinks = {
 		dashboard: () => {
@@ -41,9 +42,12 @@ export class UserService {
 					response => {
 						const objectReceived = response.json();
 						console.log(this.serviceName, 'postMessage::success', objectReceived);
+						const user = new User(objectReceived.data.user);
+						this.loggedInUser = user;
+						localStorage.setItem('user', JSON.stringify(user));
 						localStorage.setItem('token', objectReceived.data.token);
 						this.loggedInChange.next(true);
-						return objectReceived;
+						return user;
 					},
 					error => {
 						console.error(this.serviceName, 'postMessage::errorCallback', error);
@@ -63,9 +67,12 @@ export class UserService {
 					response => {
 						const objectReceived = response.json();
 						console.log(this.serviceName, 'postMessage::success', objectReceived);
+						const user = new User(objectReceived.data.user);
+						this.loggedInUser = user;
+						localStorage.setItem('user', JSON.stringify(user));
 						localStorage.setItem('token', objectReceived.data.token);
 						this.loggedInChange.next(true);
-						return objectReceived;
+						return user;
 					},
 					error => {
 						console.error(this.serviceName, 'postMessage::errorCallback', error);
@@ -79,31 +86,45 @@ export class UserService {
 
 	loggedIn() {
 		const tokenValid = tokenNotExpired();
-		tokenValid ? this.loggedInChange.next(true) : this.loggedInChange.next(false);
+		if (tokenValid) {
+			this.loggedInUser = new User(JSON.parse(localStorage.getItem('user')));
+			this.loggedInChange.next(true);
+		} else {
+			this.loggedInChange.next(false);
+			this.loggedInUser = null;
+			localStorage.removeItem('user');
+		}
 		return tokenValid;
 	}
 
 	logout() {
 		this.loggedInChange.next(false);
+		this.loggedInUser = null;
 		localStorage.removeItem('token');
+		localStorage.removeItem('user');
 	}
 
-	update(user: User) {
-		if (user && user._id) {
-			return this.http.put(this.serverUrl, user)
+	update(updateUser: User) {
+		if (updateUser && updateUser._id) {
+			return this.http.put(this.serverUrl, updateUser)
 				.toPromise()
 				.then(
 					response => {
 						const objectReceived = response.json();
-						console.log(this.serviceName, 'update::success', objectReceived);
-						return objectReceived;
+						console.log(this.serviceName, 'postMessage::success', objectReceived);
+						const user = new User(objectReceived.data.user);
+						this.loggedInUser = user;
+						localStorage.setItem('updateUser', JSON.stringify(user));
+						localStorage.setItem('token', objectReceived.data.token);
+						this.loggedInChange.next(true);
+						return user;
 					},
 					error => {
 						console.error(this.serviceName, 'update::errorCallback', error);
 					}
 				);
 		} else {
-			console.warn(this.serviceName, 'update', 'user was null or _id was not defined');
+			console.warn(this.serviceName, 'update', 'updateUser was null or _id was not defined');
 		}
 	};
 }

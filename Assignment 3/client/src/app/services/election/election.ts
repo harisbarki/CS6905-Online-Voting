@@ -27,7 +27,7 @@ export class Election {
 }
 
 export class Candidate {
-	candidateId: String;
+	candidateId: any;
 	numOfVotes: Number;
 	isApproved: String;
 
@@ -39,7 +39,7 @@ export class Candidate {
 }
 
 export class Voter {
-	voterId: String;
+	voterId: any;
 	hasVoted: Boolean;
 	votedFor: String;
 

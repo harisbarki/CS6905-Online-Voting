@@ -22,8 +22,9 @@ export class LoginComponent implements OnInit {
 	login() {
 		this.loadingData = true;
 		console.log(this.user);
-		this.userService.login(this.user).then(() => {
+		this.userService.login(this.user).then((user) => {
 			this.loadingData = false;
+			console.log(user);
 			this.router.navigate(['/dashboard']);
 		});
 	}
