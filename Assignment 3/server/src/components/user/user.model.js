@@ -72,8 +72,9 @@ let userModel = mongoose.model('user', User);
 
 /**
  * Creates the user in the database
- * @param {string} user
- * @return {Query} user
+ * @api
+ * @param {Object} user
+ * @returns {Promise<User>} user
  */
 exports.create = (user) => {
 	return userModel.create(user);
@@ -81,8 +82,9 @@ exports.create = (user) => {
 
 /**
  * Updates the user in the database
- * @param {string} user
- * @return {Query} user
+ * @api
+ * @param {Object} user
+ * @returns {Promise<User, Error>} user
  */
 exports.update = (user) => {
 	return userModel.save(user);
@@ -90,8 +92,9 @@ exports.update = (user) => {
 
 /**
  * Find the user with given id
+ * @api
  * @param {string} id
- * @return {Query} user
+ * @returns {Promise<User, Error>} user
  */
 exports.findById = (id) => {
 	return userModel.findOne({
@@ -101,8 +104,9 @@ exports.findById = (id) => {
 
 /**
  * Find the user with given email
+ * @api
  * @param {string} email
- * @return {Query} user
+ * @returns {Promise<User, Error>} user
  */
 exports.findByEmail = (email) => {
 	return userModel.findOne({
@@ -112,9 +116,10 @@ exports.findByEmail = (email) => {
 
 /**
  * Find the user with given id and email
+ * @api
  * @param {string} id
  * @param {string} email
- * @return {Query} user
+ * @returns {Promise<User, Error>} user
  */
 exports.findUserByIdAndEmail = (id, email) => {
 	return userModel.findOne({
