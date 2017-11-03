@@ -69,7 +69,7 @@
 										</thead>
 										<tbody>
 										<tr *ngFor="let candidate of election.candidates"
-										    [ngClass]="candidate.isApproved == 'approved'? 'success' : candidate.isApproved == 'pending'? 'pending' : 'danger'">
+										    [ngClass]="candidate.isApproved == 'approved' ? 'success' : candidate.isApproved == 'pending' ? 'warning' : 'danger'">
 											<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?.candidateId?._id? 800: 300 }">
 												{{candidate?.candidateId?.name}}
 											</td>
@@ -78,6 +78,10 @@
 											</td>
 											<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?.candidateId?._id? 800: 300 }">
 												{{candidate.isApproved}}
+												<span *ngIf="candidate.isApproved == 'pending' || candidate.isApproved == 'rejected'" style="padding-left: 14px">
+													<button class="btn btn-success btn-xs" (click)="approveOrReject('approved', candidate, election)">Approve</button>
+													<button class="btn btn-danger btn-xs" (click)="approveOrReject('rejected', candidate, election)">Reject</button>
+												</span>
 											</td>
 											<td *ngIf="currentElection">
 												<i class="fa fa-check-circle fa-lg"
@@ -85,7 +89,7 @@
 												   *ngIf="userVotedFor?._id === candidate?.candidateId?._id && !changeVote">
 												</i>
 												<button
-													*ngIf="(!userVotedAlready || changeVote) && candidate.isApproved"
+													*ngIf="(!userVotedAlready || changeVote) && candidate.isApproved == 'approved'"
 													class="btn btn-primary btn-xs"
 													(click)="voteForCandidate(candidate, election)">
 													<strong>Vote</strong></button>
@@ -106,15 +110,15 @@
 												       autofocus>
 											</div>
 											<div class="col-md-4">
-												<input type="email" class="form-control" placeholder="Email" required [(ngModel)]="nominee.email" name="email">
+												<input type="email" class="form-control" placeholder="Email" required [(ngModel)]="nominee.email" name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$">
 											</div>
 											<div class="col-md-4">
 												<button class="btn btn-danger" type="submit" (click)="nominateCandidate(election)"  [disabled]="nominationForm.invalid"
-												        *ngIf="election.candidatesStrategy == 'nomination'">Nominate a
-													candidate
+												        *ngIf="election.candidatesStrategy == 'nomination'">
+													Nominate a candidate
 												</button>
 												<button class="btn btn-danger" type="submit"
-												        *ngIf="election.candidatesStrategy == 'predefined' && user.role == user.USER_ROLES.ELECTION_OFFICIAL"  [disabled]="nominationForm.invalid">
+												        *ngIf="election.candidatesStrategy == 'predefined' && user.role == user.USER_ROLES.ELECTION_OFFICIAL" [disabled]="nominationForm.invalid">
 													Add a candidate
 												</button>
 											</div>
@@ -124,14 +128,6 @@
 
 							</div>
 
-							<div class="row" style="margin-top: 15px;">
-								<div class="col-md-12 box-inner-title">
-									<h4><strong>Users</strong></h4>
-								</div>
-								<div class="col-md-12">
-									<strong>Number of Users Voted: </strong> {{totalNumberOfVotes}}
-								</div>
-							</div>
 						</form>
 					</div>
 				</div>

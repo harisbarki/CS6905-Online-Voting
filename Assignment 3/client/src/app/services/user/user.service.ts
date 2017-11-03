@@ -88,6 +88,30 @@ export class UserService {
 		}
 	};
 
+	createIfNotExists(registerUser: User) {
+		if (registerUser) {
+			return this.http.post(`${this.serverUrl}/create-if-not-exists`, registerUser)
+				.toPromise()
+				.then(
+					response => {
+						const objectReceived = response.json();
+						console.log(this.serviceName, 'postMessage::success', objectReceived);
+						if (objectReceived.statusCode === 200) {
+							return new User(objectReceived.data.user);
+						} else {
+							return null;
+						}
+					},
+					error => {
+						console.error(this.serviceName, 'postMessage::errorCallback', error);
+						throw error.json();
+					}
+				);
+		} else {
+			console.warn(this.serviceName, 'postMessage', 'registerUser was null');
+		}
+	}
+
 	loggedIn() {
 		const tokenValid = tokenNotExpired();
 		if (tokenValid) {

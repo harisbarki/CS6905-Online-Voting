@@ -98,8 +98,46 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	nominateCandidate(nominee) {
-		console.log(this.nominee);
+	nominateCandidate(nomineeForm) {
+		this.userService.createIfNotExists(nomineeForm.value).then((user) => {
+			if (user) {
+				const candidate = {
+					candidateId: user._id,
+					numOfVotes: 0,
+					isApproved: this.user.role === this.user.USER_ROLES.ELECTION_OFFICIAL ? 'approved' : 'pending'
+				};
+				const voter = {
+					voterId: user._id,
+					hasVoted: false,
+					votedFor: null
+				};
+				this.election.candidates.push(candidate);
+				this.election.voters.push(voter);
+				// update the database
+				this.electionService.update(this.election).then((updatedElection: Election) => {
+					console.log('foreign updated one');
+					console.log(updatedElection);
+					this.election = updatedElection;
+					this.totalNumberOfVotesUpdate(updatedElection);
+					this.updateViewData(updatedElection);
+					this.changeVote = false;
+				});
+			}
+		});
+	}
+
+	approveOrReject(approval, candidate, election) {
+		const indexOfCandidate = election.candidates.indexOf(candidate);
+		election.candidates[indexOfCandidate].isApproved = approval;
+		// update the database
+		this.electionService.update(election).then((updatedElection: Election) => {
+			console.log('foreign updated one');
+			console.log(updatedElection);
+			this.election = updatedElection;
+			this.totalNumberOfVotesUpdate(updatedElection);
+			this.updateViewData(updatedElection);
+			this.changeVote = false;
+		});
 	}
 
 	updateViewData(election: Election) {
@@ -133,4 +171,5 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 			}
 		}
 	}
+
 }
