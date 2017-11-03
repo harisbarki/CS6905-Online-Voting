@@ -11,7 +11,7 @@
     "start:hmr": "concurrently \"npm run hmr\" \"npm run delay && npm run start:backend\" ",
     "start:watch:dev": "concurrently \"npm run build:watch:client:dev\" \"npm run start:backend\" ",
     "start:watch:prod": "concurrently \"npm run build:watch:client:prod\" \"npm run start:backend\" ",
-    "build": "npm run build:client:prod",
+    "build": "npm run build:client:dev",
     "build:client:dev": "cd ./client && npm run build:dev && cd ..",
     "build:client:prod": "cd ./client && npm run build:prod && cd ..",
     "build:watch:client:dev": "cd ./client && npm run build:watch:dev && cd ..",
