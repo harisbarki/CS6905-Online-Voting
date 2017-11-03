@@ -11,6 +11,8 @@ import {User, UserService} from './../../services';
 export class LoginComponent implements OnInit {
 	loadingData: boolean;
 	user: User;
+	password: string;
+	verifyPassword: string;
 
 	constructor(private router: Router, private userService: UserService) {
 	}

@@ -5,6 +5,9 @@ export class User {
 	name: string;
 	phone: string;
 	address: string;
+	city: string;
+	country: string;
+	postalCode: string;
 	password?: string;
 	role: string;
 	isVerified: boolean;
@@ -22,6 +25,9 @@ export class User {
 		this.name = user.name;
 		this.phone = user.phone;
 		this.address = user.address;
+		this.city = user.city;
+		this.country = user.country;
+		this.postalCode = user.postalCode;
 		this.role = user.role;
 		this.isVerified = user.isVerified;
 		this.isEnabled = user.isEnabled;

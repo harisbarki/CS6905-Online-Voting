@@ -43,9 +43,11 @@ export class UserService {
 						const objectReceived = response.json();
 						console.log(this.serviceName, 'postMessage::success', objectReceived);
 						const user = new User(objectReceived.data.user);
+						const token = objectReceived.data.token;
+						user.token = token;
 						this.loggedInUser = user;
 						localStorage.setItem('user', JSON.stringify(user));
-						localStorage.setItem('token', objectReceived.data.token);
+						localStorage.setItem('token', token);
 						this.loggedInChange.next(true);
 						return user;
 					},
@@ -68,9 +70,11 @@ export class UserService {
 						const objectReceived = response.json();
 						console.log(this.serviceName, 'postMessage::success', objectReceived);
 						const user = new User(objectReceived.data.user);
+						const token = objectReceived.data.token;
+						user.token = token;
 						this.loggedInUser = user;
 						localStorage.setItem('user', JSON.stringify(user));
-						localStorage.setItem('token', objectReceived.data.token);
+						localStorage.setItem('token', token);
 						this.loggedInChange.next(true);
 						return user;
 					},
@@ -106,16 +110,18 @@ export class UserService {
 
 	update(updateUser: User) {
 		if (updateUser && updateUser._id) {
-			return this.http.put(this.serverUrl, updateUser)
+			return this.http.post(`${this.serverUrl}/update`, updateUser)
 				.toPromise()
 				.then(
 					response => {
 						const objectReceived = response.json();
 						console.log(this.serviceName, 'postMessage::success', objectReceived);
 						const user = new User(objectReceived.data.user);
+						const token = objectReceived.data.token;
+						user.token = token;
 						this.loggedInUser = user;
-						localStorage.setItem('updateUser', JSON.stringify(user));
-						localStorage.setItem('token', objectReceived.data.token);
+						localStorage.setItem('user', JSON.stringify(user));
+						localStorage.setItem('token', token);
 						this.loggedInChange.next(true);
 						return user;
 					},

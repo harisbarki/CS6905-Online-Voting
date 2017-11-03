@@ -4,7 +4,6 @@ let uniqueValidator = require('mongoose-unique-validator');
 
 /**
  * @module  User
- * @description contain the details of Attribute
  */
 let User = new Schema({
 		email: {
@@ -29,6 +28,18 @@ let User = new Schema({
 			default: ''
 		},
 		address: {
+			type: String,
+			default: ''
+		},
+		city: {
+			type: String,
+			default: ''
+		},
+		country: {
+			type: String,
+			default: ''
+		},
+		postalCode: {
 			type: String,
 			default: ''
 		},
@@ -83,11 +94,14 @@ exports.create = (user) => {
 /**
  * Updates the user in the database
  * @api
+ * @param {string} id
  * @param {Object<User>} user
  * @returns {Query<User, Error>} user
  */
 exports.update = (user) => {
-	return userModel.save(user);
+	return userModel.findOneAndUpdate({
+		_id: user._id
+	}, user, { new: true });
 };
 
 /**

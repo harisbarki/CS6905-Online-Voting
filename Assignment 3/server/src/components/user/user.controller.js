@@ -73,7 +73,7 @@ exports.login = (req, res) => {
 				res.json(result);
 
 				// update last login here
-
+				updateLoginTime(user._id);
 			} else {
 				let errorResponse = {statusCode: 500, message: `Oh uh, something went wrong`};
 				res.status(errorResponse.statusCode).json(errorResponse);
@@ -114,25 +114,44 @@ exports.forgotPassword = (req, res) => {
 	});
 };
 
-exports.newPassword = (req, res) => {
-	Jwt.verify(req.body.token, privateKey, (err, decoded) => {
+exports.update = (req, res) => {
+	let newUser = req.body;
+	Jwt.verify(newUser.token, privateKey, (err, decoded) => {
 		if (err) {
 			console.error(err);
 			let errorResponse = {statusCode: 500, message: `Oh uh, something went wrong`};
 			res.status(errorResponse.statusCode).json(errorResponse);
 		}
 		else {
-			User.findUserByIdAndEmail(decoded.id, decoded.email).then((user) => {
+			User.findById(decoded.id).then((user) => {
 				if (user === null) {
 					res.status(422).send(`Email not recognised`);
 				}
-				else if (req.body.newPassword !== req.body.confirmNew) {
-					res.status(400).send(`Password Mismatch`);
-				}
 				else {
-					user.password = UserService.encrypt(req.body.newPassword);
-					User.update(user).then(() => {
-						res.json({message: `password changed successfully`});
+					// if the email was hacked at frontend, return it to original
+					newUser.email = decoded.email;
+					// encrypt password if new password was sent
+					if(newUser.password) {
+						newUser.password = UserService.encrypt(newUser.password);
+					}
+					newUser.modifiedAt = new Date();
+					User.update(newUser).then((updatedUser) => {
+
+						let tokenData = {
+							email: updatedUser.email,
+							id: updatedUser._id
+						};
+						updatedUser.password = null;
+						updatedUser.securityQuestions = null;
+						let result = {
+							statusCode: 200,
+							data: {
+								user: updatedUser,
+								token: Jwt.sign(tokenData, privateKey)
+							}
+						};
+						res.json(result);
+
 					}).catch((err) => {
 						console.error(err);
 						let errorResponse = {statusCode: 500, message: `Oh uh, something went wrong`};
@@ -140,10 +159,18 @@ exports.newPassword = (req, res) => {
 					});
 				}
 			}).catch((err) => {
-				console.error(err);
+				console.error('updateErr', err);
 				let errorResponse = {statusCode: 500, message: `Oh uh, something went wrong`};
 				res.status(errorResponse.statusCode).json(errorResponse);
 			});
 		}
 	})
+};
+
+let updateLoginTime = (_id) => {
+	User.findById(_id).then((user) => {
+		user.lastActiveAt = new Date();
+		User.update(user).then((updatedUser) => {
+		});
+	});
 };

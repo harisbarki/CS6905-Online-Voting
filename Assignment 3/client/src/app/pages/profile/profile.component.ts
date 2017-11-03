@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {User, UserService} from '../../services/';
 
 @Component({
 	selector: 'app-profile',
@@ -6,13 +8,29 @@ import {Component, OnInit} from '@angular/core';
 	styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+	loadingData: boolean;
+	user: User;
+	password: string;
+	verifyPassword: string;
 
-	constructor() {
-
+	constructor(private router: Router, private userService: UserService) {
+		this.user = new User();
 	}
 
 	ngOnInit() {
+		this.user = this.userService.loggedInUser;
 	}
 
-
+	onSubmit() {
+		this.loadingData = true;
+		console.log(this.user);
+		if (this.password && this.verifyPassword && this.password === this.verifyPassword) {
+			this.user.password = this.password;
+		}
+		this.userService.update(this.user).then((user) => {
+			this.loadingData = false;
+			console.log(user);
+			// this.router.navigate(['/dashboard']);
+		});
+	}
 }
