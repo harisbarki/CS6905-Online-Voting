@@ -7,9 +7,9 @@
 					<h1 class="text-center login-title">Register</h1>
 					<br>
 					<img class="profile-img" src="assets/logo.svg" alt="">
-					<form class="form-signin" (ngSubmit)="login()">
-						<input type="text" class="form-control" placeholder="Email" required autofocus>
-						<input type="password" class="form-control" placeholder="Password" required>
+					<form class="form-signin" #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+						<input type="text" class="form-control" placeholder="Email" required autofocus [(ngModel)]="user.email" name="email">
+						<input type="password" class="form-control" placeholder="Password" required [(ngModel)]="user.password" name="password">
 						<button class="btn btn-lg btn-primary btn-block" type="submit">
 							Sign up
 						</button>

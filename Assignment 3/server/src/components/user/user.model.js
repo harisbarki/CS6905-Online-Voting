@@ -6,34 +6,69 @@ let uniqueValidator = require('mongoose-unique-validator');
  * @module  User
  * @description contain the details of Attribute
  */
-
 let User = new Schema({
-
-	/**
-	 email. It can only contain valid email id, should be unique, is required and indexed.
-	 */
-	email: {
-		type: String,
-		unique: true,
-		required: true
-	},
-
-	/**
-	 password. It can only contain string, is required field.
-	 */
-	password: {
-		type: String,
-		required: true
-	},
-
-	/**
-	 propertyId. It can only contain string.
-	 */
-	isVerified: {
-		type: Boolean,
-		default: false
-	}
-});
+		email: {
+			type: String,
+			unique: true,
+			required: true
+		},
+		password: {
+			type: String,
+			required: true
+		},
+		isVerified: {
+			type: Boolean,
+			default: false
+		},
+		name: {
+			type: String,
+			default: ''
+		},
+		phone: {
+			type: String,
+			default: ''
+		},
+		address: {
+			type: String,
+			default: ''
+		},
+		role: {
+			type: String,
+			default: 'voter'
+		},
+		isEnabled: {
+			type: Boolean,
+			default: true
+		},
+		incorrectLoginTries: {
+			type: Number,
+			default: 0
+		},
+		securityQuestions: [
+			{
+				_id: false,
+				question: {
+					type: String
+				},
+				answer: {
+					type: String
+				}
+			}
+		],
+		lastActiveAt: {
+			type: Date,
+			default: Date.now
+		},
+		createdAt: {
+			type: Date,
+			default: Date.now
+		},
+		modifiedAt: {
+			type: Date,
+			default: Date.now
+		}
+	})
+;
 
 User.plugin(uniqueValidator);
 

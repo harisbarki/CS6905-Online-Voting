@@ -14,7 +14,8 @@ export class NavbarComponent implements OnDestroy {
 
 	constructor (private router: Router, private userService: UserService){
 
-		this.loggedIn = this.userService.loggedIn;
+		this.loggedIn = this.userService.loggedIn();
+		console.log(this.loggedIn);
 
 		this.loginSubscription = userService.loggedInChange.subscribe((value) => {
 			this.loggedIn = value;

@@ -1,8 +1,7 @@
 {
 	"id": 1234567890,
 	"email": "dummy@test.ca",
-	"firstName": "test",
-	"lastName": "testt",
+	"name": "Test User",
 	"phone": "+1-322-555-5555",
 	"address": "123 st street",
 	"password": "$#2a#3asfdfdsfdsfdfsdfdsfdfs",
@@ -13,7 +12,8 @@
 			"answer": "Jan 1 1900"
 		}
 	],
-	"enabled": true,
+	"isVerified": true,
+	"isEnabled": true,
 	"incorrectLoginTries": 4,
 	"lastActiveAt": "Sat Apr 08 2017 14:58:21 GMT-0400 (Eastern Daylight Time)",
 	"createdAt": "Sat Apr 08 2017 14:58:21 GMT-0400 (Eastern Daylight Time)",

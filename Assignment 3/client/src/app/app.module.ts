@@ -23,6 +23,7 @@ import {routes} from './app.routes';
 
 import {
 	UserService,
+	AuthGuard,
 	ElectionService
 } from './services';
 
@@ -50,6 +51,7 @@ import {
 	],
 	providers: [
 		UserService,
+		AuthGuard,
 		ElectionService
 	],
 	bootstrap: [AppComponent]

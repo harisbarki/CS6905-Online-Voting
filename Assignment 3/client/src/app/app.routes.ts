@@ -1,4 +1,5 @@
 import {RouterModule, Routes} from '@angular/router';
+
 import {
 	HomeComponent,
 	NoContentComponent,
@@ -11,7 +12,7 @@ import {
 	NominateCandidateComponent,
 	ProfileComponent,
 	RegisterUserComponent
-} from './pages/'
+} from './pages/';
 
 const appRoutes: Routes = [
 	{path: '', component: HomeComponent},

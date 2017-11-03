@@ -5,7 +5,6 @@ let usersRoutes = require('./user/user.routes');
 let electionRoutes = require('./election/election.routes');
 let contactUsRoutes = require('./contact-us/contact-us.routes');
 
-
 let clientPath = '../../client_dist/index.html';
 
 module.exports = function(app) {

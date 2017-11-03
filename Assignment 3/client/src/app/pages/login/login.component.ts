@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {UserService} from './../../services';
-
+import {User, UserService} from './../../services';
 
 @Component({
 	selector: 'app-login',
@@ -10,18 +9,22 @@ import {UserService} from './../../services';
 	styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+	loadingData: boolean;
+	user: User;
 
 	constructor(private router: Router, private userService: UserService) {
-
 	}
 
 	ngOnInit() {
-
+		this.user = new User();
 	}
 
 	login() {
-		console.log('hello');
-		this.userService.login();
-		this.router.navigate(['/dashboard']);
+		this.loadingData = true;
+		console.log(this.user);
+		this.userService.login(this.user).then(() => {
+			this.loadingData = false;
+			this.router.navigate(['/dashboard']);
+		});
 	}
 }
