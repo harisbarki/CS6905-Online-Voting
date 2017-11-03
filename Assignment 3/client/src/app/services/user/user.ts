@@ -52,10 +52,3 @@ class SecurityQuestion {
 		this.answer = securityQuestion.answer;
 	}
 }
-
-class UserRoles {
-	static ROLE_ELECTION_OFFICIAL = 'electionOfficial';
-	static ROLE_CANDIDATE = 'candidate';
-	static ROLE_VOTER = 'voter';
-}
-

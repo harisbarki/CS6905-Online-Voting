@@ -12,6 +12,17 @@
 						</div>
 						<div class="box-body">
 							<div class="row">
+								<div class="col-md-12">
+									<strong>Profile last accessed on: </strong> {{user.lastActiveAt | date: 'EEEE, MMMM d, y, h:mm:ss a z'}}
+									<br>
+									<strong>Profile created at: </strong> {{user.createdAt | date: 'EEEE, MMMM d, y, h:mm:ss a z'}}
+									<br>
+									<strong>Profile last modified on: </strong> {{user.modifiedAt | date: 'EEEE, MMMM d, y, h:mm:ss a z'}}
+									<br>
+									<br>
+								</div>
+							</div>
+							<div class="row">
 								<div class="col-md-12 box-inner-title">
 									<h4><strong>General</strong></h4>
 								</div>

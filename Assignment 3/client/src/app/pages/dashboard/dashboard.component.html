@@ -18,10 +18,12 @@
 					<br>
 					<br>
 					<button style="width: 40px" class="btn btn-success btn-sm"
-					        *ngIf="user.role == user.USER_ROLES.ELECTION_OFFICIAL" (click)="electionEdit(election)"><i
-						class="fa fa-pencil-square-o fa-lg"></i></button>
-					<button style="width: 40px" class="btn btn-primary btn-sm" (click)="electionDetails(election)"><i
-						class="fa fa-eye fa-lg"></i></button>
+					        *ngIf="user.role == user.USER_ROLES.ELECTION_OFFICIAL" (click)="electionEdit(election)">
+						<i class="fa fa-pencil-square-o fa-lg"></i>
+					</button>
+					<button style="width: 40px" class="btn btn-primary btn-sm" (click)="electionDetails(election)">
+						<i class="fa fa-eye fa-lg"></i>
+					</button>
 					<div>
 						<br>
 						<p><strong>Candidates strategy: </strong>{{election.candidatesStrategy}}</p>
@@ -32,6 +34,8 @@
 						        *ngIf="election.candidatesStrategy == 'predefined' && user.role == user.USER_ROLES.ELECTION_OFFICIAL">
 							Add Candidate
 						</button>
+						<br>
+						<br>
 					</div>
 					<br>
 				</div>
@@ -61,10 +65,12 @@
 					<br>
 					<br>
 					<button style="width: 40px" class="btn btn-success btn-sm" (click)="electionEdit(election)"
-					        *ngIf="user.role == user.USER_ROLES.ELECTION_OFFICIAL"><i
-						class="fa fa-pencil-square-o fa-lg"></i></button>
-					<button style="width: 40px" class="btn btn-primary btn-sm" (click)="electionDetails(election)"><i
-						class="fa fa-eye fa-lg"></i></button>
+					        *ngIf="user.role == user.USER_ROLES.ELECTION_OFFICIAL">
+						<i class="fa fa-pencil-square-o fa-lg"></i>
+					</button>
+					<button style="width: 40px" class="btn btn-primary btn-sm" (click)="electionDetails(election)">
+						<i class="fa fa-eye fa-lg"></i>
+					</button>
 					<div>
 						<br>
 						<p><strong>Candidates strategy: </strong>{{election.candidatesStrategy}}</p>
@@ -75,6 +81,7 @@
 						        *ngIf="election.candidatesStrategy == 'predefined' && user.role == user.USER_ROLES.ELECTION_OFFICIAL">
 							Add Candidate
 						</button>
+
 					</div>
 					<br>
 				</div>
@@ -103,10 +110,11 @@
 					<br>
 					<br>
 					<button style="width: 40px" class="btn btn-success btn-sm"
-					        *ngIf="user.role == user.USER_ROLES.ELECTION_OFFICIAL" (click)="electionEdit(election)"><i
-						class="fa fa-pencil-square-o fa-lg"></i></button>
-					<button style="width: 40px" class="btn btn-primary btn-sm" (click)="electionDetails(election)"><i
-						class="fa fa-eye fa-lg"></i></button>
+					        *ngIf="user.role == user.USER_ROLES.ELECTION_OFFICIAL" (click)="electionEdit(election)">
+						<i class="fa fa-pencil-square-o fa-lg"></i></button>
+					<button style="width: 40px" class="btn btn-primary btn-sm" (click)="electionDetails(election)">
+						<i class="fa fa-eye fa-lg"></i>
+					</button>
 					<div>
 						<br>
 						<p><strong>Candidates strategy: </strong>{{election.candidatesStrategy}}</p>

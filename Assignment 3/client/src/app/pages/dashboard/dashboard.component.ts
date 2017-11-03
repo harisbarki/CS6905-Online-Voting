@@ -54,4 +54,8 @@ export class DashboardComponent implements OnInit {
 		this.router.navigate(['/election/' + election._id + '/nominate-candidate']);
 	}
 
+	voteCandidate(election) {
+		this.router.navigate(['/election/' + election._id + '/vote']);
+	}
+
 }

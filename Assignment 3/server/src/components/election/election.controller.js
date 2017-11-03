@@ -11,7 +11,7 @@ exports.getElections = (req, res) => {
 				statusCode: 200,
 				data: data
 			};
-			res.json(result);
+			res.status(200).json(result);
 		},
 		(error) => {
 			console.error('error::getAll::election', error);
@@ -32,12 +32,12 @@ exports.getElections = (req, res) => {
 };
 
 exports.create = (req, res) => {
-	Election.create(req.body).then((election) => {
+	Election.expandCandidates(Election.create(req.body)).then((election) => {
 		let result = {
 			statusCode: 200,
 			data: election
 		};
-		res.json(result);
+		res.status(200).json(result);
 	}).catch((err) => {
 		console.error(err);
 		let errorResponse = {
@@ -50,12 +50,12 @@ exports.create = (req, res) => {
 
 exports.update = (req, res) => {
 	console.log(req.body);
-	Election.update(req.body['_id'], req.body).then((election) => {
+	Election.expandCandidates(Election.update(req.body['_id'], req.body)).then((election) => {
 		let result = {
 			statusCode: 200,
 			data: election
 		};
-		res.json(result);
+		res.status(200).json(result);
 	}).catch((err) => {
 		console.error(err);
 		let errorResponse = {
@@ -68,5 +68,4 @@ exports.update = (req, res) => {
 
 exports.delete = (req, res) => {
 	res.json({"data": "function not implemented yet"});
-
 };

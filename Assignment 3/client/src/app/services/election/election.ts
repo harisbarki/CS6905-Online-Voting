@@ -1,13 +1,12 @@
 export class Election {
-	_id: String;
-	name: String;
-	winningStrategy: String;
+	_id: string;
+	name: string;
+	winningStrategy: string;
 	dateFrom: Date;
 	dateTo: Date;
-	isDistrictElections: Boolean;
-	numberOfDistricts: Number;
-	candidatesStrategy: String;
-	totalVotesCasted: Number;
+	isDistrictElections: boolean;
+	numberOfDistricts: number;
+	candidatesStrategy: string;
 	candidates: Candidate[];
 	voters: Voter[];
 
@@ -20,7 +19,6 @@ export class Election {
 		this.isDistrictElections = election.isDistrictElections ? election.isDistrictElections : false;
 		this.numberOfDistricts = election.numberOfDistricts ? election.numberOfDistricts : 0;
 		this.candidatesStrategy = election.candidatesStrategy ? election.candidatesStrategy : '';
-		this.totalVotesCasted = election.totalVotesCasted ? election.totalVotesCasted : 0;
 		this.candidates = election.candidates ? election.candidates : [];
 		this.voters = election.voters ? election.voters : [];
 	}
@@ -28,8 +26,8 @@ export class Election {
 
 export class Candidate {
 	candidateId: any;
-	numOfVotes: Number;
-	isApproved: String;
+	numOfVotes: number;
+	isApproved: string;
 
 	constructor(candidate: Candidate = {} as Candidate) {
 		this.candidateId = candidate.candidateId;
@@ -40,8 +38,8 @@ export class Candidate {
 
 export class Voter {
 	voterId: any;
-	hasVoted: Boolean;
-	votedFor: String;
+	hasVoted: boolean;
+	votedFor: string;
 
 	constructor(voter: Voter = {} as Voter) {
 		this.voterId = voter.voterId;

@@ -61,7 +61,8 @@ export class ElectionService {
 				.toPromise()
 				.then(
 					response => {
-						const objectReceived: Election = response.json();
+						let objectReceived: Election = response.json().data;
+						objectReceived = new Election(objectReceived);
 						console.log(this.serviceName, 'create::success', objectReceived);
 						return objectReceived;
 					},
@@ -82,7 +83,8 @@ export class ElectionService {
 				.toPromise()
 				.then(
 					response => {
-						const objectReceived = response.json();
+						let objectReceived: Election = response.json().data;
+						objectReceived = new Election(objectReceived);
 						console.log(this.serviceName, 'update::success', objectReceived);
 						return objectReceived;
 					},

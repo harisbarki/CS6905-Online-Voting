@@ -29,9 +29,6 @@ let ElectionSchema = new Schema({
 	candidatesStrategy: {
 		type: String,
 	},
-	totalVotesCasted: {
-		type: Number,
-	},
 	usersStrategy: {
 		type: String,
 	},
@@ -93,7 +90,7 @@ exports.create = (election) => {
 exports.update = (id, election) => {
 	return electionModel.findOneAndUpdate({
 		_id: id
-	}, election);
+	}, election, {new: true});
 };
 
 /**

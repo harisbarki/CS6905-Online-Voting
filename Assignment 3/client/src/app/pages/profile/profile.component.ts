@@ -29,8 +29,7 @@ export class ProfileComponent implements OnInit {
 		}
 		this.userService.update(this.user).then((user) => {
 			this.loadingData = false;
-			console.log(user);
-			// this.router.navigate(['/dashboard']);
+			this.router.navigate(['/dashboard']);
 		});
 	}
 }
