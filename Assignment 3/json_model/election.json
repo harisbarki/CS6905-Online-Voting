@@ -18,7 +18,9 @@
 	],
 	"voters": [
 		{
-			"voterId": 234455
+			"voterId": 234455,
+			"hasVoted": false,
+			"votedFor": 3456634
 		}
 	]
 }

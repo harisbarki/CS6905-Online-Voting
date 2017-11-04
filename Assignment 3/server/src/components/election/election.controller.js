@@ -32,7 +32,7 @@ exports.getElections = (req, res) => {
 };
 
 exports.create = (req, res) => {
-	Election.expandCandidates(Election.create(req.body)).then((election) => {
+	Election.create(req.body).then((election) => {
 		let result = {
 			statusCode: 200,
 			data: election

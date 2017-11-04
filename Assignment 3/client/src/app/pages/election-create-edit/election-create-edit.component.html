@@ -11,7 +11,8 @@
 							<button type="submit" class="btn btn-success pull-right btn-submit"
 							        [disabled]="electionForm.invalid" *ngIf="editElectionMode">Update
 							</button>
-							<h3><strong>Create Election</strong></h3>
+							<h3 *ngIf="!editElectionMode"><strong>Create Election</strong></h3>
+							<h3 *ngIf="editElectionMode"><strong>Update Election</strong></h3>
 						</div>
 						<div class="box-body">
 							<div class="row">
