@@ -1,3 +1,4 @@
+<div class="app-loading-img" *ngIf="loadingData"></div>
 <div class="app-center">
 	<div class="container">
 		<div class="row">
@@ -82,9 +83,14 @@
 											</td>
 											<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?.candidateId?._id? 800: 300 }">
 												{{candidate.isApproved}}
-												<span *ngIf="(candidate.isApproved === 'pending' || candidate.isApproved === 'rejected') && user.role == user.USER_ROLES.ELECTION_OFFICIAL" style="padding-left: 14px">
-													<button class="btn btn-success btn-xs" (click)="approveOrReject('approved', candidate, election)">Approve</button>
-													<button *ngIf="candidate.isApproved !== 'rejected'" class="btn btn-danger btn-xs" (click)="approveOrReject('rejected', candidate, election)">Reject</button>
+												<span
+													*ngIf="(candidate.isApproved === 'pending' || candidate.isApproved === 'rejected') && user.role == user.USER_ROLES.ELECTION_OFFICIAL"
+													style="padding-left: 14px">
+													<button class="btn btn-success btn-xs"
+													        (click)="approveOrReject('approved', candidate, election)">Approve</button>
+													<button *ngIf="candidate.isApproved !== 'rejected'"
+													        class="btn btn-danger btn-xs"
+													        (click)="approveOrReject('rejected', candidate, election)">Reject</button>
 												</span>
 											</td>
 											<td *ngIf="currentElection">
@@ -110,19 +116,25 @@
 									<form #nominationForm="ngForm" (ngSubmit)="nominateCandidate(nominationForm)">
 										<div class="row">
 											<div class="col-md-4">
-												<input type="text" class="form-control" placeholder="Name" required [(ngModel)]="nominee.name" name="name"
+												<input type="text" class="form-control" placeholder="Name" required
+												       [(ngModel)]="nominee.name" name="name"
 												       autofocus>
 											</div>
 											<div class="col-md-4">
-												<input type="email" class="form-control" placeholder="Email" required [(ngModel)]="nominee.email" name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$">
+												<input type="email" class="form-control" placeholder="Email" required
+												       [(ngModel)]="nominee.email" name="email"
+												       pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$">
 											</div>
 											<div class="col-md-4">
-												<button class="btn btn-danger" type="submit" (click)="nominateCandidate(election)"  [disabled]="nominationForm.invalid"
+												<button class="btn btn-danger" type="submit"
+												        (click)="nominateCandidate(election)"
+												        [disabled]="nominationForm.invalid"
 												        *ngIf="election.candidatesStrategy == 'nomination'">
 													Nominate a candidate
 												</button>
 												<button class="btn btn-danger" type="submit"
-												        *ngIf="election.candidatesStrategy == 'predefined' && user.role == user.USER_ROLES.ELECTION_OFFICIAL" [disabled]="nominationForm.invalid">
+												        *ngIf="election.candidatesStrategy == 'predefined' && user.role == user.USER_ROLES.ELECTION_OFFICIAL"
+												        [disabled]="nominationForm.invalid">
 													Add a candidate
 												</button>
 											</div>

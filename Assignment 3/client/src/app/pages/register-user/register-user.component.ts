@@ -11,6 +11,7 @@ import {User, UserService} from './../../services';
 export class RegisterUserComponent implements OnInit {
 	loadingData: boolean;
 	user: User;
+	errorMessage: string;
 
 	constructor(private router: Router, private userService: UserService) {
 
@@ -26,6 +27,9 @@ export class RegisterUserComponent implements OnInit {
 		this.userService.register(this.user).then(() => {
 			this.loadingData = false;
 			this.router.navigate(['/dashboard']);
+		}).catch((err) => {
+			this.loadingData = false;
+			this.errorMessage = err.message;
 		});
 	}
 }

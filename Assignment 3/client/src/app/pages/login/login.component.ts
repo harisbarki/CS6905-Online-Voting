@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
 	loadingData: boolean;
 	user: User;
 	password: string;
-	verifyPassword: string;
+	errorMessage: string;
 
 	constructor(private router: Router, private userService: UserService) {
 	}
@@ -28,6 +28,9 @@ export class LoginComponent implements OnInit {
 			this.loadingData = false;
 			console.log(user);
 			this.router.navigate(['/dashboard']);
+		}).catch((err) => {
+			this.errorMessage = err.message;
+			this.loadingData = false;
 		});
 	}
 }

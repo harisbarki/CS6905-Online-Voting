@@ -11,16 +11,17 @@ import {Election, ElectionService, User, UserService} from '../../services';
 export class DashboardComponent implements OnInit {
 
 	user: User;
+	loadingData: boolean;
 	elections: Election[];
 	currentElections: Election[];
 	futureElections: Election[];
 	pastElections: Election[];
 
 	constructor(private router: Router, private electionService: ElectionService, private userService: UserService) {
-
 	}
 
 	ngOnInit() {
+		this.loadingData = true;
 		this.user = this.userService.loggedInUser;
 
 		this.electionService.getAllElections().then((elections: Election[]) => {
@@ -39,6 +40,7 @@ export class DashboardComponent implements OnInit {
 					this.currentElections.push(this.elections[i]);
 				}
 			}
+			this.loadingData = false;
 		});
 	}
 

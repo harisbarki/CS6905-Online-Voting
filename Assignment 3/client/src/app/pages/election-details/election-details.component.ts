@@ -36,12 +36,12 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
+		this.loadingData = true;
 		this.user = this.userService.loggedInUser;
 		const currentDate = new Date();
 
 		this.paramSubscription = this.activatedRoute.params.subscribe(params => {
 			if (params['electionId']) {
-				this.loadingData = true;
 				this.electionService.findById(params['electionId']).then((election: Election) => {
 					console.log('election in controller', election);
 					this.election = election;
@@ -54,6 +54,7 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 					this.loadingData = false;
 				});
 			} else {
+				this.loadingData = false;
 				this.router.navigate([this.electionService.urls.dashboard()]);
 			}
 		});
@@ -65,6 +66,8 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 	}
 
 	voteForCandidate(candidate: Candidate, election: Election) {
+		this.loadingData = true;
+
 		const indexOfCandidate = election.candidates.indexOf(candidate);
 		election.candidates[indexOfCandidate].numOfVotes++;
 		let found = false;
@@ -95,10 +98,13 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 			this.totalNumberOfVotesUpdate(updatedElection);
 			this.updateViewData(updatedElection);
 			this.changeVote = false;
+			this.loadingData = false;
 		});
 	}
 
 	nominateCandidate(nomineeForm) {
+		this.loadingData = true;
+
 		this.userService.createIfNotExists(nomineeForm.value).then((user) => {
 			if (user) {
 				const candidate = {
@@ -123,10 +129,13 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 					this.changeVote = false;
 				});
 			}
+			this.loadingData = false;
 		});
 	}
 
 	approveOrReject(approval, candidate, election) {
+		this.loadingData = true;
+
 		const indexOfCandidate = election.candidates.indexOf(candidate);
 		election.candidates[indexOfCandidate].isApproved = approval;
 		// update the database
@@ -137,6 +146,7 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 			this.totalNumberOfVotesUpdate(updatedElection);
 			this.updateViewData(updatedElection);
 			this.changeVote = false;
+			this.loadingData = true;
 		});
 	}
 

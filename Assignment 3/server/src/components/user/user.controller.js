@@ -73,7 +73,7 @@ exports.createIfNotExists = (req, res) => {
 exports.login = (req, res) => {
 	User.findByEmail(req.body.email).then((user) => {
 		if (user === null) {
-			res.status(422).send(`Email not recognised`);
+			res.status(422).json({statusCode: 422, message: `Email not recognised`});
 		} else {
 			if (req.body.password === UserService.decrypt(user.password)) {
 				res.status(200).json(generateUserJson(user));

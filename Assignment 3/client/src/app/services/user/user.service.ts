@@ -104,7 +104,7 @@ export class UserService {
 					},
 					error => {
 						console.error(this.serviceName, 'postMessage::errorCallback', error);
-						throw error.json();
+						throw error;
 					}
 				);
 		} else {
@@ -151,6 +151,7 @@ export class UserService {
 					},
 					error => {
 						console.error(this.serviceName, 'update::errorCallback', error);
+						throw error;
 					}
 				);
 		} else {
