@@ -54,7 +54,10 @@ export class ElectionCreateEditComponent implements OnInit, OnDestroy {
 		if (this.election.dateFrom > this.election.dateTo) {
 			this.errorMessage = 'Starting date of election can not be after end date!!';
 		} else {
+			// console.log(this.election);
 			if (this.editElectionMode) {
+				this.election.dateFrom = new Date(this.election.dateFrom);
+				this.election.dateTo = new Date(this.election.dateTo);
 				console.log('Updating election', this.election);
 				this.electionService.update(this.election).then(() => {
 					this.router.navigate([this.electionService.urls.dashboard()]);
@@ -72,8 +75,8 @@ export class ElectionCreateEditComponent implements OnInit, OnDestroy {
 				});
 			}
 		}
-		console.log('election', election);
-		console.log('this.election', this.election);
+		// console.log('election', election);
+		// console.log('this.election', this.election);
 	}
 
 

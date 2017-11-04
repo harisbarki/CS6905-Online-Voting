@@ -6,6 +6,8 @@ import {environment} from '../../../environments/environment';
 @Injectable()
 export class ElectionService {
 
+	private elections: Election[] = [];
+
 	private serverUrl = '/api/election';
 	private serviceName = 'ElectionService';
 	urls = {
@@ -13,6 +15,30 @@ export class ElectionService {
 			return '/dashboard';
 		}
 	};
+
+	// Cache functions
+	private AddOrUpdate(election: Election) {
+		let found = false;
+		for (let i = 0; i < this.elections.length; i++) {
+			if (election._id === this.elections[i]._id) {
+				this.elections[i] = election;
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			this.elections.push(election);
+		}
+	}
+
+	private getById(id: string): Election {
+		for (let i = 0; i < this.elections.length; i++) {
+			if (id === this.elections[i]._id) {
+				return this.elections[i];
+			}
+		}
+		return null;
+	}
 
 	constructor(private http: Http) {
 		this.serverUrl = environment.host + this.serverUrl;
@@ -27,29 +53,39 @@ export class ElectionService {
 					objectReceived[i] = new Election(objectReceived[i]);
 				}
 				console.log(this.serviceName, 'getAllElections::success', objectReceived);
+				this.elections = objectReceived;
 				return objectReceived;
 			});
 	};
 
 	findById(electionId: string) {
 		if (electionId) {
-			return this.http.get(this.serverUrl, {params: {electionId: electionId}})
-				.toPromise()
-				.then(
-					response => {
-						let objectReceived: Election = response.json().data;
-						objectReceived = new Election(objectReceived);
-						console.log(this.serviceName, 'findById::success', objectReceived);
-						return objectReceived;
-					},
-					error => {
+			return new Promise((resolve, reject) => {
+				const election = this.getById(electionId);
+				if (election) {
+					resolve(election);
+				} else {
+					this.http.get(this.serverUrl, {params: {electionId: electionId}})
+						.toPromise()
+						.then(
+							response => {
+								let objectReceived: Election = response.json().data;
+								objectReceived = new Election(objectReceived);
+								console.log(this.serviceName, 'findById::success', objectReceived);
+								resolve(objectReceived);
+							},
+							error => {
+								console.error(this.serviceName, 'findById::errorCallback', error);
+								reject();
+								return error.json();
+							}
+						).catch((error) => {
 						console.error(this.serviceName, 'findById::errorCallback', error);
-						return null;
-					}
-				).catch((error) => {
-					console.error(this.serviceName, 'findById::errorCallback', error);
-					return null;
-				});
+						return error.json();
+					});
+				}
+
+			});
 		} else {
 			console.warn(this.serviceName, 'findById', 'electionId was null');
 		}

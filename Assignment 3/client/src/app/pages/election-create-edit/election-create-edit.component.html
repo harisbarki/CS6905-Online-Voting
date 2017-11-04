@@ -45,15 +45,13 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<label for="dateFrom">Date From</label>
-										<input type="date" class="form-control" id="dateFrom"
-										       [value]="election.dateFrom | date:'yyyy-MM-dd'" name="dateFrom" required>
+										<input type="date" class="form-control" id="dateFrom" [ngModel]="election.dateFrom | date:'y-MM-dd'" (ngModelChange)="election.dateFrom = $event" name="dateFrom">
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
 										<label for="dateTo">Date To</label>
-										<input type="date" class="form-control" id="dateTo"
-										       [value]="election.dateTo | date:'yyyy-MM-dd'" name="dateTo" required>
+										<input type="date" class="form-control" id="dateTo" [ngModel]="election.dateTo | date:'y-MM-dd'" (ngModelChange)="election.dateTo = $event" name="dateTo">
 									</div>
 								</div>
 							</div>

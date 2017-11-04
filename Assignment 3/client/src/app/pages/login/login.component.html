@@ -11,9 +11,9 @@
 					<br>
 					<img class="profile-img" src="assets/logo.svg" alt="">
 					<form class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-						<input type="text" class="form-control" placeholder="Email" required autofocus [(ngModel)]="user.email" name="email">
-						<input type="password" class="form-control" placeholder="Password" required [(ngModel)]="user.password" name="password">
-						<button class="btn btn-lg btn-primary btn-block" type="submit">
+						<input type="text" class="form-control" placeholder="Email" required autofocus tabindex="1" [(ngModel)]="user.email" name="email">
+						<input type="password" class="form-control" placeholder="Password" required tabindex="2" [(ngModel)]="user.password" name="password">
+						<button class="btn btn-lg btn-primary btn-block" type="submit" tabindex="3">
 							Sign in
 						</button>
 						<label class="checkbox pull-left" style="margin-left: 20px">
