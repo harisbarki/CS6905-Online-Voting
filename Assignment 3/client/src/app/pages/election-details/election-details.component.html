@@ -45,6 +45,10 @@
 										        (click)="changeVote = !changeVote">
 											<strong>Change Vote</strong>
 										</button>
+										<button class="btn btn-success btn-sm" *ngIf="changeVote"
+										        (click)="changeVote = !changeVote">
+											<strong>Cancel Change Vote</strong>
+										</button>
 									</h4>
 									<br>
 									We will email you when the results are published!
@@ -69,7 +73,7 @@
 										</thead>
 										<tbody>
 										<tr *ngFor="let candidate of election.candidates"
-										    [ngClass]="candidate.isApproved == 'approved' ? 'success' : candidate.isApproved == 'pending' ? 'warning' : 'danger'">
+										    [ngClass]="candidate.isApproved === 'approved' ? 'success' : candidate.isApproved === 'pending' ? 'warning' : 'danger'">
 											<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?.candidateId?._id? 800: 300 }">
 												{{candidate?.candidateId?.name}}
 											</td>
@@ -78,9 +82,9 @@
 											</td>
 											<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?.candidateId?._id? 800: 300 }">
 												{{candidate.isApproved}}
-												<span *ngIf="candidate.isApproved == 'pending' || candidate.isApproved == 'rejected'" style="padding-left: 14px">
+												<span *ngIf="(candidate.isApproved === 'pending' || candidate.isApproved === 'rejected') && user.role == user.USER_ROLES.ELECTION_OFFICIAL" style="padding-left: 14px">
 													<button class="btn btn-success btn-xs" (click)="approveOrReject('approved', candidate, election)">Approve</button>
-													<button class="btn btn-danger btn-xs" (click)="approveOrReject('rejected', candidate, election)">Reject</button>
+													<button *ngIf="candidate.isApproved !== 'rejected'" class="btn btn-danger btn-xs" (click)="approveOrReject('rejected', candidate, election)">Reject</button>
 												</span>
 											</td>
 											<td *ngIf="currentElection">
