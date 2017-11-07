@@ -1,0 +1,30 @@
+<div class="app-loading-img" *ngIf="loadingData"></div>
+
+<div class="app-center">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6 col-md-4 col-md-offset-4">
+				<div class="account-wall">
+					<div class="alert alert-danger" style="margin: 0 30px 0 30px" *ngIf="errorMessage">{{errorMessage}}</div>
+					<h1 class="text-center login-title"><strong>Voting System</strong></h1>
+					<h1 class="text-center login-title">Register</h1>
+					<br>
+					<img class="profile-img" src="assets/logo.svg" alt="">
+					<form class="form-signin" #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+						<input type="text" class="form-control" placeholder="Email" required autofocus [(ngModel)]="user.email" name="email">
+						<input type="password" class="form-control" placeholder="Password" required [(ngModel)]="user.password" name="password">
+						<button class="btn btn-lg btn-primary btn-block" type="submit">
+							Sign up
+						</button>
+						<label class="checkbox pull-left" style="margin-left: 20px">
+							<input type="checkbox" value="remember-me">
+							Remember me
+						</label>
+						<a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
+					</form>
+					<a [routerLink]="['/login']" class="text-center new-account">Already have an account? Login</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

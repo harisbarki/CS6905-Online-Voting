@@ -1,0 +1,21 @@
+{
+	"id": 1234567890,
+	"email": "dummy@test.ca",
+	"name": "Test User",
+	"phone": "+1-322-555-5555",
+	"address": "123 st street",
+	"password": "$#2a#3asfdfdsfdsfdfsdfdsfdfs",
+	"role": "electionOfficer",
+	"securityQuestions": [
+		{
+			"question": "when were you born?",
+			"answer": "Jan 1 1900"
+		}
+	],
+	"isVerified": true,
+	"isEnabled": true,
+	"incorrectLoginTries": 4,
+	"lastActiveAt": "Sat Apr 08 2017 14:58:21 GMT-0400 (Eastern Daylight Time)",
+	"createdAt": "Sat Apr 08 2017 14:58:21 GMT-0400 (Eastern Daylight Time)",
+	"modifiedAt": "Sat Apr 08 2017 14:58:21 GMT-0400 (Eastern Daylight Time)"
+}

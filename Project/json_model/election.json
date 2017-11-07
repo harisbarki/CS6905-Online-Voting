@@ -1,0 +1,26 @@
+{
+	"_id": 213454,
+	"name": "Provincial Election - NL",
+	"winningStrategy": "Winner Takes All",
+	"dateFrom": "Thu Oct 13 2017 00:00:00 GMT-0230 (Newfoundland Daylight Time)",
+	"dateTo": "Thu Oct 31 2018 00:00:00 GMT-0230 (Newfoundland Daylight Time)",
+	"isDistrictElections": true,
+	"numberOfDistricts": 5,
+	"candidatesStrategy": "predefined",
+	"usersStrategy": "registeredUsers",
+	"userObjectConditions": "",
+	"candidates": [
+		{
+			"candidateId": 234455,
+			"numOfVotes": 123,
+			"isApproved": false
+		}
+	],
+	"voters": [
+		{
+			"voterId": 234455,
+			"hasVoted": false,
+			"votedFor": 3456634
+		}
+	]
+}

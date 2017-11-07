@@ -1,0 +1,110 @@
+<div class="app-loading-img" *ngIf="loadingData"></div>
+
+<br>
+<div class="container">
+	<h2>Current Elections</h2>
+	<div class="row">
+		<div class="col-sm-6 col-md-4" *ngFor="let election of currentElections">
+			<div class="box" (click)="electionDetails(election)">
+				<div class="box-heading text-center dashboard-title">
+					<strong>{{election.name}}</strong>
+				</div>
+				<div class="box-inner-body">
+					<div class="text-center dashboard-body-text">
+						<br>
+						<small>Winning Strategy</small>
+						<br>
+						<strong>{{election.winningStrategy}}</strong>
+						<br>
+						<small>Candidates strategy</small>
+						<br>
+						<strong>{{election.candidatesStrategy}}</strong>
+						<br>
+						<br>
+						<strong>{{election.dateFrom | date}} --- {{election.dateTo | date}}</strong>
+						<br>
+						<br>
+						<button class="btn btn-success btn-sm"
+						        *ngIf="user.role == user.USER_ROLES.ELECTION_OFFICIAL" (click)="electionEdit(election)">
+							<strong>Edit Election</strong>
+						</button>
+						<br>
+						<br>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<h2>Future Elections</h2>
+	<div class="row">
+		<div class="col-sm-6 col-md-4" *ngFor="let election of futureElections">
+			<div class="box" (click)="electionDetails(election)">
+				<div class="box-heading text-center dashboard-title">
+					<strong>{{election.name}}</strong>
+				</div>
+				<div class="box-inner-body">
+					<div class="text-center dashboard-body-text">
+						<br>
+						<small>Winning Strategy</small>
+						<br>
+						<strong>{{election.winningStrategy}}</strong>
+						<br>
+						<small>Candidates strategy</small>
+						<br>
+						<strong>{{election.candidatesStrategy}}</strong>
+						<br>
+						<br>
+						<strong>{{election.dateFrom | date}} --- {{election.dateTo | date}}</strong>
+						<br>
+						<br>
+						<button class="btn btn-success btn-sm" (click)="electionEdit(election)"
+						        *ngIf="user.role == user.USER_ROLES.ELECTION_OFFICIAL">
+							<strong>Edit Election</strong>
+						</button>
+						<br>
+						<br>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<h2>Archived Elections</h2>
+	<div class="row">
+		<div class="col-sm-6 col-md-4" *ngFor="let election of pastElections">
+			<div class="box" (click)="electionDetails(election)">
+				<div class="box-heading text-center dashboard-title">
+					<strong>{{election.name}}</strong>
+				</div>
+				<div class="box-inner-body">
+					<div class="text-center dashboard-body-text">
+						<br>
+						<small>Winning Strategy</small>
+						<br>
+						<strong>{{election.winningStrategy}}</strong>
+						<br>
+						<small>Candidates strategy</small>
+						<br>
+						<strong>{{election.candidatesStrategy}}</strong>
+						<br>
+						<br>
+						<strong>{{election.dateFrom | date}} --- {{election.dateTo | date}}</strong>
+						<br>
+						<br>
+						<button class="btn btn-success btn-sm"
+						        *ngIf="user.role == user.USER_ROLES.ELECTION_OFFICIAL" (click)="electionEdit(election)">
+							<strong>Edit Election</strong>
+						</button>
+						<br>
+						<br>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<br>

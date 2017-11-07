@@ -1,0 +1,119 @@
+<div class="app-center">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<form #electionForm="ngForm" (submit)="onSubmit(electionForm)">
+					<div class="account-wall">
+						<div class="box-heading">
+							<button type="submit" class="btn btn-success pull-right btn-submit"
+							        [disabled]="electionForm.invalid" *ngIf="!editElectionMode">Create
+							</button>
+							<button type="submit" class="btn btn-success pull-right btn-submit"
+							        [disabled]="electionForm.invalid" *ngIf="editElectionMode">Update
+							</button>
+							<h3 *ngIf="!editElectionMode"><strong>Create Election</strong></h3>
+							<h3 *ngIf="editElectionMode"><strong>Update Election</strong></h3>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-md-12 box-inner-title">
+									<h4><strong>General</strong></h4>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="electionName">Election Name</label>
+										<input type="text" class="form-control" id="electionName"
+										       [(ngModel)]="election.name" name="name" required
+										       placeholder="Election Name">
+									</div>
+								</div>
+							</div>
+
+							<div class="row" style="margin-top: 15px;">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="winningStrategy">Winning Strategy</label>
+										<select class="form-control" id="winningStrategy"
+										        [(ngModel)]="election.winningStrategy" name="winningStrategy" required>
+											<option value="winnerTakesAll">Winner Takes All</option>
+											<option value="proportional">Proportional</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<div class="row" style="margin-top: 15px;">
+								<div class="col-md-3">
+									<div class="form-group">
+										<label for="dateFrom">Date From</label>
+										<input type="date" class="form-control" id="dateFrom" [ngModel]="election.dateFrom | date:'y-MM-dd'" (ngModelChange)="election.dateFrom = $event" name="dateFrom">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label for="dateTo">Date To</label>
+										<input type="date" class="form-control" id="dateTo" [ngModel]="election.dateTo | date:'y-MM-dd'" (ngModelChange)="election.dateTo = $event" name="dateTo">
+									</div>
+								</div>
+							</div>
+
+							<div class="row" style="margin-top: 15px;">
+								<div class="col-md-3">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" [(ngModel)]="election.isDistrictElections"
+											       name="isDistrictElections">
+											District Elections?
+										</label>
+									</div>
+								</div>
+								<div class="col-md-3" *ngIf="election.isDistrictElections">
+									<div class="form-group">
+										<label for="districts">Number of Districts</label>
+										<input type="number" class="form-control" id="districts"
+										       placeholder="Number of Districts"
+										       [(ngModel)]="election.numberOfDistricts" name="numberOfDistricts"
+										       required>
+									</div>
+								</div>
+							</div>
+
+							<div class="row" style="margin-top: 15px;">
+								<div class="col-md-12 box-inner-title">
+									<h4><strong>Candidates</strong></h4>
+								</div>
+								<div class="col-md-6">
+									<label class="radio-inline">
+										<input type="radio" name="candidates" value="nomination"
+										       [(ngModel)]="election.candidatesStrategy">
+										Nomination Based
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="candidates" value="predefined"
+										       [(ngModel)]="election.candidatesStrategy">
+										Predefined Candidates
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="candidates" value="both"
+										       [(ngModel)]="election.candidatesStrategy">
+										Both
+									</label>
+								</div>
+							</div>
+							<div class="row" style="margin-top: 15px;" *ngIf="errorMessage">
+								<div class="col-md-12">
+									<h4 class="alert alert-danger">{{errorMessage}}</h4>
+								</div>
+							</div>
+							<div class="row" style="margin-top: 15px;">
+								<div class="col-md-12">
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
