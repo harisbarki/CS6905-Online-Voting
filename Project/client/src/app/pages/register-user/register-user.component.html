@@ -13,6 +13,10 @@
 					<form class="form-signin" #registerForm="ngForm" (ngSubmit)="register(registerForm)">
 						<input type="text" class="form-control" placeholder="Email" required autofocus [(ngModel)]="user.email" name="email">
 						<input type="password" class="form-control" placeholder="Password" required [(ngModel)]="user.password" name="password">
+						<input type="radio" name="userrole" value="voter" [(ngModel)]="user.role"> Voter
+						<input type="radio" name="userrole" value="candidate" [(ngModel)]="user.role"> Candidate
+						<input type="radio" name="userrole" value="partyhead" [(ngModel)]="user.role"> Party Head
+						<input type="radio" name="userrole" value="Admin" [(ngModel)]="user.role"> Election Official/Admin
 						<button class="btn btn-lg btn-primary btn-block" type="submit">
 							Sign up
 						</button>
