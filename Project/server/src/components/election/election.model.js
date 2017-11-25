@@ -1,11 +1,11 @@
 'use strict';
-let mongoose = require('mongoose');
-let Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 /**
  * @module  Election
  */
-let ElectionSchema = new Schema({
+var ElectionSchema = new Schema({
 	name: {
 		type: String,
 		required: true
@@ -15,25 +15,25 @@ let ElectionSchema = new Schema({
 		required: true
 	},
 	dateFrom: {
-		type: Date,
+		type: Date
 	},
 	dateTo: {
-		type: Date,
+		type: Date
 	},
 	isDistrictElections: {
-		type: Boolean,
+		type: Boolean
 	},
 	numberOfDistricts: {
-		type: Number,
+		type: Number
 	},
 	candidatesStrategy: {
-		type: String,
+		type: String
 	},
 	usersStrategy: {
-		type: String,
+		type: String
 	},
 	userObjectConditions: {
-		type: String,
+		type: String
 	},
 	candidates: [
 		{
@@ -68,7 +68,7 @@ let ElectionSchema = new Schema({
 	]
 });
 
-let electionModel = mongoose.model('election', ElectionSchema);
+var electionModel = mongoose.model('election', ElectionSchema);
 
 /**
  * Creates the election in the database
@@ -76,7 +76,7 @@ let electionModel = mongoose.model('election', ElectionSchema);
  * @param {Object<Election>}election
  * @returns {Query<Election, Error>} election
  */
-exports.create = (election) => {
+exports.create = function (election) {
 	return electionModel.create(election);
 };
 
@@ -87,7 +87,7 @@ exports.create = (election) => {
  * @param {Object<Election>} election
  * @returns {Query<Election, Error>} election
  */
-exports.update = (id, election) => {
+exports.update = function (id, election) {
 	return electionModel.findOneAndUpdate({
 		_id: id
 	}, election, {new: true});
@@ -99,7 +99,7 @@ exports.update = (id, election) => {
  * @param {string} id
  * @returns {Query<Election, Error>} election
  */
-exports.findById = (id) => {
+exports.findById = function (id) {
 	return electionModel.findOne({
 		_id: id
 	});
@@ -110,7 +110,7 @@ exports.findById = (id) => {
  * @api
  * @returns {Query<Election[], Error>} election
  */
-exports.find = () => {
+exports.find = function () {
 	return electionModel.find();
 };
 
@@ -120,7 +120,7 @@ exports.find = () => {
  * @param {string} userId
  * @returns {Query<Election[], Error>} election
  */
-exports.findUserElections = (userId) => {
+exports.findUserElections = function (userId) {
 	return electionModel.find({
 		$or: {
 			voters: {
@@ -140,7 +140,7 @@ exports.findUserElections = (userId) => {
  * @param {Query} query
  * @returns {Query} election
  */
-exports.expandCandidates = (query) => {
+exports.expandCandidates = function (query) {
 	return query.populate('candidates.candidateId');
 };
 

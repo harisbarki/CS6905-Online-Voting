@@ -1,71 +1,75 @@
 'use strict';
 const Election = require('./election.model');
 
-exports.getElections = (req, res) => {
-	let id = req.query['electionId'] ? req.query['electionId'] : '';
+exports.getElections = function (req, res) {
+	var id = req.query['electionId'] ? req.query['electionId'] : '';
 
-	let promise = id ? Election.expandCandidates(Election.findById(id)) : Election.expandCandidates(Election.find());
+	var promise = id ? Election.expandCandidates(Election.findById(id)) : Election.expandCandidates(Election.find());
 	promise.then(
-		(data) => {
-			let result = {
+		function (data) {
+			var result = {
 				statusCode: 200,
 				data: data
 			};
 			res.status(200).json(result);
 		},
-		(error) => {
+		function (error) {
 			console.error('error::getAll::election', error);
-			let errorResponse = {
+			var errorResponse = {
 				statusCode: 500,
-				message: `Oh uh, something went wrong`
+				message: "Oh uh, something went wrong"
 			};
 			res.status(errorResponse.statusCode).json(errorResponse)
 		}
-	).catch((err) => {
+	).catch(function (err) {
 		console.error(err);
-		let errorResponse = {
+		var errorResponse = {
 			statusCode: 500,
-			message: `Oh uh, something went wrong`
+			message: "Oh uh, something went wrong"
 		};
 		res.status(errorResponse.statusCode).json(errorResponse)
-	});
-};
+	})
+	;
+}
+;
 
-exports.create = (req, res) => {
-	Election.create(req.body).then((election) => {
-		let result = {
+exports.create = function (req, res) {
+	Election.create(req.body).then(function (election) {
+		var result = {
 			statusCode: 200,
 			data: election
 		};
 		res.status(200).json(result);
-	}).catch((err) => {
+	}).catch(function (err) {
 		console.error(err);
-		let errorResponse = {
+		var errorResponse = {
 			statusCode: 500,
-			message: `Oh uh, something went wrong`
+			message: "Oh uh, something went wrong"
 		};
 		res.status(errorResponse.statusCode).json(errorResponse)
-	});
-};
+	})
+	;
+}
+;
 
-exports.update = (req, res) => {
+exports.update = function (req, res) {
 	console.log(req.body);
-	Election.expandCandidates(Election.update(req.body['_id'], req.body)).then((election) => {
-		let result = {
+	Election.expandCandidates(Election.update(req.body['_id'], req.body)).then(function (election) {
+		var result = {
 			statusCode: 200,
 			data: election
 		};
 		res.status(200).json(result);
-	}).catch((err) => {
+	}).catch(function (err) {
 		console.error(err);
-		let errorResponse = {
+		var errorResponse = {
 			statusCode: 500,
-			message: `Oh uh, something went wrong`
+			message: "Oh uh, something went wrong"
 		};
 		res.status(errorResponse.statusCode).json(errorResponse)
 	});
 };
 
-exports.delete = (req, res) => {
+exports.devare = function (req, res) {
 	res.json({"data": "function not implemented yet"});
 };

@@ -1,11 +1,11 @@
-let mongoose = require('mongoose');
-let Schema = mongoose.Schema;
-let uniqueValidator = require('mongoose-unique-validator');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var uniqueValidator = require('mongoose-unique-validator');
 
 /**
  * @module  User
  */
-let User = new Schema({
+var User = new Schema({
 		email: {
 			type: String,
 			unique: true,
@@ -79,7 +79,7 @@ let User = new Schema({
 ;
 
 User.plugin(uniqueValidator);
-let userModel = mongoose.model('user', User);
+var userModel = mongoose.model('user', User);
 
 /**
  * Creates the user in the database
@@ -87,7 +87,7 @@ let userModel = mongoose.model('user', User);
  * @param {Object<User>} user
  * @returns {Query<User>} user
  */
-exports.create = (user) => {
+exports.create = function (user) {
 	return userModel.create(user);
 };
 
@@ -98,10 +98,10 @@ exports.create = (user) => {
  * @param {Object<User>} user
  * @returns {Query<User, Error>} user
  */
-exports.update = (user) => {
+exports.update = function (user) {
 	return userModel.findOneAndUpdate({
 		_id: user._id
-	}, user, { new: true });
+	}, user, {new: true});
 };
 
 /**
@@ -110,7 +110,7 @@ exports.update = (user) => {
  * @param {string} id
  * @returns {Query<User, Error>} user
  */
-exports.findById = (id) => {
+exports.findById = function (id) {
 	return userModel.findOne({
 		_id: id
 	});
@@ -122,7 +122,7 @@ exports.findById = (id) => {
  * @param {string} email
  * @returns {Query<User, Error>} user
  */
-exports.findByEmail = (email) => {
+exports.findByEmail = function (email) {
 	return userModel.findOne({
 		email: email
 	});
@@ -135,7 +135,7 @@ exports.findByEmail = (email) => {
  * @param {string} email
  * @returns {Query<User, Error>} user
  */
-exports.findUserByIdAndEmail = (id, email) => {
+exports.findUserByIdAndEmail = function (id, email) {
 	return userModel.findOne({
 		_id: id,
 		email: email

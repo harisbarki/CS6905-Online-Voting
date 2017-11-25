@@ -9,18 +9,22 @@
 	"candidatesStrategy": "predefined",
 	"usersStrategy": "registeredUsers",
 	"userObjectConditions": "",
-	"candidates": [
+	"districts": [
 		{
-			"candidateId": 234455,
-			"numOfVotes": 123,
-			"isApproved": false
-		}
-	],
-	"voters": [
-		{
-			"voterId": 234455,
-			"hasVoted": false,
-			"votedFor": 3456634
+			"candidates": [
+				{
+					"candidateId": 234455,
+					"numOfVotes": 123,
+					"isApproved": false
+				}
+			],
+			"voters": [
+				{
+					"voterId": 234455,
+					"hasVoted": false,
+					"votedFor": 3456634
+				}
+			]
 		}
 	]
 }

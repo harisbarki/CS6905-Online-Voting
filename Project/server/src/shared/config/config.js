@@ -1,5 +1,5 @@
-let config = module.exports;
-let PRODUCTION = process.env.NODE_ENV === 'production';
+var config = module.exports;
+var PRODUCTION = process.env.NODE_ENV === 'production';
 
 config.express = {
 	port: process.env.PORT || '3000',
