@@ -9,11 +9,6 @@
 	"candidatesStrategy": "predefined",
 	"usersStrategy": "registeredUsers",
 	"userObjectConditions": "",
-	
-	"election_for":"citizen",
-	"election_DistDepot":"St.John's",
-	
-	
 	"districts": [
 		{
 			"candidates": [
