@@ -4,13 +4,21 @@
 	"winningStrategy": "Winner Takes All",
 	"dateFrom": "Thu Oct 13 2017 00:00:00 GMT-0230 (Newfoundland Daylight Time)",
 	"dateTo": "Thu Oct 31 2018 00:00:00 GMT-0230 (Newfoundland Daylight Time)",
+	"nominationCloseDate": "Thu Oct 31 2018 00:00:00 GMT-0230 (Newfoundland Daylight Time)",
 	"isDistrictElections": true,
-	"numberOfDistricts": 5,
+	"numberOfDistricts": 1,
 	"candidatesStrategy": "predefined",
 	"usersStrategy": "registeredUsers",
 	"userObjectConditions": "",
+	"resultStrategy": "liveResults",
+	"electionFrozen": false,
 	"districts": [
-		{
+	{
+			"districtFrozen": false,
+			"name": "St. John's",
+			"latitude": 47.5743435,
+			"longitude": -52.73546,
+			"helpDocumentHTML": "<h4>Hello There</h4>",
 			"candidates": [
 				{
 					"candidateId": 234455,
