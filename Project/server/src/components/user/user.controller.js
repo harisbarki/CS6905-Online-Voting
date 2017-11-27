@@ -10,7 +10,7 @@ exports.create = (req, res) => {
 
 	// regex for email test
 	if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(req.body.email)) {
-		let user = req.body;
+		var user = req.body;
 		user.createdAt = new Date();
 		user.modifiedAt = new Date();
 		user.lastActiveAt = new Date();
@@ -18,7 +18,7 @@ exports.create = (req, res) => {
 			res.status(200).json(generateUserJson(user));
 		}).catch((err) => {
 			console.error(err);
-			let errorResponse = {
+			var errorResponse = {
 				statusCode: 500,
 				message: `Oh uh, something went wrong`
 			};
@@ -29,7 +29,7 @@ exports.create = (req, res) => {
 			res.status(errorResponse.statusCode).json(errorResponse)
 		});
 	} else {
-		let errorResponse = {
+		var errorResponse = {
 			statusCode: 412,
 			message: `Email not valid`
 		};
@@ -40,7 +40,7 @@ exports.create = (req, res) => {
 exports.createIfNotExists = (req, res) => {
 	// regex for email test
 	if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(req.body.email)) {
-		let user = req.body;
+		var user = req.body;
 		User.findByEmail(user.email).then((user) => {
 			res.status(200).json(generateUserJson(user));
 		}).catch((err) => {
@@ -53,7 +53,7 @@ exports.createIfNotExists = (req, res) => {
 				res.status(200).json(generateUserJson(user));
 			}).catch((err) => {
 				console.error(err);
-				let errorResponse = {
+				var errorResponse = {
 					statusCode: 500,
 					message: `Oh uh, something went wrong`
 				};
@@ -62,7 +62,7 @@ exports.createIfNotExists = (req, res) => {
 		});
 	}
 	else {
-		let errorResponse = {
+		var errorResponse = {
 			statusCode: 412,
 			message: `Email not valid`
 		};
@@ -81,23 +81,23 @@ exports.login = (req, res) => {
 				// update last login here
 				updateLoginTime(user._id);
 			} else {
-				let errorResponse = {statusCode: 500, message: `Oh uh, something went wrong`};
+				var errorResponse = {statusCode: 500, message: `Oh uh, something went wrong`};
 				res.status(errorResponse.statusCode).json(errorResponse);
 			}
 		}
 	}).catch((err) => {
 		console.error(err);
-		let errorResponse = {statusCode: 500, message: `Oh uh, something went wrong`};
+		var errorResponse = {statusCode: 500, message: `Oh uh, something went wrong`};
 		res.status(errorResponse.statusCode).json(errorResponse);
 	});
 };
 
 exports.update = (req, res) => {
-	let newUser = req.body;
+	var newUser = req.body;
 	Jwt.verify(newUser.token, privateKey, (err, decoded) => {
 		if (err) {
 			console.error(err);
-			let errorResponse = {statusCode: 500, message: `Oh uh, something went wrong`};
+			var errorResponse = {statusCode: 500, message: `Oh uh, something went wrong`};
 			res.status(errorResponse.statusCode).json(errorResponse);
 		}
 		else {
@@ -117,20 +117,20 @@ exports.update = (req, res) => {
 						res.status(200).json(generateUserJson(updatedUser));
 					}).catch((err) => {
 						console.error(err);
-						let errorResponse = {statusCode: 500, message: `Oh uh, something went wrong`};
+						var errorResponse = {statusCode: 500, message: `Oh uh, something went wrong`};
 						res.status(errorResponse.statusCode).json(errorResponse);
 					});
 				}
 			}).catch((err) => {
 				console.error('updateErr', err);
-				let errorResponse = {statusCode: 500, message: `Oh uh, something went wrong`};
+				var errorResponse = {statusCode: 500, message: `Oh uh, something went wrong`};
 				res.status(errorResponse.statusCode).json(errorResponse);
 			});
 		}
 	})
 };
 
-let updateLoginTime = (_id) => {
+var updateLoginTime = (_id) => {
 	User.findById(_id).then((user) => {
 		user.lastActiveAt = new Date();
 		User.update(user).then((updatedUser) => {
@@ -138,8 +138,8 @@ let updateLoginTime = (_id) => {
 	});
 };
 
-let generateUserJson = (user) => {
-	let tokenData = {
+var generateUserJson = (user) => {
+	var tokenData = {
 		email: user.email,
 		id: user._id
 	};

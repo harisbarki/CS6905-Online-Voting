@@ -1,11 +1,11 @@
-let fs = require('fs');
+var fs = require('fs');
 const path = require("path");
 
-let usersRoutes = require('./user/user.routes');
-let electionRoutes = require('./election/election.routes');
-let contactUsRoutes = require('./contact-us/contact-us.routes');
+var usersRoutes = require('./user/user.routes');
+var electionRoutes = require('./election/election.routes');
+var contactUsRoutes = require('./contact-us/contact-us.routes');
 
-let clientPath = '../../client_dist/index.html';
+var clientPath = '../../client_dist/index.html';
 
 module.exports = function(app) {
 
