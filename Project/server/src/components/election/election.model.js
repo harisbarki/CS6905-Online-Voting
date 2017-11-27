@@ -26,6 +26,9 @@ var ElectionSchema = new Schema({
 	candidatesStrategy: String,
 	usersStrategy: String,
 	userObjectConditions: String,
+	resultsStrategy: String,
+	resultsReleased: Boolean,
+	resultsReleaseDate: Date,
 	electionFrozen: {
 		type: Boolean,
 		default: false
