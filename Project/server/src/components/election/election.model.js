@@ -17,6 +17,10 @@ var ElectionSchema = new Schema({
 	dateFrom: Date,
 	dateTo: Date,
 	nominationCloseDate: Date,
+	previousRound: {
+		type: Schema.ObjectId,
+		ref: 'election'
+	},
 	isDistrictElections: Boolean,
 	numberOfDistricts: Number,
 	candidatesStrategy: String,
@@ -70,7 +74,7 @@ var ElectionSchema = new Schema({
 	modifiedAt: {
 		type: Date,
 		default: Date.now()
-	},
+	}
 });
 
 var electionModel = mongoose.model('election', ElectionSchema);

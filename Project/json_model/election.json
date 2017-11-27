@@ -5,6 +5,7 @@
 	"dateFrom": "Thu Oct 13 2017 00:00:00 GMT-0230 (Newfoundland Daylight Time)",
 	"dateTo": "Thu Oct 31 2018 00:00:00 GMT-0230 (Newfoundland Daylight Time)",
 	"nominationCloseDate": "Thu Oct 31 2018 00:00:00 GMT-0230 (Newfoundland Daylight Time)",
+	"previousRound": 235776,
 	"isDistrictElections": true,
 	"numberOfDistricts": 1,
 	"candidatesStrategy": "predefined",
