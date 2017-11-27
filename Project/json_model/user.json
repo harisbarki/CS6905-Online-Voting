@@ -6,6 +6,12 @@
 	"address": "123 st street",
 	"password": "$#2a#3asfdfdsfdsfdfsdfdsfdfs",
 	"role": "electionOfficer",
+	
+	
+	"user_type":"citizen",
+	"user_DistDepot":"St.John's",
+	
+	
 	"securityQuestions": [
 		{
 			"question": "when were you born?",
