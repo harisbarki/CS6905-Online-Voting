@@ -14,58 +14,63 @@ var ElectionSchema = new Schema({
 		type: String,
 		required: true
 	},
-	dateFrom: {
-		type: Date
+	dateFrom: Date,
+	dateTo: Date,
+	nominationCloseDate: Date,
+	isDistrictElections: Boolean,
+	numberOfDistricts: Number,
+	candidatesStrategy: String,
+	usersStrategy: String,
+	userObjectConditions: String,
+	electionFrozen: {
+		type: Boolean,
+		default: false
 	},
-	dateTo: {
-		type: Date
-	},
-	isDistrictElections: {
-		type: Boolean
-	},
-	numberOfDistricts: {
-		type: Number
-	},
-	candidatesStrategy: {
-		type: String
-	},
-	usersStrategy: {
-		type: String
-	},
-	userObjectConditions: {
-		type: String
-	},
-	candidates: [
+	districts: [
 		{
-			_id: false,
-			candidateId: {
-				type: Schema.ObjectId,
-				ref: 'user'
+			districtFrozen: {
+				type: Boolean,
+				default: false
 			},
-			numOfVotes: {
-				type: Number
-			},
-			isApproved: {
-				type: String
-			}
+			name: String,
+			latitude: Number,
+			longitude: Number,
+			helpDocumentHTML: String,
+			candidates: [
+				{
+					_id: false,
+					candidateId: {
+						type: Schema.ObjectId,
+						ref: 'user'
+					},
+					numOfVotes: Number,
+					isApproved: String
+				}
+			],
+			voters: [
+				{
+					_id: false,
+					voterId: {
+						type: Schema.ObjectId,
+						ref: 'user'
+					},
+					hasVoted: Boolean,
+					votedFor: {
+						type: Schema.ObjectId,
+						ref: 'user'
+					}
+				}
+			]
 		}
 	],
-	voters: [
-		{
-			_id: false,
-			voterId: {
-				type: Schema.ObjectId,
-				ref: 'user'
-			},
-			hasVoted: {
-				type: Boolean
-			},
-			votedFor: {
-				type: Schema.ObjectId,
-				ref: 'user'
-			}
-		}
-	]
+	createdAt: {
+		type: Date,
+		default: Date.now()
+	},
+	modifiedAt: {
+		type: Date,
+		default: Date.now()
+	},
 });
 
 var electionModel = mongoose.model('election', ElectionSchema);
