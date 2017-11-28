@@ -8,17 +8,17 @@
 	"previousRound": 235776,
 	"isDistrictElections": true,
 	"numberOfDistricts": 1,
-	"candidatesStrategy": "predefined",
+	"candidatesStrategy": "predefined",	// predefined or nomination
 	"usersStrategy": "registeredUsers",
 	"userObjectConditions": "",
-	"resultStrategy": "liveResults",
+	"resultStrategy": "liveResults",	// liveResults or officialRelease (button pressed for releasing) or releaseDate
 	"resultsReleased": false,
 	"resultsReleaseDate": "Thu Oct 31 2018 00:00:00 GMT-0230 (Newfoundland Daylight Time)",
 	"electionFrozen": false,
 	"partyHeads": [
 		{
-			"partyHeadId": 123478,
-			"partyName": "NDP"
+			"_id": 123478,
+			"name": "NDP"
 		}
 	],
 	"districts": [
@@ -30,7 +30,7 @@
 			"helpDocumentHTML": "<h4>Hello There</h4>",
 			"candidates": [
 				{
-					"candidateId": 234455,
+					"_id": 234455,
 					"partyName": "NDP",
 					"numOfVotes": 123,
 					"isApproved": false
@@ -38,7 +38,7 @@
 			],
 			"voters": [
 				{
-					"voterId": 234455,
+					"_id": 234455,
 					"hasVoted": false,
 					"votedFor": 3456634
 				}
