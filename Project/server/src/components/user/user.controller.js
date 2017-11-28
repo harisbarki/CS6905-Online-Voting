@@ -9,7 +9,7 @@ exports.create = function (req, res) {
 	req.body.password = UserService.encrypt(req.body.password);
 
 	// regex for email test
-	if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(req.body.email)) {
+	// if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(req.body.email)) {
 		var user = req.body;
 		user.createdAt = new Date();
 		user.modifiedAt = new Date();
@@ -28,18 +28,18 @@ exports.create = function (req, res) {
 			}
 			res.status(errorResponse.statusCode).json(errorResponse)
 		});
-	} else {
-		var errorResponse = {
-			statusCode: 412,
-			message: "Email not valid"
-		};
-		res.status(errorResponse.statusCode).json(errorResponse);
-	}
+	// } else {
+	// 	var errorResponse = {
+	// 		statusCode: 412,
+	// 		message: "Email not valid"
+	// 	};
+	// 	res.status(errorResponse.statusCode).json(errorResponse);
+	// }
 };
 
 exports.createIfNotExists = function (req, res) {
 	// regex for email test
-	if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(req.body.email)) {
+	// if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(req.body.email)) {
 		var user = req.body;
 		User.findByEmail(user.email).then(function (user) {
 			res.status(200).json(generateUserJson(user));
@@ -60,14 +60,14 @@ exports.createIfNotExists = function (req, res) {
 				res.status(errorResponse.statusCode).json(errorResponse)
 			});
 		});
-	}
-	else {
-		var errorResponse = {
-			statusCode: 412,
-			message: "Email not valid"
-		};
-		res.status(errorResponse.statusCode).json(errorResponse);
-	}
+	// }
+	// else {
+	// 	var errorResponse = {
+	// 		statusCode: 412,
+	// 		message: "Email not valid"
+	// 	};
+	// 	res.status(errorResponse.statusCode).json(errorResponse);
+	// }
 };
 
 exports.login = function (req, res) {
