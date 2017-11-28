@@ -15,6 +15,12 @@
 	"resultsReleased": false,
 	"resultsReleaseDate": "Thu Oct 31 2018 00:00:00 GMT-0230 (Newfoundland Daylight Time)",
 	"electionFrozen": false,
+	"partyHeads": [
+		{
+			"partyHeadId": 123478,
+			"partyName": "NDP"
+		}
+	],
 	"districts": [
 	{
 			"districtFrozen": false,
@@ -25,6 +31,7 @@
 			"candidates": [
 				{
 					"candidateId": 234455,
+					"partyName": "NDP",
 					"numOfVotes": 123,
 					"isApproved": false
 				}

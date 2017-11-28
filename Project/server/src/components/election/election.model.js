@@ -33,6 +33,16 @@ var ElectionSchema = new Schema({
 		type: Boolean,
 		default: false
 	},
+	partyHeads: [
+		{
+			_id: false,
+			partyHeadId: {
+				type: Schema.ObjectId,
+				ref: 'user'
+			},
+			partyName: String
+		}
+	],
 	districts: [
 		{
 			districtFrozen: {
@@ -50,6 +60,7 @@ var ElectionSchema = new Schema({
 						type: Schema.ObjectId,
 						ref: 'user'
 					},
+					partyName: String,
 					numOfVotes: Number,
 					isApproved: String
 				}
