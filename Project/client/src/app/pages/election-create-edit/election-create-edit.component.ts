@@ -11,6 +11,8 @@ import {Subscription} from 'rxjs/Subscription';
 })
 export class ElectionCreateEditComponent implements OnInit, OnDestroy {
 
+	loginSubscription: any;
+	user: User;
 	election: Election;
 	editElectionMode: boolean;
 	loadingData: boolean;
@@ -31,6 +33,13 @@ export class ElectionCreateEditComponent implements OnInit, OnDestroy {
 		this.election.nominationCloseDate = new Date(currentDate.toDateString());
 		this.election.resultsReleaseDate = new Date(currentDate.toDateString());
 		this.errorMessage = '';
+
+		this.loginSubscription = userService.loggedInChange.subscribe((value) => {
+			this.user = this.userService.loggedInUser;
+			if (this.user.role !== this.user.USER_ROLES.ELECTION_OFFICIAL) {
+				this.router.navigate(['/dashboard']);
+			}
+		});
 	}
 
 	ngOnInit() {
@@ -62,6 +71,7 @@ export class ElectionCreateEditComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		// cleanup
 		this.paramSubscription.unsubscribe();
+		this.loginSubscription.unsubscribe();
 	}
 
 	async onSubmit() {

@@ -1,18 +1,30 @@
 <div class="app-loading-img" *ngIf="loadingData"></div>
-
+<br>
+<br>
+<br>
+<div align="center">
+	<button class="btn btn-success" (click)="automaticLogin('electionOfficial')">Login as admin</button>
+	<button class="btn btn-success" (click)="automaticLogin('partyHead')">Login as party head</button>
+	<button class="btn btn-success" (click)="automaticLogin('candidate')">Login as candidate</button>
+	<button class="btn btn-success" (click)="automaticLogin('voter')">Login as voter</button>
+</div>
 <div class="app-center">
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-6 col-md-4 col-md-offset-4">
 				<div class="account-wall">
-					<div class="alert alert-danger" style="margin: 0 30px 0 30px" *ngIf="errorMessage">{{errorMessage}}</div>
-					<h1 class="text-center login-title"><strong>Voting System</strong></h1>
-					<h1 class="text-center login-title">Login</h1>
-					<br>
-					<img class="profile-img" src="assets/logo.svg" alt="">
 					<form class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-						<input type="text" class="form-control" placeholder="Email" required autofocus tabindex="1" [(ngModel)]="user.email" name="email">
-						<input type="password" class="form-control" placeholder="Password" required tabindex="2" [(ngModel)]="user.password" name="password">
+						<div class="alert alert-danger" style="margin: 0 30px 0 30px" *ngIf="errorMessage">
+							{{errorMessage}}
+						</div>
+						<h1 class="text-center login-title"><strong>Voting System</strong></h1>
+						<h1 class="text-center login-title">Login</h1>
+						<br>
+						<img class="profile-img" src="assets/logo.svg" alt="">
+						<input type="text" class="form-control" placeholder="Email" required autofocus tabindex="1"
+						       [(ngModel)]="user.email" name="email">
+						<input type="password" class="form-control" placeholder="Password" required tabindex="2"
+						       [(ngModel)]="user.password" name="password">
 						<button class="btn btn-lg btn-primary btn-block" type="submit" tabindex="3">
 							Sign in
 						</button>
@@ -21,8 +33,8 @@
 							Remember me
 						</label>
 						<a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
+						<a [routerLink]="['/register']" class="text-center new-account">Create an account </a>
 					</form>
-					<a [routerLink]="['/register']" class="text-center new-account">Create an account </a>
 				</div>
 			</div>
 		</div>

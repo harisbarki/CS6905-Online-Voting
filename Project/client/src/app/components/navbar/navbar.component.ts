@@ -13,6 +13,7 @@ export class NavbarComponent implements OnDestroy {
 	loggedIn: boolean;
 	user: User;
 	loginSubscription: any;
+	selectedRole: string;
 
 	constructor(private router: Router, private userService: UserService) {
 
@@ -31,6 +32,33 @@ export class NavbarComponent implements OnDestroy {
 	logout() {
 		this.userService.logout();
 		this.router.navigate(['/']);
+	}
+
+
+	login() {
+		console.log(this.user);
+		this.userService.login(this.user).then((user) => {
+			console.log(user);
+			this.router.navigate([this.router.url]);
+		}).catch((err) => {
+		});
+	}
+
+	automaticLogin() {
+		const loginAs = this.selectedRole;
+		const user = new User();
+		user.password = 'test';
+		if (loginAs === 'electionOfficial') {
+			user.email = 'admin';
+		} else if (loginAs === 'partyHead') {
+			user.email = 'head1';
+		} else if (loginAs === 'candidate') {
+			user.email = 'candidate1';
+		} else if (loginAs === 'voter') {
+			user.email = 'voter1';
+		}
+		this.user = user;
+		this.login();
 	}
 
 }

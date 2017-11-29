@@ -10,6 +10,7 @@ import {Subscription} from 'rxjs/Subscription';
 })
 export class ElectionDetailsComponent implements OnInit, OnDestroy {
 	user: User;
+	loginSubscription: any;
 	nominee: Candidate;
 	userVotedAlready: boolean;
 	userVotedFor: {};
@@ -51,6 +52,11 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 		this.partyNames = [];
 		this.totalNumberOfVotes = 0;
 		this.errorMessage = '';
+
+
+		this.loginSubscription = this.userService.loggedInChange.subscribe((value) => {
+			this.user = this.userService.loggedInUser;
+		});
 	}
 
 	ngOnInit() {
@@ -122,6 +128,7 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		// cleanup
 		this.paramSubscription.unsubscribe();
+		this.loginSubscription.unsubscribe();
 	}
 
 	voteForCandidate(candidate: Candidate, district: District) {

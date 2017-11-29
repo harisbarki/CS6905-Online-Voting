@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {Election, ElectionService, User, UserService} from '../../services';
@@ -8,9 +8,10 @@ import {Election, ElectionService, User, UserService} from '../../services';
 	templateUrl: './dashboard.component.html',
 	styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
 	user: User;
+	loginSubscription: any;
 	loadingData: boolean;
 	elections: Election[];
 	currentElections: Election[];
@@ -18,6 +19,13 @@ export class DashboardComponent implements OnInit {
 	pastElections: Election[];
 
 	constructor(private router: Router, private electionService: ElectionService, private userService: UserService) {
+		this.loginSubscription = userService.loggedInChange.subscribe((value) => {
+			this.user = this.userService.loggedInUser;
+		});
+	}
+
+	ngOnDestroy() {
+		this.loginSubscription.unsubscribe();
 	}
 
 	ngOnInit() {

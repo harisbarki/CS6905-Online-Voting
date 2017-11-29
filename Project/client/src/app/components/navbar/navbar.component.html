@@ -18,6 +18,16 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li *ngIf="!loggedIn"><a class="nav-link" [routerLink]="['/login']" routerLinkActive="active">Login</a></li>
 				<li *ngIf="!loggedIn"><a class="nav-link" [routerLink]="['/register']" routerLinkActive="active">Registration</a></li>
+				<li *ngIf="loggedIn">
+					<a class="nav-link">
+						<select class="form-control nav-link" [(ngModel)]="selectedRole" (change)="automaticLogin()">
+							<option value="electionOfficial">Admin</option>
+							<option value="partyHead">Party Head</option>
+							<option value="candidate">Candidate</option>
+							<option value="voter">Voter</option>
+						</select>
+					</a>
+				</li>
 				<li *ngIf="loggedIn"><a class="nav-link" [routerLink]="['/dashboard']" routerLinkActive="active">Dashboard</a></li>
 				<li *ngIf="loggedIn && user.role == user.USER_ROLES.ELECTION_OFFICIAL"><a class="nav-link" [routerLink]="['/election/create']" routerLinkActive="active">Create Election</a></li>
 				<li *ngIf="loggedIn" class="dropdown">
