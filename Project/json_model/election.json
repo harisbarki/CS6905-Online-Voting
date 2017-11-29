@@ -23,11 +23,11 @@
 	],
 	"districts": [
 	{
-			"districtFrozen": false,
 			"name": "St. John's",
 			"latitude": 47.5743435,
 			"longitude": -52.73546,
 			"helpDocumentHTML": "<h4>Hello There</h4>",
+			"districtFrozen": false,
 			"candidates": [
 				{
 					"_id": 234455,

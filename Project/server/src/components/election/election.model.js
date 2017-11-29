@@ -1,4 +1,3 @@
-'use strict';
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -35,28 +34,27 @@ var ElectionSchema = new Schema({
 	},
 	partyHeads: [
 		{
-			_id: false,
-			partyHeadId: {
+			_id: {
 				type: Schema.ObjectId,
 				ref: 'user'
 			},
+			email: String,
 			partyName: String
 		}
 	],
 	districts: [
 		{
-			districtFrozen: {
-				type: Boolean,
-				default: false
-			},
 			name: String,
 			latitude: Number,
 			longitude: Number,
 			helpDocumentHTML: String,
+			districtFrozen: {
+				type: Boolean,
+				default: false
+			},
 			candidates: [
 				{
-					_id: false,
-					candidateId: {
+					_id: {
 						type: Schema.ObjectId,
 						ref: 'user'
 					},
@@ -67,8 +65,7 @@ var ElectionSchema = new Schema({
 			],
 			voters: [
 				{
-					_id: false,
-					voterId: {
+					_id: {
 						type: Schema.ObjectId,
 						ref: 'user'
 					},
@@ -154,6 +151,17 @@ exports.findUserElections = function (userId) {
 			}
 		}
 	});
+};
+
+/**
+ * Expand the voters
+ * @example findById(id).expandCandidates()
+ * @api
+ * @param {Query} query
+ * @returns {Query} election
+ */
+exports.expandVoters = function (query) {
+	return query.populate('districts.voters._id');
 };
 
 /**

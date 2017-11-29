@@ -4,7 +4,7 @@ const Election = require('./election.model');
 exports.getElections = function (req, res) {
 	var id = req.query['electionId'] ? req.query['electionId'] : '';
 
-	var promise = id ? Election.expandCandidates(Election.findById(id)) : Election.expandCandidates(Election.find());
+	var promise = id ? Election.expandVoters(Election.expandCandidates(Election.findById(id))) : Election.expandVoters(Election.expandCandidates(Election.find()));
 	promise.then(
 		function (data) {
 			var result = {
