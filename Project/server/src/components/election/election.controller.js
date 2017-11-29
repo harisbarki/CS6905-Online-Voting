@@ -70,6 +70,6 @@ exports.update = function (req, res) {
 	});
 };
 
-exports.devare = function (req, res) {
+exports.delete = function (req, res) {
 	res.json({"data": "function not implemented yet"});
 };

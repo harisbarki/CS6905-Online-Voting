@@ -13,7 +13,7 @@
 								<div class="col-md-12 box-inner-title">
 									<h4><strong>General</strong></h4>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-12">
 									<strong>Name: </strong> {{election?.name}}
 									<br>
 									<strong>Winning Strategy: </strong> {{election.winningStrategy}}
@@ -22,10 +22,11 @@
 									<br>
 									<strong>To: </strong> {{election.dateTo | date}}
 									<br>
-									<strong>District Elections? </strong> {{election.isDistrictElections}}
-									<span *ngIf="election.isDistrictElections">
-										<br>
-										<strong>Number of districts: </strong> {{election.isDistrictElections}}
+									<strong>Nomination Close Date: </strong> {{election.nominationCloseDate | date}}
+									<br>
+									<strong>Parties Participating: </strong>
+									<span *ngFor="let partyHead of election.partyHeads">
+										{{partyHead.partyName}}
 									</span>
 								</div>
 							</div>
@@ -33,10 +34,15 @@
 
 							<div class="row" style="margin-top: 15px;">
 								<div class="col-md-12 box-inner-title">
-									<h4><strong>Candidates</strong></h4>
+									<h4><strong>Districts and Divisions</strong></h4>
 								</div>
 								<div class="col-md-6">
 									<strong>Candidate Strategy? </strong> {{election.candidatesStrategy}}
+									<br>
+									<strong>Number of Users Voted: </strong>
+									<span style="font-size: larger; font-weight: 900; color: #009688">
+										{{totalNumberOfVotes}}
+									</span>
 								</div>
 								<div class="col-md-12" *ngIf="userVotedAlready">
 									<br>
@@ -56,90 +62,107 @@
 									<br>
 									<br>
 								</div>
+
+
 								<div class="col-md-12">
-									<span class="pull-right"><strong>Number of Users Voted: </strong>
-										<span style="font-size: larger; font-weight: 900; color: #009688">
-											{{totalNumberOfVotes}}
-										</span>
-									</span>
-									<h4>Current Candidates</h4>
-									<table class="table table-bordered table-striped table-hover">
-										<thead>
-										<tr>
-											<td><strong>Name</strong></td>
-											<td><strong>Email</strong></td>
-											<td><strong>Approval</strong></td>
-											<td *ngIf="currentElection" style="width: 57px"><strong>Vote *</strong></td>
-										</tr>
-										</thead>
-										<tbody>
-										<tr *ngFor="let candidate of election.candidates"
-										    [ngClass]="candidate.isApproved === 'approved' ? 'success' : candidate.isApproved === 'pending' ? 'warning' : 'danger'">
-											<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?.candidateId?._id? 800: 300 }">
-												{{candidate?.candidateId?.name}}
-											</td>
-											<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?.candidateId?._id? 800: 300 }">
-												{{candidate.candidateId?.email}}
-											</td>
-											<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?.candidateId?._id? 800: 300 }">
-												{{candidate.isApproved}}
-												<span
-													*ngIf="(candidate.isApproved === 'pending' || candidate.isApproved === 'rejected') && user.role == user.USER_ROLES.ELECTION_OFFICIAL"
-													style="padding-left: 14px">
-													<button class="btn btn-success btn-xs"
-													        (click)="approveOrReject('approved', candidate, election)">Approve</button>
-													<button *ngIf="candidate.isApproved !== 'rejected'"
-													        class="btn btn-danger btn-xs"
-													        (click)="approveOrReject('rejected', candidate, election)">Reject</button>
-												</span>
-											</td>
-											<td *ngIf="currentElection">
-												<i class="fa fa-check-circle fa-lg"
-												   style="font-weight: 800; color: #009688"
-												   *ngIf="userVotedFor?._id === candidate?.candidateId?._id && !changeVote">
-												</i>
-												<button
-													*ngIf="(!userVotedAlready || changeVote) && candidate.isApproved == 'approved'"
-													class="btn btn-primary btn-xs"
-													(click)="voteForCandidate(candidate, election)">
-													<strong>Vote</strong></button>
-											</td>
-										</tr>
-										</tbody>
-									</table>
-									<small>* Candidate needs to be approved before vote can be casted to that
-										candidate.
-									</small>
 									<br>
-									<hr>
-									<h4>Nomination</h4>
-									<form #nominationForm="ngForm" (ngSubmit)="nominateCandidate(nominationForm)">
-										<div class="row">
-											<div class="col-md-4">
-												<input type="text" class="form-control" placeholder="Name" required
-												       [(ngModel)]="nominee.name" name="name"
-												       autofocus>
-											</div>
-											<div class="col-md-4">
-												<input type="email" class="form-control" placeholder="Email" required
-												       [(ngModel)]="nominee.email" name="email"
-												       pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$">
-											</div>
-											<div class="col-md-4">
-												<button class="btn btn-danger" type="submit"
-												        (click)="nominateCandidate(election)"
-												        [disabled]="nominationForm.invalid"
-												        *ngIf="election.candidatesStrategy == 'nomination'">
-													Nominate a candidate
-												</button>
-												<button class="btn btn-danger" type="submit"
-												        *ngIf="election.candidatesStrategy == 'predefined' && user.role == user.USER_ROLES.ELECTION_OFFICIAL"
-												        [disabled]="nominationForm.invalid">
-													Add a candidate
-												</button>
-											</div>
+									<fieldset *ngFor="let district of election.districts"
+									          style="border: solid medium #7f7f7f;">
+										<div class="col-md-12 box-inner-title" style="background-color: #7f7f7f">
+											<h4><strong>{{district.name}}</strong></h4>
 										</div>
-									</form>
+										<!--<strong>District Name: </strong> -->
+										<br>
+										<div style="padding: 20px">
+											<h4>Current Candidates</h4>
+											<table class="table table-bordered table-striped table-hover">
+												<thead>
+												<tr>
+													<td><strong>Name</strong></td>
+													<td><strong>Email</strong></td>
+													<td><strong>Approval</strong></td>
+													<td *ngIf="currentElection" style="width: 57px"><strong>Vote
+														*</strong></td>
+												</tr>
+												</thead>
+												<tbody>
+												<tr *ngFor="let candidate of district.candidates"
+												    [ngClass]="candidate.isApproved === 'approved' ? 'success' : candidate.isApproved === 'pending' ? 'warning' : 'danger'">
+													<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?.candidateId?._id? 800: 300 }">
+														{{candidate?.candidateId?.name}}
+													</td>
+													<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?.candidateId?._id? 800: 300 }">
+														{{candidate.candidateId?.email}}
+													</td>
+													<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?.candidateId?._id? 800: 300 }">
+														{{candidate.isApproved}}
+														<span
+															*ngIf="(candidate.isApproved === 'pending' || candidate.isApproved === 'rejected') && user.role == user.USER_ROLES.ELECTION_OFFICIAL"
+															style="padding-left: 14px">
+														<button class="btn btn-success btn-xs"
+														        (click)="approveOrReject('approved', candidate, election)">Approve</button>
+														<button *ngIf="candidate.isApproved !== 'rejected'"
+														        class="btn btn-danger btn-xs"
+														        (click)="approveOrReject('rejected', candidate, election)">Reject</button>
+													</span>
+													</td>
+													<td *ngIf="currentElection">
+														<i class="fa fa-check-circle fa-lg"
+														   style="font-weight: 800; color: #009688"
+														   *ngIf="userVotedFor?._id === candidate?.candidateId?._id && !changeVote">
+														</i>
+														<button
+															*ngIf="(!userVotedAlready || changeVote) && candidate.isApproved == 'approved'"
+															class="btn btn-primary btn-xs"
+															(click)="voteForCandidate(candidate, election)">
+															<strong>Vote</strong></button>
+													</td>
+												</tr>
+												</tbody>
+											</table>
+											<small>* Candidate needs to be approved before vote can be casted to that
+												candidate.
+											</small>
+											<br>
+											<hr>
+											<h4>Nomination</h4>
+											<form #nominationForm="ngForm"
+											      (ngSubmit)="nominateCandidate(nominationForm)">
+												<div class="row">
+													<div class="col-md-4">
+														<input type="text" class="form-control" placeholder="Name"
+														       required
+														       [(ngModel)]="nominee.name" name="name"
+														       autofocus>
+													</div>
+													<div class="col-md-4">
+														<input type="email" class="form-control" placeholder="Email"
+														       required
+														       [(ngModel)]="nominee.email" name="email"
+														       pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$">
+													</div>
+													<div class="col-md-4">
+														<button class="btn btn-danger" type="submit"
+														        (click)="nominateCandidate(election)"
+														        [disabled]="nominationForm.invalid"
+														        *ngIf="election.candidatesStrategy == 'nomination'">
+															Nominate a candidate
+														</button>
+														<button class="btn btn-danger" type="submit"
+														        *ngIf="election.candidatesStrategy == 'predefined' && user.role == user.USER_ROLES.ELECTION_OFFICIAL"
+														        [disabled]="nominationForm.invalid">
+															Add a candidate
+														</button>
+													</div>
+												</div>
+											</form>
+											<br>
+											<br>
+
+											<strong>Help Text: </strong>
+											<div [innerHTML]="district.helpDocumentHTML"></div>
+										</div>
+									</fieldset>
 								</div>
 
 							</div>

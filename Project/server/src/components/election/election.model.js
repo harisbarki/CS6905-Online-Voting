@@ -172,6 +172,6 @@ exports.expandVoters = function (query) {
  * @returns {Query} election
  */
 exports.expandCandidates = function (query) {
-	return query.populate('candidates.candidateId');
+	return query.populate('districts.candidates._id');
 };
 
