@@ -58,6 +58,7 @@ export class District {
 	candidates: Candidate[];
 	tempVoters: string;
 	voters: Voter[];
+	winningCandidatesSorted: Candidate[];
 
 	constructor(district: District = {} as District) {
 		this._id = district._id;
@@ -68,6 +69,7 @@ export class District {
 		this.districtFrozen = district.districtFrozen;
 		this.candidates = district.candidates ? district.candidates : [];
 		this.voters = district.voters ? district.voters : [];
+		this.winningCandidatesSorted = district.winningCandidatesSorted ? district.winningCandidatesSorted : [];
 	}
 }
 

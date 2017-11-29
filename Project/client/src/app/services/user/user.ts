@@ -1,6 +1,7 @@
 export class User {
 	USER_ROLES = {
 		ELECTION_OFFICIAL: 'electionOfficial',
+		PARTY_HEAD: 'partyHead',
 		CANDIDATE: 'candidate',
 		VOTER: 'voter'
 	};

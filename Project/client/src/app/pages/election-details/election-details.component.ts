@@ -56,67 +56,20 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 
 		this.loginSubscription = this.userService.loggedInChange.subscribe((value) => {
 			this.user = this.userService.loggedInUser;
+			if(this.election) {
+				this.updateLocalVariables(this.election);
+			}
 		});
 	}
 
 	ngOnInit() {
 		this.loadingData = true;
 		this.user = this.userService.loggedInUser;
-		const currentDate = new Date();
 
 		this.paramSubscription = this.activatedRoute.params.subscribe(params => {
 			if (params['electionId']) {
 				this.electionService.findById(params['electionId']).then((election: Election) => {
-					if (election.dateFrom < currentDate && election.dateTo > currentDate) {
-						this.currentElection = true;
-					}
-
-					// release results?
-					if (election.resultsStrategy === 'liveResults'
-						|| election.resultsReleased
-						|| (election.resultsStrategy === 'selectedDate' && election.resultsReleaseDate <= currentDate)) {
-						this.releaseResults = true;
-					}
-
-					// Nomination Date passed?
-					if (election.nominationCloseDate >= currentDate) {
-						this.nominationsOpen = true;
-					}
-
-					// Can current user Nominate?
-					if (this.user.role === this.user.USER_ROLES.ELECTION_OFFICIAL || election.candidatesStrategy === 'nomination') {
-						this.currentUserCanNominate = true;
-					}
-
-					// is the user a party head? and also get all party names
-					for (let i = 0; i < election.partyHeads.length; i++) {
-						this.partyNames.push(election.partyHeads[i].partyName);
-						if (election.partyHeads[i].email === this.user.email) {
-							this.currentUserCanNominate = true;
-							this.currentUserPartyHead = true;
-							this.predefinedCandidatePartyName = election.partyHeads[i].partyName;
-							break;
-						}
-					}
-					// Select the first one as selected party
-					if (this.currentUserPartyHead) {
-						this.nominee.partyName = this.predefinedCandidatePartyName;
-					} else if (this.partyNames.length > 0) {
-						this.nominee.partyName = this.partyNames[0];
-					}
-
-					// is the user a candidate? TODO: Implement
-
-
-					console.log('electionComponent', this);
-					this.election = election;
-
-					console.log(this);
-					if (this.releaseResults) {
-						this.totalNumberOfVotesUpdate(election);
-					}
-					this.updateViewData(election);
-					this.loadingData = false;
+					this.updateLocalVariables(election);
 				});
 			} else {
 				this.loadingData = false;
@@ -175,16 +128,53 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 		const indexOfDistrict = this.election.districts.indexOf(district);
 		const indexOfCandidate = this.election.districts[indexOfDistrict].candidates.indexOf(candidate);
 		this.election.districts[indexOfDistrict].candidates[indexOfCandidate].isApproved = approval;
-		// update the database
+		this.updateCurrentElection();
+	}
+
+	updateCurrentElection() {
+		this.loadingData = true;
 		this.electionService.update(this.election).then((updatedElection: Election) => {
 			console.log('foreign updated one');
 			console.log(updatedElection);
 			this.election = updatedElection;
 			this.totalNumberOfVotesUpdate(updatedElection);
 			this.updateViewData(updatedElection);
+			this.updateLocalVariables(updatedElection);
 			this.changeVote = false;
-			this.loadingData = true;
+			this.loadingData = false;
 		});
+	}
+
+	freezeElection() {
+		this.election.electionFrozen = true;
+		this.updateCurrentElection();
+	}
+
+	unFreezeElection() {
+		this.election.electionFrozen = false;
+		this.updateCurrentElection();
+	}
+
+	freezeDistrict(district: District) {
+		const indexOfDistrict = this.election.districts.indexOf(district);
+		this.election.districts[indexOfDistrict].districtFrozen = true;
+		this.updateCurrentElection();
+	}
+
+	unFreezeDistrict(district: District) {
+		const indexOfDistrict = this.election.districts.indexOf(district);
+		this.election.districts[indexOfDistrict].districtFrozen = false;
+		this.updateCurrentElection();
+	}
+
+	releaseResultsNow() {
+		this.election.resultsReleased = true;
+		this.updateCurrentElection();
+	}
+
+	hideResultsNow() {
+		this.election.resultsReleased = false;
+		this.updateCurrentElection();
 	}
 
 	nominateCandidate(nomineeForm, district) {
@@ -211,7 +201,6 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 		if (!userAlreadyIsCandidate) {
 			this.userService.createIfNotExists(nominee).then((registeredUser: User) => {
 				if (registeredUser) {
-					const indexOfDistrict = this.election.districts.indexOf(district);
 
 					const candidate = {
 						_id: registeredUser._id,
@@ -225,24 +214,29 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 						votedFor: null
 					};
 
+					const indexOfDistrict = this.election.districts.indexOf(district);
 					this.election.districts[indexOfDistrict].candidates.push(candidate);
 					this.election.districts[indexOfDistrict].voters.push(voter);
 					// update the database
-					this.electionService.update(this.election).then((updatedElection: Election) => {
-						console.log('foreign updated one');
-						console.log(updatedElection);
-						this.election = updatedElection;
-						this.totalNumberOfVotesUpdate(updatedElection);
-						this.updateViewData(updatedElection);
-						this.changeVote = false;
-					});
+					this.updateCurrentElection();
 				}
 				this.loadingData = false;
 			});
 		}
 	}
 
+	withdrawNomination(candidate, district) {
+		console.log('TODO: Remove candidate', candidate);
+		// const indexOfDistrict = this.election.districts.indexOf(district);
+		// const indexOfCandidate = this.election.districts[indexOfDistrict].candidates.indexOf(candidate);
+		// this.election.districts[indexOfDistrict].candidates.splice(indexOfCandidate, 1);
+		// // update the database
+		// this.updateCurrentElection();
+	}
+
 	updateViewData(election: Election) {
+		this.userVotedFor = '';
+		this.userVotedAlready = false;
 		// has user already voted?
 		let userVotedForId;
 		for (let i = 0; i < election.districts.length; i++) {
@@ -278,6 +272,104 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 				}
 			}
 		}
+	}
+
+	updateLocalVariables(election: Election) {
+		const currentDate = new Date();
+		this.currentElection = false;
+		this.changeVote = false;
+		this.releaseResults = false;
+		this.nominationsOpen = false;
+		this.currentUserCanNominate = false;
+		this.currentUserPartyHead = false;
+		this.currentUserCandidate = false;
+
+		if (election.dateFrom < currentDate && election.dateTo > currentDate) {
+			this.currentElection = true;
+		}
+
+		// release results?
+		if (election.resultsStrategy === 'liveResults'
+			|| election.resultsReleased
+			|| (election.resultsStrategy === 'selectedDate' && election.resultsReleaseDate <= currentDate)) {
+			this.releaseResults = true;
+		}
+
+		// Calculate Results
+		if (this.releaseResults) {
+			for (let i = 0; i < election.districts.length; i++) {
+				if (!election.districts[i].winningCandidatesSorted) {
+					election.districts[i].winningCandidatesSorted = [];
+				}
+
+				for (let j = 0; j < election.districts[i].candidates.length; j++) {
+					let candidateTotalVotes = 0;
+					// go through each vote to see the casted vote to this candidate
+					for (let k = 0; k < election.districts[i].voters.length; k++) {
+						if (election.districts[i].candidates[j]._id._id === election.districts[i].voters[k].votedFor) {
+							candidateTotalVotes++;
+						}
+					}
+
+					// add the results to results of district
+					election.districts[i].candidates[j].numOfVotes = candidateTotalVotes;
+					election.districts[i].winningCandidatesSorted.push(Object.assign({}, election.districts[i].candidates[j]));
+				}
+
+				// sort the winning candidates
+				election.districts[i].winningCandidatesSorted.sort((a, b) => {
+					return a.numOfVotes >= b.numOfVotes ? 0 : 1;
+				});
+			}
+			// if (election.winningStrategy === 'winnerTakesAll') {
+			// } else if (election.winningStrategy === 'proportional') {
+			// 	for (let i = 0; i < election.districts.length; i++) {
+			//
+			// 	}
+			//
+			// }
+		}
+
+		// Nomination Date passed?
+		if (election.nominationCloseDate >= currentDate) {
+			this.nominationsOpen = true;
+		}
+
+		// Can current user Nominate?
+		if (this.user.role === this.user.USER_ROLES.ELECTION_OFFICIAL || election.candidatesStrategy === 'nomination') {
+			this.currentUserCanNominate = true;
+		}
+
+		// is the user a party head? and also get all party names
+		this.partyNames = [];
+		for (let i = 0; i < election.partyHeads.length; i++) {
+			this.partyNames.push(election.partyHeads[i].partyName);
+			if (election.partyHeads[i].email === this.user.email) {
+				this.currentUserCanNominate = true;
+				this.currentUserPartyHead = true;
+				this.predefinedCandidatePartyName = election.partyHeads[i].partyName;
+				this.nominee.partyName = election.partyHeads[i].partyName;
+				break;
+			}
+		}
+		// Select the first one as selected party
+		if (this.currentUserPartyHead) {
+			this.nominee.partyName = this.predefinedCandidatePartyName;
+		} else if (this.partyNames.length > 0) {
+			this.nominee.partyName = this.partyNames[0];
+		}
+
+		// is the user a candidate? TODO: Implement
+
+
+		if (this.releaseResults) {
+			this.totalNumberOfVotesUpdate(election);
+		}
+		this.updateViewData(election);
+
+		this.election = election;
+		console.log('electionComponent', this);
+		this.loadingData = false;
 	}
 
 }
