@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {Election, Voter, Candidate, ElectionService, User, UserService} from '../../services';
+import {Election, Voter, Candidate, ElectionService, User, UserService, District} from '../../services';
 import {Subscription} from 'rxjs/Subscription';
 
 @Component({
@@ -10,7 +10,7 @@ import {Subscription} from 'rxjs/Subscription';
 })
 export class ElectionDetailsComponent implements OnInit, OnDestroy {
 	user: User;
-	nominee: User;
+	nominee: Candidate;
 	userVotedAlready: boolean;
 	userVotedFor: {};
 	election: Election;
@@ -23,6 +23,7 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 	currentUserCanNominate: boolean;
 	currentUserPartyHead: boolean;
 	currentUserCandidate: boolean;
+	partyNames: string[];
 	predefinedCandidatePartyName: string;
 	totalNumberOfVotes: number;
 	paramSubscription: Subscription;
@@ -32,7 +33,7 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 	            private electionService: ElectionService,
 	            private userService: UserService) {
 		this.election = new Election();
-		this.nominee = new User();
+		this.nominee = new Candidate();
 		const currentDate = new Date();
 		this.election.dateFrom = new Date(currentDate.toDateString());
 		this.election.dateTo = new Date(currentDate.toDateString());
@@ -47,6 +48,7 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 		this.currentUserPartyHead = false;
 		this.currentUserCandidate = false;
 		this.predefinedCandidatePartyName = '';
+		this.partyNames = [];
 		this.totalNumberOfVotes = 0;
 		this.errorMessage = '';
 	}
@@ -80,8 +82,9 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 						this.currentUserCanNominate = true;
 					}
 
-					// is the user a party head?
+					// is the user a party head? and also get all party names
 					for (let i = 0; i < election.partyHeads.length; i++) {
+						this.partyNames.push(election.partyHeads[i].partyName);
 						if (election.partyHeads[i].email === this.user.email) {
 							this.currentUserCanNominate = true;
 							this.currentUserPartyHead = true;
@@ -89,11 +92,17 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 							break;
 						}
 					}
+					// Select the first one as selected party
+					if (this.currentUserPartyHead) {
+						this.nominee.partyName = this.predefinedCandidatePartyName;
+					} else if (this.partyNames.length > 0) {
+						this.nominee.partyName = this.partyNames[0];
+					}
 
 					// is the user a candidate? TODO: Implement
 
 
-					console.log('election in controller', election);
+					console.log('electionComponent', this);
 					this.election = election;
 
 					console.log(this);
@@ -115,98 +124,123 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 		this.paramSubscription.unsubscribe();
 	}
 
-	//
-	// voteForCandidate(candidate: Candidate, election: Election) {
-	// 	this.loadingData = true;
-	//
-	// 	const indexOfCandidate = election.candidates.indexOf(candidate);
-	// 	election.candidates[indexOfCandidate].numOfVotes++;
-	// 	let found = false;
-	//
-	// 	// See if the user already exists in the array
-	// 	for (let i = 0; i < election.voters.length; i++) {
-	// 		if (election.voters[i].voterId === this.user._id) {
-	// 			election.voters[i].hasVoted = true;
-	// 			election.voters[i].votedFor = candidate.candidateId._id ? candidate.candidateId._id : candidate.candidateId;
-	// 			found = true;
-	// 		}
-	// 	}
-	//
-	// 	// if not found in the array add in the array
-	// 	if (!found) {
-	// 		const voter = new Voter();
-	// 		voter.voterId = this.user._id;
-	// 		voter.hasVoted = true;
-	// 		voter.votedFor = candidate.candidateId._id ? candidate.candidateId._id : candidate.candidateId;
-	// 		election.voters.push(voter);
-	// 	}
-	//
-	// 	// update the database
-	// 	this.electionService.update(election).then((updatedElection: Election) => {
-	// 		console.log('foreign updated one');
-	// 		console.log(updatedElection);
-	// 		this.election = updatedElection;
-	// 		this.totalNumberOfVotesUpdate(updatedElection);
-	// 		this.updateViewData(updatedElection);
-	// 		this.changeVote = false;
-	// 		this.loadingData = false;
-	// 	});
-	// }
-	//
-	// nominateCandidate(nomineeForm) {
-	// 	this.loadingData = true;
-	//
-	// 	this.userService.createIfNotExists(nomineeForm.value).then((user) => {
-	// 		if (user) {
-	// 			const candidate = {
-	// 				candidateId: user._id,
-	// 				numOfVotes: 0,
-	// 				isApproved: this.user.role === this.user.USER_ROLES.ELECTION_OFFICIAL ? 'approved' : 'pending'
-	// 			};
-	// 			const voter = {
-	// 				voterId: user._id,
-	// 				hasVoted: false,
-	// 				votedFor: null
-	// 			};
-	// 			this.election.candidates.push(candidate);
-	// 			this.election.voters.push(voter);
-	// 			// update the database
-	// 			this.electionService.update(this.election).then((updatedElection: Election) => {
-	// 				console.log('foreign updated one');
-	// 				console.log(updatedElection);
-	// 				this.election = updatedElection;
-	// 				this.totalNumberOfVotesUpdate(updatedElection);
-	// 				this.updateViewData(updatedElection);
-	// 				this.changeVote = false;
-	// 			});
-	// 		}
-	// 		this.loadingData = false;
-	// 	});
-	// }
-	//
-	// approveOrReject(approval, candidate, election) {
-	// 	this.loadingData = true;
-	//
-	// 	const indexOfCandidate = election.candidates.indexOf(candidate);
-	// 	election.candidates[indexOfCandidate].isApproved = approval;
-	// 	// update the database
-	// 	this.electionService.update(election).then((updatedElection: Election) => {
-	// 		console.log('foreign updated one');
-	// 		console.log(updatedElection);
-	// 		this.election = updatedElection;
-	// 		this.totalNumberOfVotesUpdate(updatedElection);
-	// 		this.updateViewData(updatedElection);
-	// 		this.changeVote = false;
-	// 		this.loadingData = true;
-	// 	});
-	// }
+	voteForCandidate(candidate: Candidate, district: District) {
+		this.loadingData = true;
+
+		const indexOfDistrict = this.election.districts.indexOf(district);
+		const indexOfCandidate = this.election.districts[indexOfDistrict].candidates.indexOf(candidate);
+		this.election.districts[indexOfDistrict].candidates[indexOfCandidate].numOfVotes++;
+		let found = false;
+
+		// See if the user already exists in the array
+		for (let i = 0; i < this.election.districts[indexOfDistrict].voters.length; i++) {
+			if (this.election.districts[indexOfDistrict].voters[i]._id._id === this.user._id) {
+				this.election.districts[indexOfDistrict].voters[i].hasVoted = true;
+				this.election.districts[indexOfDistrict].voters[i].votedFor = candidate._id._id ? candidate._id._id : candidate._id;
+				found = true;
+			}
+		}
+
+		// if not found in the array add in the array
+		if (!found) {
+			const voter = new Voter();
+			voter._id = this.user._id;
+			voter.hasVoted = true;
+			voter.votedFor = candidate._id._id ? candidate._id._id : candidate._id;
+			this.election.districts[indexOfDistrict].voters.push(voter);
+		}
+
+		// update the database
+		this.electionService.update(this.election).then((updatedElection: Election) => {
+			console.log('foreign updated one');
+			console.log(updatedElection);
+			this.election = updatedElection;
+			this.totalNumberOfVotesUpdate(updatedElection);
+			this.updateViewData(updatedElection);
+			this.changeVote = false;
+			this.loadingData = false;
+		});
+	}
+
+	approveOrReject(approval, candidate, district: District) {
+		this.loadingData = true;
+
+		const indexOfDistrict = this.election.districts.indexOf(district);
+		const indexOfCandidate = this.election.districts[indexOfDistrict].candidates.indexOf(candidate);
+		this.election.districts[indexOfDistrict].candidates[indexOfCandidate].isApproved = approval;
+		// update the database
+		this.electionService.update(this.election).then((updatedElection: Election) => {
+			console.log('foreign updated one');
+			console.log(updatedElection);
+			this.election = updatedElection;
+			this.totalNumberOfVotesUpdate(updatedElection);
+			this.updateViewData(updatedElection);
+			this.changeVote = false;
+			this.loadingData = true;
+		});
+	}
+
+	nominateCandidate(nomineeForm, district) {
+		this.loadingData = true;
+
+		const nominee = new User();
+		nominee.email = nomineeForm.value.email;
+		nominee.name = nomineeForm.value.name;
+		console.log('nominee', nominee);
+
+
+		// Check if the registeredUser is already a candidate, also user cannot be candidate of multiple districts
+		let userAlreadyIsCandidate = false;
+		for (let i = 0; i < this.election.districts.length; i++) {
+			for (let j = 0; j < this.election.districts[i].candidates.length; j++) {
+				if (this.election.districts[i].candidates[j]._id.email === nominee.email) {
+					userAlreadyIsCandidate = true;
+					this.errorMessage = 'Nominee is already a candidate!!';
+					break;
+				}
+			}
+		}
+
+		if (!userAlreadyIsCandidate) {
+			this.userService.createIfNotExists(nominee).then((registeredUser: User) => {
+				if (registeredUser) {
+					const indexOfDistrict = this.election.districts.indexOf(district);
+
+					const candidate = {
+						_id: registeredUser._id,
+						partyName: nomineeForm.value.partyName,
+						numOfVotes: 0,
+						isApproved: this.user.role === this.user.USER_ROLES.ELECTION_OFFICIAL ? 'approved' : 'pending'
+					};
+					const voter = {
+						_id: registeredUser._id,
+						hasVoted: false,
+						votedFor: null
+					};
+
+					this.election.districts[indexOfDistrict].candidates.push(candidate);
+					this.election.districts[indexOfDistrict].voters.push(voter);
+					// update the database
+					this.electionService.update(this.election).then((updatedElection: Election) => {
+						console.log('foreign updated one');
+						console.log(updatedElection);
+						this.election = updatedElection;
+						this.totalNumberOfVotesUpdate(updatedElection);
+						this.updateViewData(updatedElection);
+						this.changeVote = false;
+					});
+				}
+				this.loadingData = false;
+			});
+		}
+	}
 
 	updateViewData(election: Election) {
 		// has user already voted?
 		let userVotedForId;
 		for (let i = 0; i < election.districts.length; i++) {
 			for (let j = 0; j < election.districts[i].voters.length; j++) {
-				if (election.districts[i].voters[j]._id === this.user._id && election.districts[i].voters[j].hasVoted) {
+				if (election.districts[i].voters[j]._id._id === this.user._id && election.districts[i].voters[j].hasVoted) {
 					this.userVotedAlready = true;
 					userVotedForId = election.districts[i].voters[j].votedFor;
 					break;

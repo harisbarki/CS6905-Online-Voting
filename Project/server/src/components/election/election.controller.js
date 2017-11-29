@@ -54,7 +54,7 @@ exports.create = function (req, res) {
 
 exports.update = function (req, res) {
 	console.log(req.body);
-	Election.expandCandidates(Election.update(req.body['_id'], req.body)).then(function (election) {
+	Election.expandVoters(Election.expandCandidates(Election.update(req.body['_id'], req.body))).then(function (election) {
 		var result = {
 			statusCode: 200,
 			data: election

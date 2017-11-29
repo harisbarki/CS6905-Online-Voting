@@ -80,6 +80,7 @@
 												<tr>
 													<td><strong>Name</strong></td>
 													<td><strong>Email</strong></td>
+													<td><strong>Party Name</strong></td>
 													<td><strong>Approval</strong></td>
 													<td *ngIf="currentElection" style="width: 57px"><strong>Vote
 														*</strong></td>
@@ -88,79 +89,92 @@
 												<tbody>
 												<tr *ngFor="let candidate of district.candidates"
 												    [ngClass]="candidate.isApproved === 'approved' ? 'success' : candidate.isApproved === 'pending' ? 'warning' : 'danger'">
-													<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?.candidateId?._id? 800: 300 }">
-														{{candidate?.candidateId?.name}}
+													<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?._id?._id? 800: 300 }">
+														{{candidate?._id?.name}}
 													</td>
-													<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?.candidateId?._id? 800: 300 }">
-														{{candidate.candidateId?.email}}
+													<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?._id?._id? 800: 300 }">
+														{{candidate._id?.email}}
 													</td>
-													<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?.candidateId?._id? 800: 300 }">
+													<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?._id?._id? 800: 300 }">
+														{{candidate.partyName}}
+													</td>
+													<td [ngStyle]="{'font-weight': userVotedFor?._id === candidate?._id?._id? 800: 300 }">
 														{{candidate.isApproved}}
 														<span
 															*ngIf="(candidate.isApproved === 'pending' || candidate.isApproved === 'rejected') && user.role == user.USER_ROLES.ELECTION_OFFICIAL"
 															style="padding-left: 14px">
 														<button class="btn btn-success btn-xs"
-														        (click)="approveOrReject('approved', candidate, election)">Approve</button>
+														        (click)="approveOrReject('approved', candidate, district)">Approve</button>
 														<button *ngIf="candidate.isApproved !== 'rejected'"
 														        class="btn btn-danger btn-xs"
-														        (click)="approveOrReject('rejected', candidate, election)">Reject</button>
+														        (click)="approveOrReject('rejected', candidate, district)">Reject</button>
 													</span>
 													</td>
 													<td *ngIf="currentElection">
 														<i class="fa fa-check-circle fa-lg"
 														   style="font-weight: 800; color: #009688"
-														   *ngIf="userVotedFor?._id === candidate?.candidateId?._id && !changeVote">
+														   *ngIf="userVotedFor?._id === candidate?._id?._id && !changeVote">
 														</i>
 														<button
 															*ngIf="(!userVotedAlready || changeVote) && candidate.isApproved == 'approved'"
 															class="btn btn-primary btn-xs"
-															(click)="voteForCandidate(candidate, election)">
+															(click)="voteForCandidate(candidate, district)">
 															<strong>Vote</strong></button>
 													</td>
 												</tr>
 												</tbody>
 											</table>
-											<small>* Candidate needs to be approved before vote can be casted to that
+											<small>
+												* Candidate needs to be approved before vote can be casted to that
 												candidate.
 											</small>
 											<br>
-											<hr>
-											<h4>Nomination</h4>
-											<form #nominationForm="ngForm"
-											      (ngSubmit)="nominateCandidate(nominationForm)">
-												<div class="row">
-													<div class="col-md-4">
-														<input type="text" class="form-control" placeholder="Name"
-														       required
-														       [(ngModel)]="nominee.name" name="name"
-														       autofocus>
+											<div *ngIf="nominationsOpen && currentUserCanNominate">
+												<hr>
+												<h4>Nomination</h4>
+												<form #nominationForm="ngForm"
+												      (ngSubmit)="nominateCandidate(nominationForm, district)">
+													<div class="row">
+														<div class="col-md-3">
+															<input type="text" class="form-control" placeholder="Name"
+															       required
+															       [(ngModel)]="nominee.name" name="name"
+															       autofocus>
+														</div>
+														<div class="col-md-3">
+															<input type="email" class="form-control" placeholder="Email"
+															       required
+															       [(ngModel)]="nominee.email" name="email">
+														</div>
+														<div class="col-md-3">
+															<select class="form-control" [(ngModel)]="nominee.partyName"
+															        name="partyName">
+																<option *ngFor="let p of partyNames" [ngValue]="p">
+																	{{p}}
+																</option>
+															</select>
+														</div>
+														<div class="col-md-3">
+															<button class="btn btn-danger" type="submit"
+															        (click)="nominateCandidate(election)"
+															        [disabled]="nominationForm.invalid"
+															        *ngIf="election.candidatesStrategy == 'nomination'">
+																Nominate a candidate
+															</button>
+															<button class="btn btn-danger" type="submit"
+															        *ngIf="election.candidatesStrategy == 'predefined' && user.role == user.USER_ROLES.ELECTION_OFFICIAL"
+															        [disabled]="nominationForm.invalid">
+																Add a candidate
+															</button>
+														</div>
 													</div>
-													<div class="col-md-4">
-														<input type="email" class="form-control" placeholder="Email"
-														       required
-														       [(ngModel)]="nominee.email" name="email"
-														       pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$">
-													</div>
-													<div class="col-md-4">
-														<button class="btn btn-danger" type="submit"
-														        (click)="nominateCandidate(election)"
-														        [disabled]="nominationForm.invalid"
-														        *ngIf="election.candidatesStrategy == 'nomination'">
-															Nominate a candidate
-														</button>
-														<button class="btn btn-danger" type="submit"
-														        *ngIf="election.candidatesStrategy == 'predefined' && user.role == user.USER_ROLES.ELECTION_OFFICIAL"
-														        [disabled]="nominationForm.invalid">
-															Add a candidate
-														</button>
-													</div>
-												</div>
-											</form>
-											<br>
-											<br>
+												</form>
+												<br>
+												<br>
 
-											<strong>Help Text: </strong>
-											<div [innerHTML]="district.helpDocumentHTML"></div>
+												<strong>Help Text: </strong>
+												<div [innerHTML]="district.helpDocumentHTML"></div>
+											</div>
 										</div>
 									</fieldset>
 								</div>

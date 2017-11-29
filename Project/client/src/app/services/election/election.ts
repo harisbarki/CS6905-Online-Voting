@@ -74,12 +74,18 @@ export class District {
 export class Candidate {
 	_id: any;
 	numOfVotes: number;
+	partyName: string;
 	isApproved: string;
+	name?: string;
+	email?: string;
 
 	constructor(candidate: Candidate = {} as Candidate) {
 		this._id = candidate._id;
 		this.numOfVotes = candidate.numOfVotes;
 		this.isApproved = candidate.isApproved;
+		this.partyName = candidate.partyName;
+		this.name = candidate.name;
+		this.email = candidate.email;
 	}
 }
 
