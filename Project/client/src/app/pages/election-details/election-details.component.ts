@@ -389,6 +389,7 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 
 	createNewReRound() {
 		const newElection = Object.assign({}, this.election);
+		newElection.previousRound = newElection._id;
 		newElection._id = null;
 
 		for (let i = 0; i < newElection.districts.length; i++) {
