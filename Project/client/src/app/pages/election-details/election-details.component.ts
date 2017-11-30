@@ -393,6 +393,7 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 	createNewReRound() {
 		this.loadingData = true;
 		const currentDate = new Date();
+		const twoMonthsForwardDate = new Date();
 
 		const newElection = Object.assign({}, this.election);
 		newElection.previousRound = newElection._id;
@@ -400,8 +401,8 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 		newElection.roundNumber++;    // update the round number
 		newElection.dateFrom = currentDate;
 		newElection.nominationCloseDate = currentDate;
-		currentDate.setMonth(currentDate.getMonth() + 2)
-		newElection.dateTo = currentDate;
+		twoMonthsForwardDate.setMonth(twoMonthsForwardDate.getMonth() + 2)
+		newElection.dateTo = twoMonthsForwardDate;
 
 		for (let i = 0; i < newElection.districts.length; i++) {
 			// remove all non draw candidates
