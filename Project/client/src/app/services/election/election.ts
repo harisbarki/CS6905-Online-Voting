@@ -6,6 +6,9 @@ export class Election {
 	dateTo: Date;
 	nominationCloseDate: Date;
 	previousRound: string;
+	nextRound: string;
+	nextRoundCreated: boolean;
+	roundNumber: number;
 	isDistrictElections: boolean;
 	numberOfDistricts: number;
 	candidatesStrategy: string;
@@ -24,6 +27,9 @@ export class Election {
 		this.dateTo = new Date(election.dateTo);
 		this.nominationCloseDate = new Date(election.nominationCloseDate);
 		this.previousRound = election.previousRound;
+		this.nextRound = election.nextRound;
+		this.nextRoundCreated = election.nextRoundCreated;
+		this.roundNumber = election.roundNumber ? election.roundNumber : 1;
 		this.resultsStrategy = election.resultsStrategy;
 		this.resultsReleased = election.resultsReleased;
 		this.resultsReleaseDate = election.resultsReleaseDate;

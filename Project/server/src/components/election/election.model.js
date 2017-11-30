@@ -20,6 +20,18 @@ var ElectionSchema = new Schema({
 		type: Schema.ObjectId,
 		ref: 'election'
 	},
+	nextRound: {
+		type: Schema.ObjectId,
+		ref: 'election'
+	},
+	roundNumber: {
+		type: Number,
+		default: 1
+	},
+	nextRoundCreated: {
+		type: Boolean,
+		default: false
+	},
 	isDistrictElections: Boolean,
 	numberOfDistricts: Number,
 	candidatesStrategy: String,

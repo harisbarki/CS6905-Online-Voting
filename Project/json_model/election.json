@@ -6,6 +6,9 @@
 	"dateTo": "Thu Oct 31 2018 00:00:00 GMT-0230 (Newfoundland Daylight Time)",
 	"nominationCloseDate": "Thu Oct 31 2018 00:00:00 GMT-0230 (Newfoundland Daylight Time)",
 	"previousRound": 235776,
+	"nextRound": 2357743,
+	"roundNumber": 2,
+	"nextRoundCreated": false,
 	"isDistrictElections": true,
 	"numberOfDistricts": 1,
 	"candidatesStrategy": "predefined",	// predefined or nomination

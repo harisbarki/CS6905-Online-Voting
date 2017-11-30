@@ -12,6 +12,10 @@
 				<div class="box-inner-body">
 					<div class="text-center dashboard-body-text">
 						<br>
+						<div *ngIf="election.roundNumber > 1 && election.previousRound">
+							<strong>Round:</strong> <strong style="color: #009688; font-size: 1.5em">{{election.roundNumber}}</strong>
+						</div>
+						<br>
 						<small>Winning Strategy</small>
 						<br>
 						<strong>{{election.winningStrategy}}</strong>
@@ -48,6 +52,10 @@
 				<div class="box-inner-body">
 					<div class="text-center dashboard-body-text">
 						<br>
+						<div *ngIf="election.roundNumber > 1 && election.previousRound">
+							<strong>Round:</strong> <strong style="color: #009688; font-size: 1.5em">{{election.roundNumber}}</strong>
+						</div>
+						<br>
 						<small>Winning Strategy</small>
 						<br>
 						<strong>{{election.winningStrategy}}</strong>
@@ -82,6 +90,10 @@
 				</div>
 				<div class="box-inner-body">
 					<div class="text-center dashboard-body-text">
+						<br>
+						<div *ngIf="election.roundNumber > 1 && election.previousRound">
+							<strong>Round:</strong> <strong style="color: #009688; font-size: 1.5em">{{election.roundNumber}}</strong>
+						</div>
 						<br>
 						<small>Winning Strategy</small>
 						<br>

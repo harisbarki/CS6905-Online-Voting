@@ -135,15 +135,18 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 
 	updateCurrentElection() {
 		this.loadingData = true;
-		this.electionService.update(this.election).then((updatedElection: Election) => {
-			console.log('foreign updated one');
-			console.log(updatedElection);
-			this.election = updatedElection;
-			this.totalNumberOfVotesUpdate(updatedElection);
-			this.updateViewData(updatedElection);
-			this.updateLocalVariables(updatedElection);
-			this.changeVote = false;
-			this.loadingData = false;
+		return new Promise((resolve, reject) => {
+			this.electionService.update(this.election).then((updatedElection: Election) => {
+				console.log('foreign updated one');
+				console.log(updatedElection);
+				this.election = updatedElection;
+				this.totalNumberOfVotesUpdate(updatedElection);
+				this.updateViewData(updatedElection);
+				this.updateLocalVariables(updatedElection);
+				this.changeVote = false;
+				this.loadingData = false;
+				resolve(true);
+			});
 		});
 	}
 
@@ -388,9 +391,17 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 	}
 
 	createNewReRound() {
+		this.loadingData = true;
+		const currentDate = new Date();
+
 		const newElection = Object.assign({}, this.election);
 		newElection.previousRound = newElection._id;
 		newElection._id = null;
+		newElection.roundNumber++;    // update the round number
+		newElection.dateFrom = currentDate;
+		newElection.nominationCloseDate = currentDate;
+		currentDate.setMonth(currentDate.getMonth() + 2)
+		newElection.dateTo = currentDate;
 
 		for (let i = 0; i < newElection.districts.length; i++) {
 			// remove all non draw candidates
@@ -398,6 +409,15 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 				const winningCandidatesNumOfVotes = newElection.districts[i].winningCandidatesSorted[0].numOfVotes;
 				for (let j = 0; j < newElection.districts[i].candidates.length; j++) {
 					if (newElection.districts[i].candidates[j].numOfVotes !== winningCandidatesNumOfVotes) {
+
+						// remove all the votes casted for this candidate
+						for (let k = 0; k < newElection.districts[i].voters.length; k++) {
+							if (newElection.districts[i].candidates[j]._id._id === newElection.districts[i].voters[k].votedFor ) {
+								newElection.districts[i].voters[k].votedFor = null;
+								newElection.districts[i].voters[k].hasVoted = false;
+							}
+						}
+
 						newElection.districts[i].candidates.splice(j, 1);
 						j--;
 					}
@@ -412,8 +432,12 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 		}
 
 		console.log('Creating re-round election', newElection);
-		this.electionService.create(newElection).then((election: Election) => {
-			this.router.navigate([this.electionService.urls.election(election._id)]);
+		this.electionService.create(newElection).then(() => {
+			this.election.nextRoundCreated = true;
+			this.updateCurrentElection().then(() => {
+				this.loadingData = false;
+				this.router.navigate([this.electionService.urls.dashboard()]);
+			});
 		}).catch((err) => {
 			console.error(err);
 			this.errorMessage = err;
