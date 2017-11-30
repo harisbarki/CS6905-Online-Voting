@@ -1,39 +1,164 @@
-<div class="app-loading-img" *ngIf="loadingData"></div>
+<style>
+	.container-fluid {
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+	.row {
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+	.textAlignRight{
+		text-align: right;
+	}
+	.textAlignLeft{
+		text-align: left;
+	}
+	.textAlignCenter{
+		text-align: center;
+	}
+	.textAlignJustify{
+		text-align: justify;
+	}
+	.accountBtnGroup{
+		background: none;
+		color: #2c3e50;
+	}
+	.carModelImg{
+		max-width: 300px;
+		height: auto;
+	}
+	#main{
+		padding: 0;
+	}
+	#logo{
+		width: 300px;
+		color: inherit;
+	}
+	#logo:hover{
+		text-decoration: none;
+	}
+	#dropDownLogin{
+		margin: 0px;
+	}
+	#header{
+		background: #1d9d74 no-repeat right top;
+		min-height: 64px;
+		margin: 0px;
+		padding-top: 1px
+	}
+	#navbar{
+		border-radius: 0px;
+		margin-bottom: 0px;
+	}
+	#breadcrumb{
+		margin: 0 0 10px 0;
+	}
+	#mainTop{
+		color: white;
+		background: #ffffff url("/assets/mainBG.jpg") no-repeat right top;
+		border-radius: 0px;
+		min-height: 500px;
+		background-attachment: fixed;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+	#mainBottom{
+		margin-bottom: 20px;
+	}
 
-<div class="container">
+	/*<-------------------------------- Sign Up Page -------------------------------------->*/
+	#signUpForm{
+		margin-top: 20px;
+	}
+
+	/*<-------------------------------- Login Page -------------------------------------->*/
+	#loginForm{
+		margin-top: 20px;
+	}
+	/*<-------------------------------- Find polling booth By Location -------------------------------------->*/
+	#map {
+		min-height: 400px;
+		width: 100%
+	}
+	/*<-------------------------------- Current Election -------------------------------------->*/
+	#contentPanel{
+		margin-top: 10px;
+	}
+	.reportDamageBTN{
+		margin-top: 10px;
+	}
+	.btn:hover{
+		color: orange;
+	}
+	/*<-------------------------------- Admin  Pages -------------------------------------->*/
+	/*<-------------------------------- Create Election Page -------------------------------------->*/
+	#locationSuggestions{
+		display: none;
+		background-color: #ECF0F1;
+		border-radius: 5px;
+	}
+	#locationSuggestions div{
+		padding: 10px;
+	}
+	#locationSuggestions div:hover{
+		background-color: grey;
+		color: white;
+	}
+	.suggested-lat, .suggested-lng{
+		display: none;
+	}
+	/*<-------------------------------- Vote for Election -------------------------------------->*/
+	.panel-default>.panel-heading {
+		background: none;
+	}
+	.absolute-panel{
+
+
+		background: white;
+		border: 1px solid grey;
+
+	}
+</style>
+<div class="container-fluid" id="container">
 	<div class="row">
-		<br>
-		<br>
-		<br>
-		<h1>COMP 6905 Project</h1>
+		<div class="col-md-12" id="main">
+			<div class="jumbotron" id="mainTop">
+				<h2>E-Voting</h2>
+				<p>Relax, Vote at your own Ease</p>
+				<p><a class="btn btn-primary btn-large" href="/#/login">Learn more</a></p>
+			</div>
 
-		<h2>Fall 2017</h2>
+			<div class="row">
+				<div class="col-md-12 textAlignCenter">
+					<h3>COMP 6905 Project</h3>
+					<h4>Fall 2017</h4>
+					<h5>Memorial University of Newfoundland</h5>
 
-		<h3>Memorial University of Newfoundland</h3>
+					<br>
+					<div class="row">
 
-		<h4>Online voting system that will provide support for election officials to conduct an election.</h4>
+						<h4><strong>Online Voting System that will Provide Support for Election Officials to Conduct an Election</strong></h4>
 
-		<h3>Requirements</h3>
+						<div class="well">
 
-		<p style="text-align: justify">The vision of this project is to design generic Online-Voting system that will provide support for election
-			officials
-			to conduct an election (e.g. parliamentary, student union, sport club). This system design support popular
-			election
-			systems primarily winner takes all or proportional. If in case election officials decide to choose
-			proportional
-			election model then there is a threshold percentage votes to be achieved for a party to gain membership in a
-			parliament. More than a one round of elections is possible. Additionally, the system shall provide
-			directions to
-			voting stations. For winner takes all, the election official can also select if the voter can select
-			preference
-			for
-			candidates. After election the least popular candidate is dropped and votes re-assigned according to second
-			choices,
-			and so on, until one candidate has a majority of ballots. The election official will also be able to select
-			districts participating in election and will be able to update the candidates. We have agreed that the
-			program
-			will
-			be developed in NodeJS, the frontend in Angular and database would be MongoDB.
-		</p>
+							<h5><strong> Requirements </strong></h5>
+
+							<p style="text-align: justify">The vision of this project is to design generic Online-Voting system that will provide support for election
+								officials to conduct an election (e.g. parliamentary, student union, sport club). This system design support popular
+								election systems primarily winner takes all or proportional. If in case election officials decide to choose
+								proportional election model then there is a threshold percentage votes to be achieved for a party to gain membership in a
+								parliament. More than a one round of elections is possible. Additionally, the system shall provide
+								directions to voting stations. For winner takes all, the election official can also select if the voter can select
+								preference for candidates. After election the least popular candidate is dropped and votes re-assigned according to second
+								choices, and so on, until one candidate has a majority of ballots. The election official will also be able to select
+								districts participating in election and will be able to update the candidates. We have agreed that the
+								program will be developed in NodeJS, the frontend in Angular and database would be MongoDB.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

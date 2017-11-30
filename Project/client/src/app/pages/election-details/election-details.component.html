@@ -74,11 +74,11 @@
 									<br>
 									<h4 style="color: coral;">
 										<strong>GREAT! You voted for {{userVotedFor?.name}}</strong>
-										<button class="btn btn-warning btn-sm" *ngIf="!changeVote"
+										<button class="btn btn-warning btn-sm" *ngIf="!changeVote && currentElection && !archivedElection"
 										        (click)="changeVote = !changeVote">
 											<strong>Change Vote</strong>
 										</button>
-										<button class="btn btn-success btn-sm" *ngIf="changeVote"
+										<button class="btn btn-success btn-sm" *ngIf="changeVote && currentElection && !archivedElection"
 										        (click)="changeVote = !changeVote">
 											<strong>Cancel Change Vote</strong>
 										</button>
@@ -171,7 +171,7 @@
 																        (click)="approveOrReject('rejected', candidate, district)">Reject</button>
 															</span>
 															<span
-																*ngIf="user.email === candidate._id.email"
+																*ngIf="user.email === candidate._id.email && !archivedElection"
 																style="padding-left: 14px">
 																<button class="btn btn-danger btn-xs"
 																        (click)="withdrawNomination(candidate, district)">Withdraw Nomination</button>
@@ -183,7 +183,7 @@
 															   *ngIf="userVotedFor?._id === candidate?._id?._id && !changeVote">
 															</i>
 															<button
-																*ngIf="((!userVotedAlready || changeVote) && candidate.isApproved == 'approved') && !election.electionFrozen && !district.districtFrozen"
+																*ngIf="((!userVotedAlready || changeVote) && candidate.isApproved == 'approved') && !election.electionFrozen && !district.districtFrozen  && currentElection && !archivedElection"
 																class="btn btn-primary btn-xs"
 																(click)="voteForCandidate(candidate, district)">
 																<strong>Vote</strong></button>
@@ -250,6 +250,23 @@
 
 													<strong>Help Text: </strong>
 													<div [innerHTML]="district.helpDocumentHTML"></div>
+													<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyChQYAh4RnT1-kW0_HQeGVUz9kFmfBneZA">
+													</script>
+
+													<script>
+
+													</script>
+													<title>Online Voting</title>
+													<style>
+														html, body, #map {
+															height:100%;
+															margin:0px;
+															padding: 0px;
+														}
+													</style>
+													<div id ="map">
+
+													</div>
 												</div>
 											</div>
 										</div>
