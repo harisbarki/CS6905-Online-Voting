@@ -19,6 +19,8 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 	changeVote: boolean;
 	errorMessage: string;
 	currentElection: boolean;
+	archivedElection: boolean;
+	requireReRound: boolean;
 	releaseResults: boolean;
 	nominationsOpen: boolean;
 	currentUserCanNominate: boolean;
@@ -56,7 +58,7 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 
 		this.loginSubscription = this.userService.loggedInChange.subscribe((value) => {
 			this.user = this.userService.loggedInUser;
-			if(this.election) {
+			if (this.election) {
 				this.updateLocalVariables(this.election);
 			}
 		});
@@ -277,6 +279,8 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 	updateLocalVariables(election: Election) {
 		const currentDate = new Date();
 		this.currentElection = false;
+		this.archivedElection = false;
+		this.requireReRound = false;
 		this.changeVote = false;
 		this.releaseResults = false;
 		this.nominationsOpen = false;
@@ -286,6 +290,8 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 
 		if (election.dateFrom < currentDate && election.dateTo > currentDate) {
 			this.currentElection = true;
+		} else if (election.dateTo < currentDate) {
+			this.archivedElection = true;
 		}
 
 		// release results?
@@ -298,46 +304,43 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 		// Calculate Results
 		if (this.releaseResults) {
 			for (let i = 0; i < election.districts.length; i++) {
-				if (!election.districts[i].winningCandidatesSorted) {
-					election.districts[i].winningCandidatesSorted = [];
-				}
-
+				election.districts[i].winningCandidatesSorted = [];
 				for (let j = 0; j < election.districts[i].candidates.length; j++) {
-					let candidateTotalVotes = 0;
-					// go through each vote to see the casted vote to this candidate
-					for (let k = 0; k < election.districts[i].voters.length; k++) {
-						if (election.districts[i].candidates[j]._id._id === election.districts[i].voters[k].votedFor) {
-							candidateTotalVotes++;
+					if (election.districts[i].candidates[j].isApproved) {
+						let candidateTotalVotes = 0;
+						// go through each vote to see the casted vote to this candidate
+						for (let k = 0; k < election.districts[i].voters.length; k++) {
+							if (election.districts[i].candidates[j]._id._id === election.districts[i].voters[k].votedFor) {
+								candidateTotalVotes++;
+							}
 						}
-					}
 
-					// add the results to results of district
-					election.districts[i].candidates[j].numOfVotes = candidateTotalVotes;
-					election.districts[i].winningCandidatesSorted.push(Object.assign({}, election.districts[i].candidates[j]));
+						// add the results to results of district
+						election.districts[i].candidates[j].numOfVotes = candidateTotalVotes;
+						election.districts[i].winningCandidatesSorted.push(Object.assign({}, election.districts[i].candidates[j]));
+					}
 				}
 
 				// sort the winning candidates
 				election.districts[i].winningCandidatesSorted.sort((a, b) => {
 					return a.numOfVotes >= b.numOfVotes ? 0 : 1;
 				});
+
+				// if archivedElection and winnerTakesAll then check if re-round is required
+				if (this.archivedElection
+					&& election.winningStrategy === 'winnerTakesAll'
+					&& election.districts[i].winningCandidatesSorted.length > 1) {
+
+					if (election.districts[i].winningCandidatesSorted[0].numOfVotes === election.districts[i].winningCandidatesSorted[1].numOfVotes) {
+						this.requireReRound = true;
+					}
+				}
 			}
-			// if (election.winningStrategy === 'winnerTakesAll') {
-			// } else if (election.winningStrategy === 'proportional') {
-			// 	for (let i = 0; i < election.districts.length; i++) {
-			//
-			// 	}
-			//
-			// }
 		}
 
 		// Nomination Date passed?
 		if (election.nominationCloseDate >= currentDate) {
 			this.nominationsOpen = true;
-		}
-
-		// Can current user Nominate?
-		if (this.user.role === this.user.USER_ROLES.ELECTION_OFFICIAL || election.candidatesStrategy === 'nomination') {
-			this.currentUserCanNominate = true;
 		}
 
 		// is the user a party head? and also get all party names
@@ -352,6 +355,13 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 				break;
 			}
 		}
+
+		// Can current user Nominate? make sure if it's a reround then there is no nominations
+		if ((this.user.role === this.user.USER_ROLES.ELECTION_OFFICIAL || election.candidatesStrategy === 'nomination')
+			&& !election.previousRound) {
+			this.currentUserCanNominate = true;
+		}
+
 		// Select the first one as selected party
 		if (this.currentUserPartyHead) {
 			this.nominee.partyName = this.predefinedCandidatePartyName;
@@ -370,6 +380,43 @@ export class ElectionDetailsComponent implements OnInit, OnDestroy {
 		this.election = election;
 		console.log('electionComponent', this);
 		this.loadingData = false;
+	}
+
+
+	goToPreviousRound() {
+		this.router.navigate([this.electionService.urls.election(this.election.previousRound)]);
+	}
+
+	createNewReRound() {
+		const newElection = Object.assign({}, this.election);
+		newElection._id = null;
+
+		for (let i = 0; i < newElection.districts.length; i++) {
+			// remove all non draw candidates
+			if (newElection.districts[i].winningCandidatesSorted.length > 1) {
+				const winningCandidatesNumOfVotes = newElection.districts[i].winningCandidatesSorted[0].numOfVotes;
+				for (let j = 0; j < newElection.districts[i].candidates.length; j++) {
+					if (newElection.districts[i].candidates[j].numOfVotes !== winningCandidatesNumOfVotes) {
+						newElection.districts[i].candidates.splice(j, 1);
+						j--;
+					}
+				}
+			}
+
+			// delete the district if candidates size is less than 2
+			if (newElection.districts[i].candidates.length < 2) {
+				newElection.districts.splice(i, 1);
+				i--;
+			}
+		}
+
+		console.log('Creating re-round election', newElection);
+		this.electionService.create(newElection).then((election: Election) => {
+			this.router.navigate([this.electionService.urls.election(election._id)]);
+		}).catch((err) => {
+			console.error(err);
+			this.errorMessage = err;
+		});
 	}
 
 }

@@ -14,15 +14,18 @@
 						        (click)="hideResultsNow()">Hide Results
 						</button>
 						<button class="btn btn-danger btn-xs pull-right"
-						        *ngIf="user.role === user.USER_ROLES.ELECTION_OFFICIAL && !election.electionFrozen"
+						        *ngIf="user.role === user.USER_ROLES.ELECTION_OFFICIAL && !election.electionFrozen && !archivedElection"
 						        (click)="freezeElection()">Freeze Election
 						</button>
 						<button class="btn btn-danger btn-xs pull-right"
-						        *ngIf="user.role === user.USER_ROLES.ELECTION_OFFICIAL && election.electionFrozen"
+						        *ngIf="user.role === user.USER_ROLES.ELECTION_OFFICIAL && election.electionFrozen && !archivedElection"
 						        (click)="unFreezeElection()">Unfreeze Election
 						</button>
-						<h3><strong>Election Details</strong>
+						<h3>
+							<button class="btn btn-success btn-sm pull-right" *ngIf="requireReRound" (click)="createNewReRound()">Create re-round election for draw candidates</button>
+							<strong>Election Details</strong>
 							<small style="color:white" *ngIf="election.electionFrozen">(Election is frozen!!!)</small>
+							<button class="btn btn-success btn-sm" *ngIf="election.previousRound" (click)="goToPreviousRound()">Go to previous round</button>
 						</h3>
 					</div>
 					<div class="box-body">
@@ -90,11 +93,11 @@
 									          style="border: solid medium #7f7f7f;">
 										<div class="col-md-12 box-inner-title" style="background-color: #7f7f7f">
 											<button class="btn btn-danger btn-xs pull-right"
-											        *ngIf="user.role === user.USER_ROLES.ELECTION_OFFICIAL && !district.districtFrozen"
+											        *ngIf="user.role === user.USER_ROLES.ELECTION_OFFICIAL && !district.districtFrozen && !archivedElection"
 											        (click)="freezeDistrict(district)">Freeze District
 											</button>
 											<button class="btn btn-danger btn-xs pull-right"
-											        *ngIf="user.role === user.USER_ROLES.ELECTION_OFFICIAL && district.districtFrozen"
+											        *ngIf="user.role === user.USER_ROLES.ELECTION_OFFICIAL && district.districtFrozen && !archivedElection"
 											        (click)="unFreezeDistrict(district)">Unfreeze District
 											</button>
 											<h4><strong>{{district.name}}</strong></h4>
@@ -102,18 +105,22 @@
 										<!--<strong>District Name: </strong> -->
 										<br>
 										<div style="padding: 20px">
-											<div class="col-md-4">
+											<div class="col-md-8">
 												<div *ngIf="releaseResults && district.winningCandidatesSorted.length > 0">
 													<h4>Winning Candidates <small>({{election.winningStrategy}})</small></h4>
 													<div>
 														<table class="table table-responsive table-hover">
 															<tr>
 																<th>Name</th>
-																<th>Position</th>
+																<th>Votes Casted</th>
+																<th>Party</th>
+																<th>Position/Percentage</th>
 															</tr>
 															<tr *ngFor="let winningCandidate of district.winningCandidatesSorted; let winningCandidateIndex=index"
 															    [ngClass]="winningCandidateIndex === 0 ? 'success' : winningCandidateIndex === 1 ? 'warning' : winningCandidateIndex === 2 ? 'danger' : ''">
 																<td>{{winningCandidate._id.name}}</td>
+																<td>{{winningCandidate.numOfVotes}}</td>
+																<td>{{winningCandidate.partyName}}</td>
 																<td *ngIf="election.winningStrategy === 'winnerTakesAll'">{{winningCandidateIndex + 1}}</td>
 																<td *ngIf="election.winningStrategy === 'proportional'">{{(winningCandidate.numOfVotes/totalNumberOfVotes) | percent}}</td>
 															</tr>

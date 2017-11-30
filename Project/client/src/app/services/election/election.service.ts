@@ -13,6 +13,9 @@ export class ElectionService {
 	urls = {
 		dashboard: () => {
 			return '/dashboard';
+		},
+		election: (electionId) => {
+			return '/election/' + electionId + '/details';
 		}
 	};
 
