@@ -13,6 +13,9 @@
 							</button>
 							<h3 *ngIf="!editElectionMode"><strong>Create Election</strong></h3>
 							<h3 *ngIf="editElectionMode"><strong>Update Election</strong></h3>
+							<span *ngIf="election.roundNumber > 1 && election.previousRound">
+								<strong>Round:</strong> <strong style="color: white; font-size: 1.5em">{{election.roundNumber}}</strong>
+							</span>
 						</div>
 						<div class="box-body">
 							<div class="row">

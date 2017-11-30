@@ -49,6 +49,9 @@
 									<span *ngFor="let partyHead of election.partyHeads">
 										{{partyHead.partyName}}
 									</span>
+									<div *ngIf="election.roundNumber > 1 && election.previousRound">
+										<strong>Round:</strong> <strong style="color: #009688; font-size: 1.5em">{{election.roundNumber}}</strong>
+									</div>
 								</div>
 							</div>
 
