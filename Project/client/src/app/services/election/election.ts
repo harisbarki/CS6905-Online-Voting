@@ -32,7 +32,7 @@ export class Election {
 		this.roundNumber = election.roundNumber ? election.roundNumber : 1;
 		this.resultsStrategy = election.resultsStrategy;
 		this.resultsReleased = election.resultsReleased;
-		this.resultsReleaseDate = election.resultsReleaseDate;
+		this.resultsReleaseDate = new Date(election.resultsReleaseDate);
 		this.electionFrozen = election.electionFrozen;
 		this.isDistrictElections = election.isDistrictElections ? election.isDistrictElections : false;
 		this.numberOfDistricts = election.numberOfDistricts ? election.numberOfDistricts : 0;
