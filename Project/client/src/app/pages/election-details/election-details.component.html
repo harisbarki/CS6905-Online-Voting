@@ -22,7 +22,7 @@
 						        (click)="unFreezeElection()">Unfreeze Election
 						</button>
 						<h3>
-							<button class="btn btn-success btn-sm pull-right" *ngIf="requireReRound && !election.nextRoundCreated" (click)="createNewReRound()">Create re-round election for draw candidates</button>
+							<button class="btn btn-success btn-sm pull-right" *ngIf="user.role === user.USER_ROLES.ELECTION_OFFICIAL && requireReRound && !election.nextRoundCreated" (click)="createNewReRound()">Create re-round election for draw candidates</button>
 							<strong>Election Details</strong>
 							<small style="color:white" *ngIf="election.electionFrozen">(Election is frozen!!!)</small>
 							<button class="btn btn-success btn-sm" *ngIf="election.previousRound" (click)="goToPreviousRound()">Go to previous round</button>
