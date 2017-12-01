@@ -15,6 +15,9 @@ var http = require('http');
 var port = normalizePort('3345');
 app.set('port', port);
 
+console.log('starting server on port: ', port);
+console.log('GOTO address localhost:' + port + ' to see the website');
+
 /**
  * Create HTTP server.
  */
