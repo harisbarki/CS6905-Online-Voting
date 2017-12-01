@@ -224,6 +224,7 @@
 																<select class="form-control"
 																        [(ngModel)]="nominee.partyName"
 																        name="partyName"
+																        required
 																        [disabled]="election.candidatesStrategy === 'predefined' && currentUserPartyHead && predefinedCandidatePartyName">
 																	<option *ngFor="let p of partyNames" [ngValue]="p">
 																		{{p}}
