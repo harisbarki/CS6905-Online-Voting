@@ -1,5 +1,4 @@
-# CS6905 Assignment 3
-## Final Project
+# CS6905 Final Project
 
 ### MongoDB
 ### Express
