@@ -1,5 +1,5 @@
 # CS6905 Assignment 3
-## Iteration 1
+## Final Project
 
 ### MongoDB
 ### Express
